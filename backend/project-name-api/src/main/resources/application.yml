@@ -1,0 +1,13 @@
+server:
+  port: 8008
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+swagger2:
+  enable: true
+
+spring:
+  application:
+    name: project-name
