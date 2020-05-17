@@ -22,10 +22,10 @@ jobs:
   include:
     - stage: build-project-seckill
       script:
-        - image_tag=$project_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
+        - image_tag=$seckill_module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
         - echo $image_tag
         - echo $project_home
-        - cd $project_home/$seckill_module_name
+        - cd $project_home/seckill-backend/$seckill_module_name
         - docker build -f Dockerfile -t $image_tag .
         - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
         - sudo docker tag $image_tag $DOCKER_REPO/alice52/$image_tag
@@ -38,7 +38,7 @@ notifications:
     on_success: always # default: change
     on_failure: always # default: always
 env:
-  seckill_module_name: seckill-backend/seckill-api
+  seckill_module_name: seckill-api
   project_home: $PWD
   commit_id: 000
   image_tag: 000
