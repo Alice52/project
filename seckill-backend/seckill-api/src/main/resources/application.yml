@@ -1,0 +1,69 @@
+server:
+  port: 8008
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+swagger2:
+  enable: true
+
+spring:
+  application:
+    name: seckill-service
+  datasource:
+    username: ENC(rVS+PIQagANf7AtDfHQ5cKyyUel1nR1lLSFonwuNguuQ0gG87BWDHD4GDrgBl5u1)
+    password: ENC(1oOxsSuSGMpyyG2EtWiIS9dGTLSwjE5U6gsqwG8+4ynRf+5Rwavd9zQ7juioMMYh)
+    url: ENC(NeA2c1wE5otsulFo8hQ367v3Hv1iWqaeuJ0nX73C/xPTE5B7ONKJ4muojHigmlWcnELgQUsehI4VFb5zKNz5QsQFi8bUVKekMGE2oXRSiwUqSGLmiTzD2bjqj1RDei51LMPWFnP6D2K70MY6RkYiyjsbqoLKBd1BjqHhnGXLG6vnCjezo3ReeaPZ2hYXen4D)
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validation-query: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: false
+      # Configure monitoring statistics interception filters.
+      # If removed, the monitoring interface sql cannot collect statistics.
+      # Wall is used for the firewall
+      filters: stat,wall,slf4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+      # slow query
+      filter:
+        stat:
+          slow-sql-millis: 200
+          log-slow-sql: true
+        slf4j:
+          data-source-log-enabled: true
+          statement-executable-sql-log-enable: true
+
+      # druid monitor TODO: this is no work, now it works for DruidConfig
+      stat-view-servlet:
+        login-username: admin
+        login-password: admin
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.edu.ntu.project.seckill.api.entities
+
+redis:
+  host: ENC(6hY7MaESdo1jx/6ZHRAMcHM701ZVhEyLnFQpizADsXyOEUjgL8CNhqcTJJQOk9CK)
+  port: ENC(eGEvmyM63hvc7Vj3XoQArH7v0Uf2vsQTJcnZptv+ykd9zfrJ9GkCe03HF2r1z6KS)
+  timeout: 10
+  password: ENC(1oOxsSuSGMpyyG2EtWiIS9dGTLSwjE5U6gsqwG8+4ynRf+5Rwavd9zQ7juioMMYh)
+  poolMaxTotal: 1000
+  poolMaxIdle: 500
+  poolMaxWait: 500
