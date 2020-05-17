@@ -1,0 +1,46 @@
+language: java
+
+git:
+  depth: 2
+
+services:
+  - docker
+
+jdk:
+  - openjdk8
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+
+branches:
+  only:
+    - feature-project-seckill-zack
+    - feature-project-seckill
+
+jobs:
+  include:
+    - stage: build-project-seckill
+      script:
+        - image_tag=$project_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
+        - echo $image_tag
+        - echo $project_home
+        - cd $project_home/$seckill_module_name
+        - docker build -f Dockerfile -t $image_tag .
+        - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
+        - sudo docker tag $image_tag $DOCKER_REPO/alice52/$image_tag
+        - sudo docker push $DOCKER_REPO/alice52/$image_tag
+
+notifications:
+  email:
+    recipients:
+      - zzhang_xz@163.com
+    on_success: always # default: change
+    on_failure: always # default: always
+env:
+  seckill_module_name: seckill-backend/seckill-api
+  project_home: $PWD
+  commit_id: 000
+  image_tag: 000
+  global:
+    - GH_REF=git@github.com:Alice52/project.git
