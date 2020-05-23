@@ -11,10 +11,6 @@
 
     <artifactId>seckill-redis-starter-autoconfigure</artifactId>
 
-    <properties>
-        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
-    </properties>
-    
     <dependencies>
         <!-- use spring-boot-starter: all starter need it-->
         <dependency>
