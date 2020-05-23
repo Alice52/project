@@ -1,8 +1,6 @@
 package cn.edu.ntu.seckill.redis.starter.autoconfigure.service;
 
-import cn.edu.ntu.seckill.redis.starter.autoconfigure.key.BasePrefix;
 import cn.edu.ntu.seckill.redis.starter.autoconfigure.key.KeyPrefix;
-import cn.edu.ntu.seckill.redis.starter.autoconfigure.key.UserKey;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
