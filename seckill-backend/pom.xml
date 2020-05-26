@@ -12,6 +12,9 @@
         <module>seckill-api</module>
         <module>seckill-redis-starter</module>
         <module>seckill-redis-starter-autoconfigure</module>
+        <module>seckill-user</module>
+        <module>seckill-jdcloud-login-starter</module>
+        <module>seckill-jdcloud-login-starter-autoconfigure</module>
     </modules>
     <packaging>pom</packaging>
 
