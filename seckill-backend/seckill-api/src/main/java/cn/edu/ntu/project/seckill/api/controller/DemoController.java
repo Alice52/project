@@ -1,8 +1,11 @@
 package cn.edu.ntu.project.seckill.api.controller;
 
+import cn.edu.ntu.project.seckill.api.annotation.AccessLimit;
+import cn.edu.ntu.project.seckill.api.annotation.ValidateMobile;
+import cn.edu.ntu.project.seckill.api.configuration.RedisUserKeyEnum;
+import cn.edu.ntu.project.seckill.api.vo.UserVo;
 import cn.edu.ntu.project.seckill.common.model.ErrorMessageEnum;
 import cn.edu.ntu.project.seckill.common.model.ErrorResponse;
-import cn.edu.ntu.seckill.redis.starter.autoconfigure.key.UserKey;
 import cn.edu.ntu.seckill.redis.starter.autoconfigure.service.RedisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 
 /**
@@ -29,6 +33,13 @@ public class DemoController {
 
   @Resource RedisService redisService;
 
+  @GetMapping("/validate")
+  public String validate(@Valid UserVo userVo) {
+
+    return "success ";
+  }
+
+  @AccessLimit
   @GetMapping("/success")
   public String success() {
 
@@ -38,20 +49,16 @@ public class DemoController {
   @GetMapping("/error")
   public ErrorResponse error() {
 
-    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.UNKNOWN_EXCEPTION);
-    HashMap<String, Object> parameters = new HashMap<>();
-    parameters.put("url", "/error");
-    errorResponse.setParameters(parameters);
-    return errorResponse;
+    throw new RuntimeException("invalid token");
   }
 
   @GetMapping("/redis")
   public Object redis() {
 
-    boolean zack = redisService.set(UserKey.userKeyId, "zack", 123);
+    boolean zack = redisService.set(RedisUserKeyEnum.USER_KEY_ID, "zack", 123);
 
     if (zack) {
-      return redisService.get(UserKey.userKeyId, "zack", Integer.class);
+      return redisService.get(RedisUserKeyEnum.USER_KEY_ID, "zack", Integer.class);
     }
 
     return null;
