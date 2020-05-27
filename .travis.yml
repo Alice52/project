@@ -25,14 +25,14 @@ jobs:
         # build project
         - echo "PROJECT_SECKILL"
         - cd $project_home/seckill-backend
-        - mvn clean package -DskipTests=true
+        - travis_wait $travis_wait mvn clean package -DskipTests=true
         # push image
         - image_tag=$seckill_module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
         - cd $project_home/seckill-backend/$seckill_module_name
         - docker build -f Dockerfile -t $image_tag .
         - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
         - sudo docker tag $image_tag $DOCKER_REPO/alice52/$image_tag
-        - sudo docker push $DOCKER_REPO/alice52/$image_tag
+        - travis_wait $travis_wait sudo docker push $DOCKER_REPO/alice52/$image_tag
 
 notifications:
   email:
@@ -41,6 +41,7 @@ notifications:
     on_success: always # default: change
     on_failure: always # default: always
 env:
+  travis_wait: 50
   seckill_module_name: seckill-api
   project_home: $PWD
   commit_id: 000

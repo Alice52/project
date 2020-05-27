@@ -12,8 +12,7 @@ import java.util.regex.Pattern;
  */
 public class ValidatorUtil {
 
-  private static final Pattern MOBILE_PATTERN =
-      Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+  private static final Pattern MOBILE_PATTERN = Pattern.compile("^[1]\\d{10}$");
 
   public static boolean isMobile(String src) {
     if (StrUtil.isEmpty(src)) {

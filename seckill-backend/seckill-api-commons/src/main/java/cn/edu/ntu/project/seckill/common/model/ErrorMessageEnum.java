@@ -13,6 +13,7 @@ import java.util.Optional;
  */
 public enum ErrorMessageEnum {
   // common
+  BIND_EXCEPTION(400400, "bind property to VO error"),
   UNKNOWN_EXCEPTION(999999, "unknown exception"),
   // login module: 5002xx
   LOGIN_USERNAME_EXCEPTION(500201, "username or password is wrong");
