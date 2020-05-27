@@ -5,6 +5,8 @@ import cn.edu.ntu.project.seckill.common.model.ErrorResponse;
 import cn.hutool.core.map.MapUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -19,15 +21,27 @@ import java.util.HashMap;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity handleRuntimeException(RuntimeException e, HttpServletRequest request) {
-    HttpStatus status = HttpStatus.BAD_REQUEST;
+  @ExceptionHandler(BindException.class)
+  public ResponseEntity handleRuntimeException(BindException e, HttpServletRequest request) {
 
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BIND_EXCEPTION);
+    FieldError field = e.getBindingResult().getFieldError();
+    HashMap<String, Object> map = MapUtil.of("field", field.getField());
+    map.put("rejectedValue", field.getRejectedValue());
+    map.put("objectName", field.getObjectName());
+    map.put("message", field.getDefaultMessage());
+    errorResponse.setParameters(map);
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity handleException(Exception e, HttpServletRequest request) {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.UNKNOWN_EXCEPTION);
     HashMap<String, Object> map = MapUtil.of("cause", e.getCause());
     map.put("message", e.getMessage());
     errorResponse.setParameters(map);
 
-    return new ResponseEntity<>(errorResponse, status);
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 }
