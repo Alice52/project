@@ -19,14 +19,17 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-        <!-- this is for swagger Api model -->
+
+        <!-- validate -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+
+        <!-- this is for swagger api model -->
         <dependency>
             <artifactId>swagger-annotations</artifactId>
             <groupId>io.swagger</groupId>

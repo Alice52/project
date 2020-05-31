@@ -9,10 +9,10 @@ import cn.edu.ntu.seckill.redis.starter.autoconfigure.key.KeyPrefix;
  */
 public enum RedisUserKeyEnum implements KeyPrefix {
   USER_KEY_ID("id"),
-  USER_KEY_NAME(50, "name") {
+  USER_KEY_NAME(60 * 59, "name") {
     @Override
     public int expireSeconds() {
-      return 50;
+      return this.getExpireSeconds();
     }
   };
 
@@ -37,5 +37,9 @@ public enum RedisUserKeyEnum implements KeyPrefix {
   public String getPrefix() {
     String className = getClass().getSimpleName();
     return className + ":" + prefix;
+  }
+
+  public int getExpireSeconds() {
+    return expireSeconds;
   }
 }

@@ -17,16 +17,16 @@
             <artifactId>seckill-jdcloud-login</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.edu.ntu.project</groupId>
+            <artifactId>seckill-redis-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- common module -->
         <dependency>
             <groupId>cn.edu.ntu.project</groupId>
             <artifactId>seckill-api-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.edu.ntu.project</groupId>
-            <artifactId>seckill-redis-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -53,7 +53,6 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
-
 
         <!-- swagger2 -->
         <dependency>

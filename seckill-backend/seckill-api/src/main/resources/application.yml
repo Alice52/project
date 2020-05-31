@@ -67,3 +67,7 @@ redis:
   poolMaxTotal: 1000
   poolMaxIdle: 500
   poolMaxWait: 500
+
+jdcloud:
+  clientId: 9511590896016473
+  clientSecret: seckill_abcd1234_
