@@ -1,6 +1,7 @@
 package cn.edu.ntu.project.seckill.api.configuration;
 
 import cn.edu.ntu.project.seckill.api.annotation.descriptor.AccessLimitDescriptor;
+import cn.edu.ntu.seckill.jdcloud.starter.annotation.descriptor.ValidateTokenDescriptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
   @Resource private AccessLimitDescriptor accessLimitDescriptor;
+  @Resource private ValidateTokenDescriptor validateTokenDescriptor;
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -31,6 +33,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(accessLimitDescriptor);
+    registry.addInterceptor(accessLimitDescriptor).order(10);
+    registry.addInterceptor(validateTokenDescriptor).order(5);
   }
 }

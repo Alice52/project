@@ -13,13 +13,17 @@ import java.util.Optional;
  */
 public enum ErrorMessageEnum {
   // common
+  INVALID_TOKEN(400401, "invalid token, please login"),
   BIND_EXCEPTION(400400, "bind property to VO error"),
   UNKNOWN_EXCEPTION(999999, "unknown exception"),
   // login module: 5002xx
-  LOGIN_USERNAME_EXCEPTION(500201, "username or password is wrong");
+  LOGIN_USERNAME_EXCEPTION(500201, "username or password is wrong"),
   // commodity module: 5003xx
   // order module: 5004xx
   // seckill module: 5005xx
+
+  // third party api error
+  JDCLOUD_TOKEN_EXCEPTION(800801, "jdcloud api error");
 
   private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageEnum.class);
   private Integer errorCode;

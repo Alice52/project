@@ -1,7 +1,6 @@
 package cn.edu.ntu.project.seckill.api.annotation.descriptor;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;

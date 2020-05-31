@@ -1,5 +1,6 @@
 package cn.edu.ntu.project.seckill.api.controller;
 
+import cn.edu.ntu.project.seckill.api.exception.JdCloudApiException;
 import cn.edu.ntu.project.seckill.common.model.ErrorMessageEnum;
 import cn.edu.ntu.project.seckill.common.model.ErrorResponse;
 import cn.hutool.core.map.MapUtil;
@@ -21,8 +22,22 @@ import java.util.HashMap;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(JdCloudApiException.class)
+  public ResponseEntity handleJdCloudApiException(
+      JdCloudApiException e, HttpServletRequest request) {
+
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.JDCLOUD_TOKEN_EXCEPTION);
+
+    HashMap<String, Object> map = MapUtil.of("rawStatus", e.getRawStatus());
+    map.put("rowBody", e.getRawBody());
+    map.put("rowArgs", e.getArgs());
+    errorResponse.setParameters(map);
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
   @ExceptionHandler(BindException.class)
-  public ResponseEntity handleRuntimeException(BindException e, HttpServletRequest request) {
+  public ResponseEntity handleBindException(BindException e, HttpServletRequest request) {
 
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BIND_EXCEPTION);
     FieldError field = e.getBindingResult().getFieldError();

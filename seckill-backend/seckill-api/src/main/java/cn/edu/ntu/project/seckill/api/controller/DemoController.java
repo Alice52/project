@@ -1,11 +1,10 @@
 package cn.edu.ntu.project.seckill.api.controller;
 
 import cn.edu.ntu.project.seckill.api.annotation.AccessLimit;
-import cn.edu.ntu.project.seckill.api.annotation.ValidateMobile;
 import cn.edu.ntu.project.seckill.api.configuration.RedisUserKeyEnum;
 import cn.edu.ntu.project.seckill.api.vo.UserVo;
-import cn.edu.ntu.project.seckill.common.model.ErrorMessageEnum;
 import cn.edu.ntu.project.seckill.common.model.ErrorResponse;
+import cn.edu.ntu.seckill.jdcloud.starter.annotation.ValidateToken;
 import cn.edu.ntu.seckill.redis.starter.autoconfigure.service.RedisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
@@ -15,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
+
+import static cn.edu.ntu.project.seckill.common.constant.Constants.ACCESS_TOKEN;
 
 /**
  * @author zack <br>
@@ -46,6 +48,7 @@ public class DemoController {
     return "success ";
   }
 
+  @ValidateToken
   @GetMapping("/error")
   public ErrorResponse error() {
 
@@ -53,14 +56,25 @@ public class DemoController {
   }
 
   @GetMapping("/redis")
-  public Object redis() {
+  public Object redis(HttpServletRequest request) {
 
-    boolean zack = redisService.set(RedisUserKeyEnum.USER_KEY_ID, "zack", 123);
+    String name =
+        redisService.get(
+            RedisUserKeyEnum.USER_KEY_NAME, getCookieValue(request, ACCESS_TOKEN), String.class);
 
-    if (zack) {
-      return redisService.get(RedisUserKeyEnum.USER_KEY_ID, "zack", Integer.class);
+    return name;
+  }
+
+  private String getCookieValue(HttpServletRequest request, String cookieName) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies == null || cookies.length <= 0) {
+      return null;
     }
-
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equals(cookieName)) {
+        return cookie.getValue();
+      }
+    }
     return null;
   }
 }

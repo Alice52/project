@@ -12,6 +12,12 @@
     <artifactId>seckill-jdcloud-login-starter-autoconfigure</artifactId>
 
     <dependencies>
+        <!-- common module -->
+        <dependency>
+            <groupId>cn.edu.ntu.project</groupId>
+            <artifactId>seckill-api-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- use spring-boot-starter: all starter need it -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

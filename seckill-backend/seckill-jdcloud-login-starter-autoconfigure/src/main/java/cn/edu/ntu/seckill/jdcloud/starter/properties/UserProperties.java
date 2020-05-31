@@ -8,48 +8,32 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @create 2020-05-26 21:11 <br>
  * @project seckill-backend <br>
  */
-@EnableConfigurationProperties(UserProperties.class)
 @ConfigurationProperties(prefix = "jdcloud")
 public class UserProperties {
 
-  private String username;
-  private String password;
-  private String pin;
+  private String clientId;
+  private String clientSecret;
 
-  public String getUsername() {
-    return username;
+  public String getClientId() {
+    return clientId;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setClientId(String clientId) {
+    this.clientId = clientId;
   }
 
-  public String getPassword() {
-    return password;
+  public String getClientSecret() {
+    return clientSecret;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getPin() {
-    return pin;
-  }
-
-  public void setPin(String pin) {
-    this.pin = pin;
+  public void setClientSecret(String clientSecret) {
+    this.clientSecret = clientSecret;
   }
 
   public UserProperties() {}
 
-  public UserProperties(String username, String password) {
-    this.username = username;
-    this.password = password;
-  }
-
-  public UserProperties(String username, String password, String pin) {
-    this.username = username;
-    this.password = password;
-    this.pin = pin;
+  public UserProperties(String clientId, String clientSecret) {
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
   }
 }
