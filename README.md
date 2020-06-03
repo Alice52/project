@@ -2,62 +2,32 @@
 
 ### backend
 
-1. introduce
+1. 缓存: redis + jedis
 
-   - this project is about seckill system, which is implement by java
+   - 预热
+   - 分布式 token
 
-2. technique
+2. MQ 异步下单: mvc async
+3. 图形验证码
+4. 接口限流:
 
-   - front
-     - ~~thymeleaf~~: vue
-     - bootstrap
-     - ~~JQuery~~
-   - backend
-     - java
-     - jsr303
-     - mybatis
-   - middleware
-     - rabbitmq
-     - redis
-     - druid
+   - `@AccessLimit`
+   - 接口隐藏
 
-3. feature
+5. 超卖: `SQL`
+6. 预减库存
 
-   - login
-     - distribution session
-     - password security: md5
-     - jsr303 parameter validation
-     - global exception handler
-   - seckill
-     - commodity list
-     - commodity detail
-     - order detail
-   - jmter test
-     - mock multi user
-     - command
-   - optimization
-     - cache strategy: page cache + url cache + object cache
-     - static page and front and backend separation
-     - static resource
-     - cdn
-   - seckill api
-     - cache strategy, reduce access to the database
-     - memory mark, reduce access to the redis
-     - use mq
-     - use nginx horizontal expansion
-   - api security
-     - url hidden
-     - use captcha
-     - api limit
+   - memery
+   - redis
 
-4. concurrent core
+### DB Design
 
-   - cache
-   - async
-   - distribution
+1. user
+2. goods
+3. seckillGoods: 通过 商品的 ID 关联到商品表
 
----
+   - 这里为了活动的灵活性
+   - 减少对原系统的干扰, 秒杀结束就结束了, 数据代码归档
 
-## issue
-
-1. `[application.yml]`druid monitor TODO: this is no work, now it works for DruidCinfig
+4. order
+5. seckillOrder
