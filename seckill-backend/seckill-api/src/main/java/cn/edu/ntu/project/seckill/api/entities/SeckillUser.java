@@ -1,5 +1,7 @@
 package cn.edu.ntu.project.seckill.api.entities;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -8,21 +10,31 @@ import java.time.LocalDateTime;
  * @project seckill-backend <br>
  */
 public class SeckillUser {
-  private Long id;
-  private String nickname;
-  private String password;
-  private String salt;
-  private String head;
-  private LocalDateTime registerDate;
-  private LocalDateTime lastLoginDate;
-  private Integer loginCount;
+  private String id;
 
-  public Long getId() {
+  /** @Column is jpa or mybatis plus; in mybatis can use result map to handle this issue. */
+  @NotNull private String nickname;
+
+  @NotBlank private String password;
+  private String salt;
+  private LocalDateTime registerDate;
+
+  public SeckillUser() {}
+
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
+  }
+
+  public LocalDateTime getRegisterDate() {
+    return registerDate;
+  }
+
+  public void setRegisterDate(LocalDateTime registerDate) {
+    this.registerDate = registerDate;
   }
 
   public String getNickname() {
@@ -49,38 +61,6 @@ public class SeckillUser {
     this.salt = salt;
   }
 
-  public String getHead() {
-    return head;
-  }
-
-  public void setHead(String head) {
-    this.head = head;
-  }
-
-  public LocalDateTime getRegisterDate() {
-    return registerDate;
-  }
-
-  public void setRegisterDate(LocalDateTime registerDate) {
-    this.registerDate = registerDate;
-  }
-
-  public LocalDateTime getLastLoginDate() {
-    return lastLoginDate;
-  }
-
-  public void setLastLoginDate(LocalDateTime lastLoginDate) {
-    this.lastLoginDate = lastLoginDate;
-  }
-
-  public Integer getLoginCount() {
-    return loginCount;
-  }
-
-  public void setLoginCount(Integer loginCount) {
-    this.loginCount = loginCount;
-  }
-
   @Override
   public String toString() {
     return "SeckillUser{"
@@ -95,15 +75,8 @@ public class SeckillUser {
         + ", salt='"
         + salt
         + '\''
-        + ", head='"
-        + head
-        + '\''
-        + ", registerDate="
+        + ", RegisterDate="
         + registerDate
-        + ", lastLoginDate="
-        + lastLoginDate
-        + ", loginCount="
-        + loginCount
         + '}';
   }
 }

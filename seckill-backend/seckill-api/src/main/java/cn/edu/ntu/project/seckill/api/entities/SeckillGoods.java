@@ -8,25 +8,25 @@ import java.time.LocalDateTime;
  * @project seckill-backend <br>
  */
 public class SeckillGoods {
-  private Long id;
-  private Long goodsId;
+  private String id;
+  private String goodsId;
   private Integer stockCount;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public Long getGoodsId() {
+  public String getGoodsId() {
     return goodsId;
   }
 
-  public void setGoodsId(Long goodsId) {
+  public void setGoodsId(String goodsId) {
     this.goodsId = goodsId;
   }
 
@@ -57,10 +57,12 @@ public class SeckillGoods {
   @Override
   public String toString() {
     return "SeckillGoods{"
-        + "id="
+        + "id='"
         + id
-        + ", goodsId="
+        + '\''
+        + ", goodsId='"
         + goodsId
+        + '\''
         + ", stockCount="
         + stockCount
         + ", startDate="

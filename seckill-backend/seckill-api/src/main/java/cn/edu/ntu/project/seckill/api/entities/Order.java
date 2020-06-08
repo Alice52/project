@@ -10,10 +10,10 @@ import java.util.Date;
  * @project seckill-backend <br>
  */
 public class Order {
-  private Long id;
-  private Long userId;
-  private Long goodsId;
-  private Long deliveryAddrId;
+  private String id;
+  private String userId;
+  private String goodsId;
+  private String deliveryAddrId;
   private String goodsName;
   private Integer goodsCount;
   private BigDecimal goodsPrice;
@@ -22,35 +22,35 @@ public class Order {
   private LocalDateTime createAt;
   private LocalDateTime payAt;
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public Long getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Long userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
-  public Long getGoodsId() {
+  public String getGoodsId() {
     return goodsId;
   }
 
-  public void setGoodsId(Long goodsId) {
+  public void setGoodsId(String goodsId) {
     this.goodsId = goodsId;
   }
 
-  public Long getDeliveryAddrId() {
+  public String getDeliveryAddrId() {
     return deliveryAddrId;
   }
 
-  public void setDeliveryAddrId(Long deliveryAddrId) {
+  public void setDeliveryAddrId(String deliveryAddrId) {
     this.deliveryAddrId = deliveryAddrId;
   }
 
@@ -113,14 +113,18 @@ public class Order {
   @Override
   public String toString() {
     return "Order{"
-        + "id="
+        + "id='"
         + id
-        + ", userId="
+        + '\''
+        + ", userId='"
         + userId
-        + ", goodsId="
+        + '\''
+        + ", goodsId='"
         + goodsId
-        + ", deliveryAddrId="
+        + '\''
+        + ", deliveryAddrId='"
         + deliveryAddrId
+        + '\''
         + ", goodsName='"
         + goodsName
         + '\''

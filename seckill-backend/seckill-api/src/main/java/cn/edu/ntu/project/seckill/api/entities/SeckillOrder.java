@@ -6,54 +6,58 @@ package cn.edu.ntu.project.seckill.api.entities;
  * @project seckill-backend <br>
  */
 public class SeckillOrder {
-  private Long id;
-  private Long userId;
-  private Long orderId;
-  private Long goodsId;
+  private String id;
+  private String userId;
+  private String orderId;
+  private String goodsId;
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public Long getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Long userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
-  public Long getOrderId() {
+  public String getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(Long orderId) {
+  public void setOrderId(String orderId) {
     this.orderId = orderId;
   }
 
-  public Long getGoodsId() {
+  public String getGoodsId() {
     return goodsId;
   }
 
-  public void setGoodsId(Long goodsId) {
+  public void setGoodsId(String goodsId) {
     this.goodsId = goodsId;
   }
 
   @Override
   public String toString() {
     return "SeckillOrder{"
-        + "id="
+        + "id='"
         + id
-        + ", userId="
+        + '\''
+        + ", userId='"
         + userId
-        + ", orderId="
+        + '\''
+        + ", orderId='"
         + orderId
-        + ", goodsId="
+        + '\''
+        + ", goodsId='"
         + goodsId
+        + '\''
         + '}';
   }
 }

@@ -1,6 +1,7 @@
 package cn.edu.ntu.project.seckill.api.controller;
 
 import cn.edu.ntu.project.seckill.api.exception.JdCloudApiException;
+import cn.edu.ntu.project.seckill.api.exception.UserException;
 import cn.edu.ntu.project.seckill.common.model.ErrorMessageEnum;
 import cn.edu.ntu.project.seckill.common.model.ErrorResponse;
 import cn.hutool.core.map.MapUtil;
@@ -57,6 +58,20 @@ public class GlobalExceptionHandler {
     map.put("message", e.getMessage());
     errorResponse.setParameters(map);
 
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(UserException.UserAlreadyExistenceException.class)
+  public ResponseEntity handleUserAlreadyExistenceException(
+      UserException.UserAlreadyExistenceException e, HttpServletRequest request) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.INVALID_NICKNAME);
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(UserException.UserLoginException.class)
+  public ResponseEntity handleUserLoginException(
+      UserException.UserLoginException e, HttpServletRequest request) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.LOGIN_USERNAME_EXCEPTION);
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 }

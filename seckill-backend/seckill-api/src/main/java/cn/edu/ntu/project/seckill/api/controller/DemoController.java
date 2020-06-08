@@ -9,7 +9,9 @@ import cn.edu.ntu.seckill.redis.starter.autoconfigure.service.RedisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,8 +37,9 @@ public class DemoController {
 
   @Resource RedisService redisService;
 
-  @GetMapping("/validate")
-  public String validate(@Valid UserVo userVo) {
+  @GetMapping("/validate/{id}")
+  public String validate(
+      @Valid UserVo userVo, @PathVariable(name = "id", required = true) String id) {
 
     return "success ";
   }
