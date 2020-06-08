@@ -1,6 +1,7 @@
 package cn.edu.ntu.project.seckill.api.entities;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * @author zack <br>
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
  * @project seckill-backend <br>
  */
 public class Goods {
-  private Long id;
+  private String id;
   private String goodsName;
   private String goodsTitle;
   private String goodsImg;
@@ -16,11 +17,11 @@ public class Goods {
   private BigDecimal goodsPrice;
   private Integer goodsStock;
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -74,9 +75,10 @@ public class Goods {
 
   @Override
   public String toString() {
-    return "Order{"
-        + "id="
+    return "Goods{"
+        + "id='"
         + id
+        + '\''
         + ", goodsName='"
         + goodsName
         + '\''

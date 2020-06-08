@@ -18,6 +18,7 @@ public enum ErrorMessageEnum {
   UNKNOWN_EXCEPTION(999999, "unknown exception"),
   // login module: 5002xx
   LOGIN_USERNAME_EXCEPTION(500201, "username or password is wrong"),
+  INVALID_NICKNAME(500202, "this username is existence"),
   // commodity module: 5003xx
   // order module: 5004xx
   // seckill module: 5005xx

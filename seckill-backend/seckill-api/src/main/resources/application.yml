@@ -14,7 +14,7 @@ spring:
   datasource:
     username: ENC(rVS+PIQagANf7AtDfHQ5cKyyUel1nR1lLSFonwuNguuQ0gG87BWDHD4GDrgBl5u1)
     password: ENC(1oOxsSuSGMpyyG2EtWiIS9dGTLSwjE5U6gsqwG8+4ynRf+5Rwavd9zQ7juioMMYh)
-    url: ENC(NeA2c1wE5otsulFo8hQ367v3Hv1iWqaeuJ0nX73C/xPTE5B7ONKJ4muojHigmlWcnELgQUsehI4VFb5zKNz5QsQFi8bUVKekMGE2oXRSiwUqSGLmiTzD2bjqj1RDei51LMPWFnP6D2K70MY6RkYiyjsbqoLKBd1BjqHhnGXLG6vnCjezo3ReeaPZ2hYXen4D)
+    url: ENC(y44/qFHy9vqqLDg5qmFqe9GJAg+cAsJw6CDyB1S2MTjdiG1zSc6oxBrsZAWoZVNWARKbe2NkrTydtPRgsAGUgRTpLFQAqT/Ao1B9iuDbXgf/Osg8tExnQ3I7AJEtyVy1MsEtx9IWXPvekl1BX7qVLVRvTwPhlxQgSjgjEJo2ZJw=)
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:

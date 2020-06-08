@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.project.seckill.api.repository.IUserRepository">
+
+    <!-- handle column mapping -->
+    <resultMap id="BaseResultMap" type="SeckillUser">
+        <result column="name" property="nickname"></result>
+        <result column="id" property="id"></result>
+        <result column="password" property="password"></result>
+        <result column="salt" property="salt"></result>
+        <result column="registerDate" property="registerDate"></result>
+    </resultMap>
+
+    <!-- useGeneratedKeys="true" keyProperty="id" -->
+    <select id="getByNickname" resultMap="BaseResultMap" parameterType="string">
+        SELECT id, name FROM `seckill.user` WHERE name = #{nickname}
+    </select>
+
+    <insert id="insert" parameterType="SeckillUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `seckill.user`(id, name, password, salt, registerDate)
+        VALUES(#{seckillUser.id}, #{seckillUser.nickname,jdbcType=VARCHAR}, #{seckillUser.password}, #{seckillUser.salt}, #{param1.registerDate})
+    </insert>
+    <select id="validateLogin" resultMap="BaseResultMap" parameterType="string">
+        SELECT id, name FROM `seckill.user` WHERE name = #{name} AND password = #{password}
+    </select>
+</mapper>

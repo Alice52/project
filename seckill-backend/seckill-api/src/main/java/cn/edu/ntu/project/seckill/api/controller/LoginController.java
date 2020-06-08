@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.HashMap;
 
 import static cn.edu.ntu.project.seckill.common.constant.Constants.ACCESS_TOKEN;
