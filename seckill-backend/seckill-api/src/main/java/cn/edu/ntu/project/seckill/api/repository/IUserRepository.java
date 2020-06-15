@@ -1,9 +1,7 @@
 package cn.edu.ntu.project.seckill.api.repository;
 
 import cn.edu.ntu.project.seckill.api.entities.SeckillUser;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 /**
  * @author zack <br>
@@ -19,6 +17,8 @@ public interface IUserRepository {
    * @param nickname
    * @return SeckillUser
    */
+  @Results({@Result(property = "nickname", column = "name")})
+  @Select("SELECT id, `name` FROM `seckill.user` WHERE `name` = #{nickname}")
   SeckillUser getByNickname(@Param("nickname") String nickname);
 
   /**
