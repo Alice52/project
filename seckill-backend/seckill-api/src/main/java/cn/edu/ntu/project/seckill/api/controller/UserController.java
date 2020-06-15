@@ -28,7 +28,7 @@ public class UserController {
   // @ParamsValidate(value = {@ParamValidate(name = "name", notNull = true, message = "不能为空", maxLen
   // = 200)})
   @PostMapping("/login")
-  public boolean login(SeckillUser user) {
+  public boolean login(@Valid SeckillUser user) {
 
     boolean validLogin = userService.doLogin(user);
 
@@ -40,7 +40,7 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public int register(SeckillUser user) {
+  public int register(@Valid SeckillUser user) {
 
     return userService.validateAndSave(user);
   }

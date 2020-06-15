@@ -14,9 +14,9 @@
     </resultMap>
 
     <!-- useGeneratedKeys="true" keyProperty="id" -->
-    <select id="getByNickname" resultMap="BaseResultMap" parameterType="string">
-        SELECT id, name FROM `seckill.user` WHERE name = #{nickname}
-    </select>
+    <!-- <select id="getByNickname" resultMap="BaseResultMap" parameterType="string">-->
+    <!--    SELECT id, name FROM `seckill.user` WHERE name = #{nickname}-->
+    <!-- </select>-->
 
     <insert id="insert" parameterType="SeckillUser" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `seckill.user`(id, name, password, salt, registerDate)
