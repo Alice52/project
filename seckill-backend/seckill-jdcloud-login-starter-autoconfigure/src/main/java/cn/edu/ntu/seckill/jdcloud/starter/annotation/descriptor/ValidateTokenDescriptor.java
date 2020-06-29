@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -67,6 +68,7 @@ public class ValidateTokenDescriptor extends HandlerInterceptorAdapter {
       ErrorResponse errorResponse = ErrorResponse.error(errorMessageEnum);
       errorResponse.setParameters(MapUtil.of("invalid token", "please login"));
       String jsonStr = JSONUtil.toJsonStr(errorResponse);
+      response.setStatus(HttpStatus.BAD_REQUEST.value());
       out.write(jsonStr.getBytes("UTF-8"));
       out.flush();
       out.close();
@@ -79,6 +81,7 @@ public class ValidateTokenDescriptor extends HandlerInterceptorAdapter {
   private boolean validateAccessToken(String accessToken) {
 
     ResponseEntity<JSONObject> entity = thirdPartyApiCall.jdClodGetUser(accessToken);
+    LOG.info("validateAccessToken" + String.valueOf(entity.getStatusCode()));
 
     return entity.getStatusCode().equals(HttpStatus.OK);
   }

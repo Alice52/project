@@ -2,6 +2,7 @@ package cn.edu.ntu.project.seckill.api.service;
 
 import cn.edu.ntu.project.seckill.api.entities.SeckillUser;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -34,4 +35,13 @@ public interface IUserService {
    * @return boolean
    */
   boolean doLogin(@NotBlank SeckillUser user);
+
+  /**
+   * Get user by token.
+   *
+   * @param response
+   * @param token
+   * @return
+   */
+  SeckillUser getByToken(HttpServletResponse response, String token);
 }

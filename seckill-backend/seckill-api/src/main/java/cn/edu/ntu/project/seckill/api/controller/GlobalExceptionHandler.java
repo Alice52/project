@@ -65,6 +65,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity handleUserAlreadyExistenceException(
       UserException.UserAlreadyExistenceException e, HttpServletRequest request) {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.INVALID_NICKNAME);
+
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
@@ -72,6 +73,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity handleUserLoginException(
       UserException.UserLoginException e, HttpServletRequest request) {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.LOGIN_USERNAME_EXCEPTION);
+
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 }

@@ -19,7 +19,9 @@ public class SeckillUser {
   private String salt;
   private LocalDateTime registerDate;
 
-  public SeckillUser() {}
+  public SeckillUser(String name) {
+    this.nickname = name;
+  }
 
   public String getId() {
     return id;

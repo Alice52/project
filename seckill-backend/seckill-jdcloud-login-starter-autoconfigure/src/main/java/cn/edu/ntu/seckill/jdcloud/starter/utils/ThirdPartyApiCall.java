@@ -40,10 +40,11 @@ public class ThirdPartyApiCall {
         restTemplate.exchange(url, HttpMethod.GET, httpEntity, JSONObject.class);
 
     LOG.info(
-        "finish request: method: {}, url: {}, header: {}, body {}",
+        "finish request: method: {}, url: {}, header: {}, status: {}, body {}",
         HttpMethod.GET,
         url,
         response.getHeaders(),
+        response.getStatusCode(),
         response.getBody());
 
     return response;
