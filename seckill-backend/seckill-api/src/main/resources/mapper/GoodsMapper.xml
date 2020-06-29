@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.project.seckill.api.repository.IGoodsRepository">
+    <select id="list" resultType="cn.edu.ntu.project.seckill.api.vo.GoodsVo">
+        SELECT g.id, g.goods_name, g.goods_title, g.goods_img, g.goods_detail, g.goods_price, g.goods_stock,
+         sg.seckill_price, sg.stock_count, sg.start_date, sg.end_date
+        FROM `seckill.seckill_goods` sg
+        LEFT JOIN `seckill.goods` g
+        ON sg.goods_id = g.id
+    </select>
+</mapper>
