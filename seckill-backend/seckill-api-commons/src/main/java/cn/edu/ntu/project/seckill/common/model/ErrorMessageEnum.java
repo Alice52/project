@@ -22,7 +22,10 @@ public enum ErrorMessageEnum {
   // commodity module: 5003xx
   // order module: 5004xx
   // seckill module: 5005xx
+  REPEATED_SECKILL_EXCEPTION(500501, "this user has already sec kill success"),
+  SECKILL_GOODS_OVER_EXCEPTION(500502, "this goods seckill over"),
 
+  ACCESS_LIMIT(600600, "api is limit, please wait to try again"),
   // third party api error
   JDCLOUD_TOKEN_EXCEPTION(800801, "jdcloud api error");
 

@@ -12,6 +12,13 @@
     <artifactId>seckill-api</artifactId>
 
     <dependencies>
+
+        <!-- mq -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
         <!--
             Handle error attempting to get column 'LocalDateTime' from result set.
                 cause: java.sql.SQLFeatureNotSupportedException

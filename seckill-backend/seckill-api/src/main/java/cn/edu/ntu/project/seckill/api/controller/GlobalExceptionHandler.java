@@ -1,6 +1,8 @@
 package cn.edu.ntu.project.seckill.api.controller;
 
+import cn.edu.ntu.project.seckill.api.exception.AccessLimitException;
 import cn.edu.ntu.project.seckill.api.exception.JdCloudApiException;
+import cn.edu.ntu.project.seckill.api.exception.SecKillException;
 import cn.edu.ntu.project.seckill.api.exception.UserException;
 import cn.edu.ntu.project.seckill.common.model.ErrorMessageEnum;
 import cn.edu.ntu.project.seckill.common.model.ErrorResponse;
@@ -69,10 +71,27 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(UserException.UserLoginException.class)
+  @ExceptionHandler(SecKillException.RepeatedSecKillException.class)
   public ResponseEntity handleUserLoginException(
-      UserException.UserLoginException e, HttpServletRequest request) {
-    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.LOGIN_USERNAME_EXCEPTION);
+      SecKillException.RepeatedSecKillException e, HttpServletRequest request) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.REPEATED_SECKILL_EXCEPTION);
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(SecKillException.SecKillGoodsOverException.class)
+  public ResponseEntity handleSecKillGoodsOverException(
+      SecKillException.SecKillGoodsOverException e, HttpServletRequest request) {
+    ErrorResponse errorResponse =
+        ErrorResponse.error(ErrorMessageEnum.SECKILL_GOODS_OVER_EXCEPTION);
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(AccessLimitException.class)
+  public ResponseEntity handleAccessLimitException(
+      AccessLimitException e, HttpServletRequest request) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.ACCESS_LIMIT);
 
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }

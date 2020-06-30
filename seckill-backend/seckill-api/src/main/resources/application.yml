@@ -52,6 +52,29 @@ spring:
         login-password: admin
       web-stat-filter:
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+  rabbitmq:
+    host: ENC(6hY7MaESdo1jx/6ZHRAMcHM701ZVhEyLnFQpizADsXyOEUjgL8CNhqcTJJQOk9CK)
+    port: ENC(lVnCNWvHIhozpXdmfVyp3KZgBUnI4fmGoWOC3OX1Sx08vGKFr8t6F6Lc3sNPeRZm)
+    username: ENC(97xfmeLgoT0wwcHTtDN8/fKPbjuCzr5P5e23oOMTvJDpMrsO2010DdVDuA3VK0Ec)
+    password: ENC(97xfmeLgoT0wwcHTtDN8/fKPbjuCzr5P5e23oOMTvJDpMrsO2010DdVDuA3VK0Ec)
+    virtual-host: /
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 1000
+        multiplier: 1
+    name: tutorial.project.sec-kill.queue
+
+
 
 mybatis:
   configuration:
@@ -71,3 +94,4 @@ redis:
 jdcloud:
   clientId: 9511590896016473
   clientSecret: seckill_abcd1234_
+

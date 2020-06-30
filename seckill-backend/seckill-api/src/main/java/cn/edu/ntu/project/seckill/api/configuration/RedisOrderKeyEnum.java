@@ -4,30 +4,29 @@ import cn.edu.ntu.seckill.redis.starter.autoconfigure.key.KeyPrefix;
 
 /**
  * @author zack <br>
- * @create 2020-05-17 19:17 <br>
+ * @create 2020-06-30 22:52 <br>
  * @project seckill-backend <br>
  */
-public enum RedisUserKeyEnum implements KeyPrefix {
-  USER_KEY_ID("id"),
-  USER_KEY_NAME(60 * 59, "name") {
-    @Override
-    public int expireSeconds() {
-      return this.getExpireSeconds();
-    }
-  };
+public enum RedisOrderKeyEnum implements KeyPrefix {
+  ORDER_USER("order:user:");
 
   private int expireSeconds;
   private String prefix;
 
-  RedisUserKeyEnum(String prefix) {
+  RedisOrderKeyEnum(String prefix) {
     this.prefix = prefix;
   }
 
-  RedisUserKeyEnum(int expireSeconds, String prefix) {
+  RedisOrderKeyEnum(int expireSeconds, String prefix) {
     this.expireSeconds = expireSeconds;
     this.prefix = prefix;
   }
 
+  /**
+   * default expire time is 0, never expire
+   *
+   * @return 0
+   */
   @Override
   public int expireSeconds() {
     return 0;
@@ -40,6 +39,6 @@ public enum RedisUserKeyEnum implements KeyPrefix {
   }
 
   public int getExpireSeconds() {
-    return this.expireSeconds;
+    return expireSeconds;
   }
 }
