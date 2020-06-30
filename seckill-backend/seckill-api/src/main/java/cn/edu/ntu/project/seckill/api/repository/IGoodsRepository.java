@@ -1,5 +1,6 @@
 package cn.edu.ntu.project.seckill.api.repository;
 
+import cn.edu.ntu.project.seckill.api.entities.SeckillGoods;
 import cn.edu.ntu.project.seckill.api.entities.SeckillUser;
 import cn.edu.ntu.project.seckill.api.vo.GoodsVo;
 import org.apache.ibatis.annotations.*;
@@ -35,4 +36,23 @@ public interface IGoodsRepository {
           + " ON sg.goods_id = g.id"
           + " WHERE g.id = #{gid}")
   GoodsVo detail(@Param("gid") String gid);
+
+  /**
+   * Reset goods number.
+   *
+   * @param goods
+   */
+  @Update(
+      "UPDATE `seckill.seckill_goods` SET stock_count = #{stockCount} WHERE goods_id = #{goodsId}")
+  void reset(SeckillGoods goods);
+
+  /**
+   * Reduce goods stock.
+   *
+   * @param g
+   * @return
+   */
+  @Update(
+      "UPDATE `seckill.seckill_goods` SET stock_count = stock_count - 1 WHERE goods_id = #{goodsId} AND stock_count > 0")
+  int reduceStock(SeckillGoods g);
 }

@@ -1,6 +1,7 @@
 package cn.edu.ntu.project.seckill.api.service;
 
 import cn.edu.ntu.project.seckill.api.vo.GoodsVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,4 +26,19 @@ public interface IGoodsService {
    * @return GoodsVo
    */
   GoodsVo detail(String gid);
+
+  /**
+   * Reset goods stock.
+   *
+   * @param goodsList
+   */
+  void resetStock(List<GoodsVo> goodsList);
+
+  /**
+   * Reduce goods stock.
+   *
+   * @param goods
+   * @return
+   */
+  boolean reduceStock(GoodsVo goods);
 }

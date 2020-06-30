@@ -5,7 +5,7 @@ package cn.edu.ntu.project.seckill.api.entities;
  * @create 2020-06-01 23:23 <br>
  * @project seckill-backend <br>
  */
-public class SeckillOrder {
+public class SecKillOrder {
   private String id;
   private String userId;
   private String orderId;
