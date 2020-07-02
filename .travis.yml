@@ -16,7 +16,7 @@ cache:
 branches:
   only:
     - feature-project-seckill-zack
-    - feature-project-seckill
+    - project-seckill
 
 jobs:
   include:
