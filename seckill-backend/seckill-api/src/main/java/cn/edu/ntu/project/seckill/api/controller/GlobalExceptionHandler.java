@@ -71,8 +71,16 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(SecKillException.RepeatedSecKillException.class)
+  @ExceptionHandler(UserException.UserLoginException.class)
   public ResponseEntity handleUserLoginException(
+      UserException.UserLoginException e, HttpServletRequest request) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.INVALID_TOKEN);
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(SecKillException.RepeatedSecKillException.class)
+  public ResponseEntity handleRepeatedSecKillException(
       SecKillException.RepeatedSecKillException e, HttpServletRequest request) {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.REPEATED_SECKILL_EXCEPTION);
 
