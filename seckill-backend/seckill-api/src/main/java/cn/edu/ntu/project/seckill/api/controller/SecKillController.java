@@ -3,7 +3,6 @@ package cn.edu.ntu.project.seckill.api.controller;
 import cn.edu.ntu.project.seckill.api.annotation.AccessLimit;
 import cn.edu.ntu.project.seckill.api.configuration.RedisGoodKeyEnum;
 import cn.edu.ntu.project.seckill.api.configuration.RedisOrderKeyEnum;
-import cn.edu.ntu.project.seckill.api.entities.SecKillOrder;
 import cn.edu.ntu.project.seckill.api.entities.SeckillUser;
 import cn.edu.ntu.project.seckill.api.exception.SecKillException;
 import cn.edu.ntu.project.seckill.api.exception.UserException;
@@ -14,13 +13,18 @@ import cn.edu.ntu.project.seckill.api.service.IOrderService;
 import cn.edu.ntu.project.seckill.api.service.SecKillService;
 import cn.edu.ntu.project.seckill.api.vo.GoodsVo;
 import cn.edu.ntu.seckill.redis.starter.autoconfigure.service.RedisService;
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author zack <br>
@@ -31,6 +35,7 @@ import java.util.List;
 @Api
 public class SecKillController implements InitializingBean {
 
+  private Lock lock = new ReentrantLock();
   private HashMap<String, Boolean> localOverMap = new HashMap<>();
   @Resource IGoodsService goodsService;
   @Resource RedisService redisService;
@@ -77,7 +82,7 @@ public class SecKillController implements InitializingBean {
   @AccessLimit
   @PostMapping(value = "/goods/sec-kill")
   @ResponseBody
-  public String secKill(SeckillUser user, @RequestParam("goodsId") String goodsId) {
+  public String secKill(SeckillUser user, @RequestParam("goodsId") @NotBlank String goodsId) {
 
     if (user == null) {
       throw new UserException().new UserLoginException();
@@ -90,10 +95,27 @@ public class SecKillController implements InitializingBean {
     }
 
     // 判断是否已经秒杀到了
-    SecKillOrder order = orderService.getSecKillOrderByUserIdGoodsId(user.getNickname(), goodsId);
-    if (order != null) {
-      throw new SecKillException().new RepeatedSecKillException();
+    // TODO: this can do in memory first
+    lock.lock();
+    try {
+      String str =
+          redisService.get(
+              RedisOrderKeyEnum.ORDER_USER, StrUtil.concat(true, user.getNickname(), goodsId));
+      if (!StrUtil.isBlank(str) && !Boolean.getBoolean(str)) {
+        throw new SecKillException().new RepeatedSecKillException();
+      }
+
+      redisService.set(
+          RedisOrderKeyEnum.ORDER_USER, StrUtil.concat(true, user.getNickname(), goodsId), false);
+    } finally {
+      lock.unlock();
     }
+
+    //    SecKillOrder order = orderService.getSecKillOrderByUserIdGoodsId(user.getNickname(),
+    // goodsId);
+    //    if (order != null) {
+    //      throw new SecKillException().new RepeatedSecKillException();
+    //    }
 
     // 预减库存
     long stock = redisService.decr(RedisGoodKeyEnum.GOODS_STOCK, goodsId);

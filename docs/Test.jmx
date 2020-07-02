@@ -41,8 +41,8 @@
         <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
           <collectionProp name="CookieManager.cookies">
             <elementProp name="access_token" elementType="Cookie" testname="access_token">
-              <stringProp name="Cookie.value">OmGzTeUFAnOy4sNzwpn9UhE8fHO34BLo</stringProp>
-              <stringProp name="Cookie.domain">localhost</stringProp>
+              <stringProp name="Cookie.value">G5ZC7vhy0uTOULDY77YFYZOU96xY2H1C</stringProp>
+              <stringProp name="Cookie.domain">101.132.45.28</stringProp>
               <stringProp name="Cookie.path">/</stringProp>
               <boolProp name="Cookie.secure">false</boolProp>
               <longProp name="Cookie.expires">0</longProp>
@@ -57,11 +57,11 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.domain">101.132.45.28</stringProp>
           <stringProp name="HTTPSampler.port">8008</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">http://localhost:8008/goods/sec-kill?goodsId=2</stringProp>
+          <stringProp name="HTTPSampler.path">http://101.132.45.28:8008/goods/sec-kill?goodsId=1</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

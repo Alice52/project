@@ -38,6 +38,18 @@ public class RedisService {
     }
   }
 
+  public String get(KeyPrefix keyPrefix, String key) {
+
+    Jedis jedis = null;
+    try {
+      jedis = jedisPool.getResource();
+      String strVal = jedis.get(keyPrefix.getPrefix() + key);
+      return strVal;
+    } finally {
+      returnPool(jedis);
+    }
+  }
+
   public <T> boolean set(KeyPrefix keyPrefix, String key, T value) {
 
     Jedis jedis = null;

@@ -1,11 +1,13 @@
 package cn.edu.ntu.project.seckill.api.service;
 
 import cn.edu.ntu.project.seckill.api.configuration.RedisGoodKeyEnum;
+import cn.edu.ntu.project.seckill.api.configuration.RedisOrderKeyEnum;
 import cn.edu.ntu.project.seckill.api.entities.SecKillOrder;
 import cn.edu.ntu.project.seckill.api.entities.SeckillUser;
 import cn.edu.ntu.project.seckill.api.exception.SecKillException;
 import cn.edu.ntu.project.seckill.api.vo.GoodsVo;
 import cn.edu.ntu.seckill.redis.starter.autoconfigure.service.RedisService;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,10 @@ public class SecKillService implements ISecKillService {
     if (success) {
       return orderService.createOrder(user, goods);
     } else {
+      redisService.set(
+          RedisOrderKeyEnum.ORDER_USER,
+          StrUtil.concat(true, user.getNickname(), goods.getId()),
+          true);
       setGoodsOver(goods.getId());
       throw new SecKillException().new SecKillGoodsOverException();
     }

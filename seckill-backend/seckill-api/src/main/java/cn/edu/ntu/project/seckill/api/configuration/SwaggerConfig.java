@@ -14,12 +14,14 @@ import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * config swagger for API. Uri: http://localhost:8080/swagger-ui.html <br>
+ * config swagger for api. Uri: http://localhost:8080/swagger-ui.html <br>
  * link: https://www.jianshu.com/p/4539e312ce87<br>
  * link2:
  * https://www.ibm.com/developerworks/cn/java/j-using-swagger-in-a-spring-boot-project/index.html
@@ -34,7 +36,19 @@ import java.util.List;
     prefix = "swagger2",
     value = {"enable"},
     havingValue = "true")
-public class SwaggerConfig {
+public class SwaggerConfig implements WebMvcConfigurer {
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    // release swagger
+    registry
+        .addResourceHandler("/swagger-ui.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
+    // release relevant js
+    registry
+        .addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+  }
 
   @Bean
   public Docket createRestApi() {

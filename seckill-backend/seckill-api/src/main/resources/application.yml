@@ -12,19 +12,21 @@ spring:
   application:
     name: seckill-service
   datasource:
-    username: ENC(rVS+PIQagANf7AtDfHQ5cKyyUel1nR1lLSFonwuNguuQ0gG87BWDHD4GDrgBl5u1)
-    password: ENC(1oOxsSuSGMpyyG2EtWiIS9dGTLSwjE5U6gsqwG8+4ynRf+5Rwavd9zQ7juioMMYh)
-    url: ENC(y44/qFHy9vqqLDg5qmFqe9GJAg+cAsJw6CDyB1S2MTjdiG1zSc6oxBrsZAWoZVNWARKbe2NkrTydtPRgsAGUgRTpLFQAqT/Ao1B9iuDbXgf/Osg8tExnQ3I7AJEtyVy1MsEtx9IWXPvekl1BX7qVLVRvTwPhlxQgSjgjEJo2ZJw=)
-    driver-class-name: com.mysql.jdbc.Driver
+    # driver-class-name, username, password, url should be in druid, otherwise will lead to SQL monitor not work
+    # check datasource in UI first, then check `filter class name`
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      initialSize: 5
+      driver-class-name: com.mysql.jdbc.Driver
+      username: ENC(rVS+PIQagANf7AtDfHQ5cKyyUel1nR1lLSFonwuNguuQ0gG87BWDHD4GDrgBl5u1)
+      password: ENC(1oOxsSuSGMpyyG2EtWiIS9dGTLSwjE5U6gsqwG8+4ynRf+5Rwavd9zQ7juioMMYh)
+      url: ENC(y44/qFHy9vqqLDg5qmFqe9GJAg+cAsJw6CDyB1S2MTjdiG1zSc6oxBrsZAWoZVNWARKbe2NkrTydtPRgsAGUgRTpLFQAqT/Ao1B9iuDbXgf/Osg8tExnQ3I7AJEtyVy1MsEtx9IWXPvekl1BX7qVLVRvTwPhlxQgSjgjEJo2ZJw=)
+      initial-size: 5
       minIdle: 5
       maxActive: 20
       maxWait: 60000
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
-      validation-query: SELECT 1
+      validationQuery: SELECT 1 FROM DUAL
       testWhileIdle: true
       testOnBorrow: false
       testOnReturn: false
@@ -36,27 +38,45 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       useGlobalDataSourceStat: true
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-
-      # slow query
-      filter:
-        stat:
-          slow-sql-millis: 200
-          log-slow-sql: true
-        slf4j:
-          data-source-log-enabled: true
-          statement-executable-sql-log-enable: true
-
-      # druid monitor TODO: this is no work, now it works for DruidConfig
+      # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
+      # aop-patterns: com.web.springbootdruid.service.*
+      # 进行监控配置
+      web-stat-filter:
+        #是否启用StatFilter默认值true
+        enabled: true
+        #添加过滤规则
+        url-pattern: /*
+        #忽略过滤的格式
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
       stat-view-servlet:
+        #是否启用StatViewServlet默认值true
+        enabled: true
+        #访问路径为/druid时，跳转到StatViewServlet  http://127.0.0.1:8080/druid
+        url-pattern: "/druid/*"
+        # 是否能够重置数据
+        reset-enable: false
+        # 需要账号密码才能访问控制台，默认为root
         login-username: admin
         login-password: admin
-      web-stat-filter:
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        #IP白名单
+        allow: 
+        #&emsp;IP黑名单（共同存在时，deny优先于allow）
+        deny: 127.0.0.1
+
+      # # slow query
+      # filter:
+      #   stat:
+      #     slow-sql-millis: 200
+      #     log-slow-sql: true
+      #   slf4j:
+      #     data-source-log-enabled: true
+      #     statement-executable-sql-log-enable: true
+
   rabbitmq:
     host: ENC(6hY7MaESdo1jx/6ZHRAMcHM701ZVhEyLnFQpizADsXyOEUjgL8CNhqcTJJQOk9CK)
     port: ENC(lVnCNWvHIhozpXdmfVyp3KZgBUnI4fmGoWOC3OX1Sx08vGKFr8t6F6Lc3sNPeRZm)
     username: ENC(97xfmeLgoT0wwcHTtDN8/fKPbjuCzr5P5e23oOMTvJDpMrsO2010DdVDuA3VK0Ec)
-    password: ENC(97xfmeLgoT0wwcHTtDN8/fKPbjuCzr5P5e23oOMTvJDpMrsO2010DdVDuA3VK0Ec)
+    password: ENC(JJ8RkitK7A0Q0l7BesIcDJPxpOR7LLQOzcYlYLREVW8dq77UVUpuLwAlge21Pb47)
     virtual-host: /
     listener:
       simple:
