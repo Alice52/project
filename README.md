@@ -1,4 +1,8 @@
-## project
+## seckill-project
+
+### core
+
+1. 有限的服务器资源, 尽可能多地处理短时间内的海量请求
 
 ### backend
 
@@ -6,6 +10,8 @@
 
    - 预热
    - 分布式 token
+   - 超卖: 预减库存
+   - 流控: 令牌桶
 
 2. MQ 异步下单: mvc async
 3. 图形验证码
