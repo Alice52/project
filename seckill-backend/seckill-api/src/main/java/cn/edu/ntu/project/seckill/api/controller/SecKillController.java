@@ -89,16 +89,17 @@ public class SecKillController implements InitializingBean {
       throw new SecKillException().new SecKillGoodsOverException();
     }
 
+    // 判断是否已经秒杀到了
+    SecKillOrder order = orderService.getSecKillOrderByUserIdGoodsId(user.getNickname(), goodsId);
+    if (order != null) {
+      throw new SecKillException().new RepeatedSecKillException();
+    }
+
     // 预减库存
     long stock = redisService.decr(RedisGoodKeyEnum.GOODS_STOCK, goodsId);
     if (stock < 0) {
       localOverMap.put(goodsId, true);
       throw new SecKillException().new SecKillGoodsOverException();
-    }
-    // 判断是否已经秒杀到了
-    SecKillOrder order = orderService.getSecKillOrderByUserIdGoodsId(user.getNickname(), goodsId);
-    if (order != null) {
-      throw new SecKillException().new RepeatedSecKillException();
     }
 
     // 入队
