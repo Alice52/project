@@ -43,16 +43,25 @@ public class DruidConfig {
     return statServletBean;
   }
 
+  // @Bean
+  // public FilterRegistrationBean<WebStatFilter> configWebStatFilter() {
+  //   FilterRegistrationBean<WebStatFilter> webFilterBean = new FilterRegistrationBean<>();
+  //   webFilterBean.setFilter(new WebStatFilter());
+  //   Map<String, String> initParams = new HashMap<>();
+  //   initParams.put(WebStatFilter.PARAM_NAME_EXCLUSIONS, "*.js,*.css,/druid/*");
+
+  //   webFilterBean.setInitParameters(initParams);
+  //   webFilterBean.setUrlPatterns(Arrays.asList("/*"));
+
+  //   return webFilterBean;
+  // }
+
   @Bean
-  public FilterRegistrationBean<WebStatFilter> configWebStatFilter() {
-    FilterRegistrationBean<WebStatFilter> webFilterBean = new FilterRegistrationBean<>();
-    webFilterBean.setFilter(new WebStatFilter());
-    Map<String, String> initParams = new HashMap<>();
-    initParams.put(WebStatFilter.PARAM_NAME_EXCLUSIONS, "*.js,*.css,/druid/*");
-
-    webFilterBean.setInitParameters(initParams);
-    webFilterBean.setUrlPatterns(Arrays.asList("/*"));
-
-    return webFilterBean;
+  public FilterRegistrationBean filterRegistrationBean() {
+      FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+      filterRegistrationBean.setFilter(new WebStatFilter());
+      filterRegistrationBean.addUrlPatterns("/*");
+      filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+      return filterRegistrationBean;
   }
 }
