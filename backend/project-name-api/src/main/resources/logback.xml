@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <contextName>rabbitmq</contextName>
-    <property name="LOG_HOME" value="./log/project-name/api"/>
+    <property name="LOG_HOME" value="./log/project-name-api"/>
     <property name="APP_NAME" value="project-name"/>
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}  [%thread] [%X{ThreadID}] %-5level [%logger{50}.%M:%L] - %msg%n"/>
 
