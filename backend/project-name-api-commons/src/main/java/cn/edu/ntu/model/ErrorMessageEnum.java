@@ -14,8 +14,15 @@ import java.util.Optional;
 public enum ErrorMessageEnum {
   // common
   INVALID_TOKEN(400401, "invalid token, please login"),
-  UNKNOWN_EXCEPTION(999999, "unknown exception");
+  UNKNOWN_EXCEPTION(999999, "unknown exception"),
+  NOT_FOUND(400404, "api do not existence"),
   // login module: 5002xx
+
+  // client error
+  BIND_EXCEPTION(400400, "bind property to vo error"),
+
+  // third party api error
+  THIRD_PARTY_CALL_EXCEPTION(600400, "third party api error");
 
   private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageEnum.class);
   private Integer errorCode;

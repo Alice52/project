@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
+    <conversionRule conversionWord="msg"
+                    converterClass="cn.edu.ntu.projectname.converter.AnonymousClassToJsonConverter"/>
+
+
     <contextName>rabbitmq</contextName>
     <property name="LOG_HOME" value="./log/project-name-api"/>
     <property name="APP_NAME" value="project-name"/>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}  [%thread] [%X{ThreadID}] %-5level [%logger{50}.%M:%L] - %msg%n"/>
+    <property name="LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS}  [%thread] [%X{ThreadID}] %-5level [%logger{50}.%M:%L] - %msg%n"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

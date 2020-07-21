@@ -10,5 +10,12 @@ public class UserException extends RuntimeException {
 
   public class UserNotExistenceException extends RuntimeException {}
 
-  public class UserLoginException extends RuntimeException {}
+  public class UserLoginException extends RuntimeException {
+
+    public UserLoginException() {}
+
+    public UserLoginException(String message) {
+      super(message);
+    }
+  }
 }
