@@ -1,6 +1,7 @@
 package cn.edu.ntu.projectname.configuarion;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +11,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Parameter;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -45,7 +45,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
     registry
         .addResourceHandler("/swagger-ui.html")
         .addResourceLocations("classpath:/META-INF/resources/");
-    registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+    registry
+        .addResourceHandler("/doc.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
     // release relevant js
     registry
         .addResourceHandler("/webjars/**")
@@ -67,6 +69,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     return new Docket(DocumentationType.SWAGGER_2)
         .apiInfo(apiInfo())
+        .groupName("seckill-v1.0")
         // .useDefaultResponseMessages(false)
         .globalResponseMessage(RequestMethod.GET, responseMessageList)
         .globalResponseMessage(RequestMethod.POST, responseMessageList)
@@ -80,7 +83,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
         // .apis(RequestHandlerSelectors.basePackage("cn.edu.ntu.boot.swagger2.controller"))
         .paths(PathSelectors.any())
         .build()
-        .globalOperationParameters(parameter());
+        .globalOperationParameters(parameter())
+        .securityContexts(Lists.newArrayList(securityContext()))
+        .securitySchemes(Lists.<SecurityScheme>newArrayList(apiKey()));
   }
 
   private ApiInfo apiInfo() {
@@ -104,5 +109,23 @@ public class SwaggerConfig implements WebMvcConfigurer {
             .build());
 
     return parameters;
+  }
+
+  private ApiKey apiKey() {
+    return new ApiKey("BearerToken", "Authorization", "header");
+  }
+
+  private SecurityContext securityContext() {
+    return SecurityContext.builder()
+        .securityReferences(defaultAuth())
+        .forPaths(PathSelectors.regex("/.*"))
+        .build();
+  }
+
+  List<SecurityReference> defaultAuth() {
+    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+    authorizationScopes[0] = authorizationScope;
+    return Lists.newArrayList(new SecurityReference("BearerToken", authorizationScopes));
   }
 }

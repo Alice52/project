@@ -101,9 +101,9 @@
 
             <!-- swagger2 -->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.swagger2.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${swagger2.knife4j}</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
