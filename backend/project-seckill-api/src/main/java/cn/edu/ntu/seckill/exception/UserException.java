@@ -1,4 +1,4 @@
-package cn.edu.ntu.projectname.exception;
+package cn.edu.ntu.seckill.exception;
 
 /**
  * @author zack <br>

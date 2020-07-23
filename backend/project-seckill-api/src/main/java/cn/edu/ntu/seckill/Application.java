@@ -1,4 +1,4 @@
-package cn.edu.ntu.projectname;
+package cn.edu.ntu.seckill;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

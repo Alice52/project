@@ -1,16 +1,11 @@
-package cn.edu.ntu.projectname.model.vo;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+package cn.edu.ntu.seckill.model.vo;
 
 import java.time.LocalDateTime;
 
 /**
  * @author zack <br>
  * @create 2020-07-21 23:57 <br>
- * @project project-name <br>
+ * @project project-seckill <br>
  */
 //@Data
 //@NoArgsConstructor

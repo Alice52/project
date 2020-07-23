@@ -1,4 +1,4 @@
-## project-name
+## project-seckill
 
 ### core and technique
 
@@ -12,7 +12,7 @@
 
 ## TODO:
 
-1. execute follow command to change `project-name`
+1. execute follow command to change `project-seckill`
 
    ```shell
    # zsh will error, please chenge to bash

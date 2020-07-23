@@ -3,19 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>project-name</artifactId>
+        <artifactId>project-seckill</artifactId>
         <groupId>cn.edu.ntu</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>project-name-api</artifactId>
+    <artifactId>project-seckill-api</artifactId>
 
     <dependencies>
         <!-- common module -->
         <dependency>
             <groupId>cn.edu.ntu</groupId>
-            <artifactId>project-name-api-commons</artifactId>
+            <artifactId>project-seckill-api-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -33,13 +33,12 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>${swagger2.knife4j}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
-        
+
         <!-- encrypt -->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>

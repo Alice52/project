@@ -1,8 +1,8 @@
-package cn.edu.ntu.projectname.controller;
+package cn.edu.ntu.seckill.controller;
 
 import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
-import cn.edu.ntu.projectname.exception.UserException;
+import cn.edu.ntu.seckill.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author zack <br>
  * @create 2020-07-21 23:48 <br>
- * @project project-name <br>
+ * @project project-seckill <br>
  */
 @ControllerAdvice
 public class GlobalExceptionHandler extends BaseExceptionHandler {

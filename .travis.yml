@@ -16,7 +16,7 @@ cache:
 branches:
   only:
     - develop
-    - project-project-name
+    - project-seckill-plus
 
 jobs:
   include:
@@ -42,7 +42,7 @@ notifications:
 
 env:
   travis_wait: 50
-  project_name: project-name
+  project_name: project-seckill
   project_home: $PWD
   commit_id: 000
   image_tag: 000

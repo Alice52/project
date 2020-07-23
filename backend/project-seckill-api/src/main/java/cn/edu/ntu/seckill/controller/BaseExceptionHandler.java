@@ -1,8 +1,8 @@
-package cn.edu.ntu.projectname.controller;
+package cn.edu.ntu.seckill.controller;
 
 import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
-import cn.edu.ntu.projectname.exception.ThirdPartyApiException;
+import cn.edu.ntu.seckill.exception.ThirdPartyApiException;
 import cn.hutool.core.map.MapUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * @author zack <br>
  * @create 2020-07-21 23:45 <br>
- * @project project-name <br>
+ * @project project-seckill <br>
  */
 public class BaseExceptionHandler {
 
