@@ -1,6 +1,8 @@
 package cn.edu.ntu.seckill.controller;
 
 import cn.edu.ntu.model.ErrorResponse;
+import cn.edu.ntu.seckill.annotation.GoodsApi;
+import cn.edu.ntu.seckill.annotation.OrderApi;
 import cn.edu.ntu.seckill.model.vo.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
  * @create 2020-07-19 15:23 <br>
  * @project backend <br>
  */
-@Api
+@GoodsApi
 @RestController
 @RequestMapping("/project-seckill")
 @ApiResponses({
