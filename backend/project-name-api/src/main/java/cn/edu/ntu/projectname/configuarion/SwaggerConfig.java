@@ -1,5 +1,6 @@
 package cn.edu.ntu.projectname.configuarion;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author zack <br>
  * @create 2020-04-27 11:45 <br>
  */
+@EnableKnife4j
 @Configuration
 @EnableSwagger2
 @ConditionalOnProperty(
@@ -43,6 +45,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     registry
         .addResourceHandler("/swagger-ui.html")
         .addResourceLocations("classpath:/META-INF/resources/");
+    registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
     // release relevant js
     registry
         .addResourceHandler("/webjars/**")

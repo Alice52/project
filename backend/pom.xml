@@ -44,6 +44,7 @@
 
         <!-- swagger -->
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
+        <swagger2.knife4j>2.0.4</swagger2.knife4j>
     </properties>
 
     <dependencyManagement>
