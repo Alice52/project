@@ -78,6 +78,7 @@ DROP TABLE IF EXISTS `seckill.user`;
 CREATE TABLE `seckill.user` (
   `id` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `eamail` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `salt` varchar(36) NOT NULL,
   `registerDate` datetime NOT NULL,

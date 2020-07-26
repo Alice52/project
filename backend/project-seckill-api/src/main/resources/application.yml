@@ -60,12 +60,12 @@ spring:
         # 是否能够重置数据
         reset-enable: false
         # 需要账号密码才能访问控制台，默认为root
-        login-username: admin
-        login-password: admin
+        login-username: ENC(1j3TT4M6aHscVzKpeHWX5KNKRU7ui1jesPGY52W2FEl9WunVIBiVizoeQv4ocWxd)
+        login-password: ENC(Jm9wTCpswKDpVkuiT0JmwMiz7H4bqiOLnEK1Hs49QPrB+RJ4Y8pUh2ON4FPOSjNV)
         #IP白名单
         allow:
         #&emsp;IP黑名单（共同存在时，deny优先于allow）
-        deny: 127.0.0.1
+        # deny: 127.0.0.1
 
       # # slow query
       # filter:
@@ -75,3 +75,9 @@ spring:
       #   slf4j:
       #     data-source-log-enabled: true
       #     statement-executable-sql-log-enable: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.edu.ntu.seckill.model

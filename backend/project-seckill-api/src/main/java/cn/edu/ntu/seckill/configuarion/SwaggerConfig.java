@@ -2,8 +2,10 @@ package cn.edu.ntu.seckill.configuarion;
 
 import cn.edu.ntu.seckill.annotation.GoodsApi;
 import cn.edu.ntu.seckill.annotation.OrderApi;
+import cn.edu.ntu.seckill.annotation.UserApi;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,6 +90,19 @@ public class SwaggerConfig implements WebMvcConfigurer {
         .build();
     // .apis(RequestHandlerSelectors.basePackage("cn.edu.ntu.boot.swagger2.controller"));
   }
+
+  @Bean
+  public Docket createRestUserApi() {
+
+    return getDocket()
+            .groupName("seckill-user-v1.0")
+            .select()
+            .apis(RequestHandlerSelectors.withClassAnnotation(UserApi.class))
+            .paths(PathSelectors.any())
+            .build();
+    // .apis(RequestHandlerSelectors.basePackage("cn.edu.ntu.boot.swagger2.controller"));
+  }
+
 
   private Docket getDocket() {
     return new Docket(DocumentationType.SWAGGER_2)
