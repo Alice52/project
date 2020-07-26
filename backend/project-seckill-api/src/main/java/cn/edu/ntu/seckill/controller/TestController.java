@@ -2,17 +2,13 @@ package cn.edu.ntu.seckill.controller;
 
 import cn.edu.ntu.model.ErrorResponse;
 import cn.edu.ntu.seckill.annotation.GoodsApi;
-import cn.edu.ntu.seckill.annotation.OrderApi;
-import cn.edu.ntu.seckill.model.vo.User;
-import io.swagger.annotations.Api;
+import cn.edu.ntu.seckill.model.vo.UserVO;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
 
 /**
  * @author zack <br>
@@ -22,15 +18,14 @@ import java.time.LocalDateTime;
 @GoodsApi
 @RestController
 @RequestMapping("/project-seckill")
-@ApiResponses({
-  @ApiResponse(code = 400, message = "Internal Error", response = ErrorResponse.class)
-})
 @Slf4j
-public class TestController {
+public class TestController extends BaseController{
 
   @GetMapping("/log")
   public String log() {
-    log.info("{}", new User(10, LocalDateTime.now(), "zack"));
+    UserVO userVO = new UserVO();
+    userVO.setId("415241");
+    log.info("{}", userVO);
     return "hello project-seckill";
   }
 

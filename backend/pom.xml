@@ -36,6 +36,7 @@
         <lombok.version>1.18.12</lombok.version>
         <jasypt.encrtpy.version>3.0.2</jasypt.encrtpy.version>
         <validation.api.version>2.0.1.Final</validation.api.version>
+        <hibernate.validator.version>6.0.13.Final</hibernate.validator.version>
         <hutool.all.version>5.2.0</hutool.all.version>
 
         <!-- logger -->
@@ -133,6 +134,11 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${validation.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
