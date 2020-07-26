@@ -15,3 +15,63 @@ spring:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
+  datasource:
+    # driver-class-name, username, password, url should be in druid, otherwise will lead to SQL monitor not work
+    # check datasource in UI first, then check `filter class name`
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: ENC(G07wPxuyb9kJOnY3JjNFCvUhVlMQihy/APHD0HnhHzg2qT/na3j2k/kViG7H4hVV)
+      password: ENC(+hH8DdzTl3EIcR7kB7ZVGK7/WQR4GquK6LIo7apn7HXT3yD4T1QrAAUORMxqnORZ)
+      url: ENC(DBdwDUQtm1qbuWx7KCZ2OKFxSBtCe+xtGbMiUEOu91YC9HSXYa3auy/vjGFl1/IhlEf+DzNd5bVAlmzwr8S8XW/I4+WTaN8J41QbnpwDRB0wJTmReVw7+j0VNSFRB9Hsv4yLvvmGYHi6rEjwKADtjIHQhkkhdqrOc6Ks2Sh/cbI=)
+      initial-size: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: false
+      # Configure monitoring statistics interception filters.
+      # If removed, the monitoring interface sql cannot collect statistics.
+      # Wall is used for the firewall
+      filters: stat,wall,slf4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
+      # aop-patterns: com.web.springbootdruid.service.*
+      # 进行监控配置
+      web-stat-filter:
+        #是否启用StatFilter默认值true
+        enabled: true
+        #添加过滤规则
+        url-pattern: /*
+        #忽略过滤的格式
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        #是否启用StatViewServlet默认值true
+        enabled: true
+        #访问路径为/druid时，跳转到StatViewServlet  http://127.0.0.1:8080/druid
+        url-pattern: "/druid/*"
+        # 是否能够重置数据
+        reset-enable: false
+        # 需要账号密码才能访问控制台，默认为root
+        login-username: admin
+        login-password: admin
+        #IP白名单
+        allow:
+        #&emsp;IP黑名单（共同存在时，deny优先于allow）
+        deny: 127.0.0.1
+
+      # # slow query
+      # filter:
+      #   stat:
+      #     slow-sql-millis: 200
+      #     log-slow-sql: true
+      #   slf4j:
+      #     data-source-log-enabled: true
+      #     statement-executable-sql-log-enable: true
