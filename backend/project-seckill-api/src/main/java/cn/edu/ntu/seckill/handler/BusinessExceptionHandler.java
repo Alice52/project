@@ -1,4 +1,4 @@
-package cn.edu.ntu.seckill.controller;
+package cn.edu.ntu.seckill.handler;
 
 import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
  * @create 2020-07-21 23:48 <br>
  * @project project-seckill <br>
  */
+@ResponseBody
 @ControllerAdvice
-public class GlobalExceptionHandler extends BaseExceptionHandler {
+public class BusinessExceptionHandler extends BaseExceptionHandler {
 
   @ExceptionHandler(UserException.UserLoginException.class)
   public ResponseEntity handleUserLoginException(

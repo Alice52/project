@@ -1,11 +1,14 @@
 package cn.edu.ntu.seckill.model.vo;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import cn.edu.ntu.seckill.annotation.constraint.Mobile;
+import cn.edu.ntu.seckill.annotation.constraint.UTCDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -25,17 +28,38 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserVO {
 
-  @Ignore private String id;
-  @Ignore private Long phone;
+  @ApiModelProperty(hidden = true)
+  private String id;
+
+  @Mobile private String phone;
 
   @Max(100)
   @Min(0)
+  @ApiModelProperty(required = true)
   private Integer age;
 
-  @Ignore @DateTimeFormat private LocalDateTime registerDate;
+  @UTCDate
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private LocalDateTime registerDate;
 
   @NotBlank private String name;
-  @Ignore @NotBlank private String password;
+
+  /**
+   * @JsonIgnore can be received args, but will not be serialized in vo.
+   *
+   * <p>And @JsonIgnoreProperties not worked.
+   */
+  @NotBlank private String password;
 
   @Email private String email;
+
+  @JsonIgnore
+  public String getPassword() {
+    return password;
+  }
+
+  @JsonProperty
+  public void setPassword(String password) {
+    this.password = password;
+  }
 }

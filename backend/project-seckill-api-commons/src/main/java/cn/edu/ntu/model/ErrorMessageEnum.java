@@ -12,14 +12,13 @@ import java.util.Optional;
  * @project seckill-backend <br>
  */
 public enum ErrorMessageEnum {
+  SYSTEM_ERROR(999999, "Internal Server Error"),
+  BEAN_VALIDATION_ERROR(400400, "Validate bean property error"),
   // common
   INVALID_TOKEN(400401, "invalid token, please login"),
-  UNKNOWN_EXCEPTION(999999, "unknown exception"),
+  // UNKNOWN_EXCEPTION(999999, "unknown exception"),
   NOT_FOUND(400404, "api do not existence"),
   // login module: 5002xx
-
-  // client error
-  BIND_EXCEPTION(400400, "bind property to vo error"),
 
   // third party api error
   THIRD_PARTY_CALL_EXCEPTION(600400, "third party api error");
