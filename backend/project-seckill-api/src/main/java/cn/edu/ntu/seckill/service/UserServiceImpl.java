@@ -45,22 +45,13 @@ public class UserServiceImpl implements IUserService {
     userPO.setSalt(IdUtil.simpleUUID());
     String password = convertPassword(userVO.getPassword(), userPO.getSalt());
     userPO.setPassword(password);
-    //    userPO.setId(IdUtil.simpleUUID());
+    // this is do in db layer.
+    // userPO.setId(IdUtil.simpleUUID());
 
     return userPO;
   }
 
-  /**
-   * // TODO: this validation annotation not work, will handle in later.
-   *
-   * <p>consider: may this annotation is not work, which is valid, we can do this by logic code.
-   *
-   * @param password
-   * @param salt
-   * @return
-   */
-  @Validated
-  private static String convertPassword(String password, @Validated @NotNull String salt)
+  private static String convertPassword(String password, String salt)
       throws UnsupportedEncodingException {
     MD5 md5 = new MD5(salt.getBytes(CharsetUtil.UTF_8));
     return md5.digestHex(password);
