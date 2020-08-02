@@ -6,16 +6,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author zack <br/>
- * @create 2020-08-02 17:51 <br/>
- * @project project-seckill <br/>
+ * @author zack <br>
+ * @create 2020-08-02 17:51 <br>
+ * @project project-seckill <br>
  */
+@ResponseBody
 @ControllerAdvice
-public class GlobalExceptionHandler extends BaseExceptionHandler {
+public class DefaultExceptionHandler extends BaseExceptionHandler {
   @ExceptionHandler(Exception.class)
   public ResponseEntity handleException(Exception e, HttpServletRequest request) {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.SYSTEM_ERROR);

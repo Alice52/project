@@ -30,6 +30,7 @@ CREATE TABLE `seckill.order` (
   `status` tinyint(4) DEFAULT '0' COMMENT '订单状态, 0新建未支付, 1已支付, 2已发货, 3已收货, 4已退款, 5已完成',
   `create_date` datetime DEFAULT NULL COMMENT '订单的创建时间',
   `pay_date` datetime DEFAULT NULL COMMENT '支付时间',
+  `source` varchar(36) DEFAULT NULL COMMENT 'pc, h5',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
@@ -41,7 +42,6 @@ CREATE TABLE `seckill.seckill_goods` (
   `id` varchar(36) NOT NULL COMMENT '秒杀的商品表',
   `goods_id` varchar(36) DEFAULT NULL COMMENT '商品Id',
   `seckill_price` decimal(10,2) DEFAULT '0.00' COMMENT '秒杀价',
-
   `start_date` datetime DEFAULT NULL COMMENT '秒杀开始时间',
   `end_date` datetime DEFAULT NULL COMMENT '秒杀结束时间',
   PRIMARY KEY (`id`)
@@ -78,10 +78,12 @@ DROP TABLE IF EXISTS `seckill.user`;
 CREATE TABLE `seckill.user` (
   `id` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `eamail` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `salt` varchar(36) NOT NULL,
   `registerDate` datetime NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` decimal(13,0) DEFAULT NULL,
+  `age` int(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```

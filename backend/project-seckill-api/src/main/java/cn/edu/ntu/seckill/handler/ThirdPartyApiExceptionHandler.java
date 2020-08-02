@@ -18,8 +18,8 @@ import java.util.HashMap;
  * @create 2020-08-02 17:01 <br>
  * @project project-seckill <br>
  */
-@ControllerAdvice
 @ResponseBody
+@ControllerAdvice
 public class ThirdPartyApiExceptionHandler extends BaseExceptionHandler {
 
   @ExceptionHandler(ThirdPartyApiException.class)
