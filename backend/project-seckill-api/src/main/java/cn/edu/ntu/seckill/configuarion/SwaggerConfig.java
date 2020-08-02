@@ -1,11 +1,10 @@
 package cn.edu.ntu.seckill.configuarion;
 
-import cn.edu.ntu.seckill.annotation.GoodsApi;
-import cn.edu.ntu.seckill.annotation.OrderApi;
-import cn.edu.ntu.seckill.annotation.UserApi;
+import cn.edu.ntu.seckill.annotation.swagger.GoodsApi;
+import cn.edu.ntu.seckill.annotation.swagger.OrderApi;
+import cn.edu.ntu.seckill.annotation.swagger.UserApi;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

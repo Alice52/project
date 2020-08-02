@@ -1,10 +1,7 @@
 package cn.edu.ntu.seckill.controller;
 
-import cn.edu.ntu.model.ErrorResponse;
-import cn.edu.ntu.seckill.annotation.GoodsApi;
+import cn.edu.ntu.seckill.annotation.swagger.GoodsApi;
 import cn.edu.ntu.seckill.model.vo.UserVO;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
