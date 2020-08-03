@@ -1,7 +1,5 @@
 package cn.edu.ntu.seckill.aop;
 
-import cn.edu.ntu.seckill.model.vo.UserVO;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -31,11 +29,6 @@ public class ExceptionAspect {
     Object[] args = joinPoint.getArgs();
     Object target = joinPoint.getTarget();
 
-    log.error("target: {}", "sasa");
-    log.error(
-        "target: {}; method signature: {}; args: {};",
-        JSONUtil.toJsonStr(target),
-        JSONUtil.toJsonStr(mSignature),
-        JSONUtil.toJsonStr(args));
+    log.error("target: {}; method signature: {}; args: {};", target, mSignature, args);
   }
 }
