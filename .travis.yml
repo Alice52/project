@@ -37,6 +37,7 @@ notifications:
   email:
     recipients:
       - zzhang_xz@163.com
+      - yg2721@baosight.com
     on_success: always # default: change
     on_failure: always # default: always
 

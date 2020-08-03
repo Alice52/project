@@ -7,11 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 /**
  * The function of this class is to build a response.
@@ -19,16 +20,15 @@ import java.util.Map;
  * <p>Please do not add @ControllerAdvice annotation. <br>
  * due to it will catch earlier.
  *
- * <p>// TODO: I think it in strange.
+ * <p> https://github.com/Alice52/project/issues/33
  *
  * @author zack <br>
  * @create 2020-07-21 23:45 <br>
  * @project project-seckill <br>
  */
-@Order
-@ResponseBody
+@Order(LOWEST_PRECEDENCE)
 @ControllerAdvice
-public class BaseExceptionHandler {
+public class DefaultExceptionHandler {
 
   @ExceptionHandler({Exception.class})
   public ResponseEntity handleException(Exception e, HttpServletRequest request) {

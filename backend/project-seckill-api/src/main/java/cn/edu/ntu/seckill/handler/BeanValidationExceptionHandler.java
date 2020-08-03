@@ -14,7 +14,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -34,9 +33,8 @@ import java.util.stream.Collectors;
  */
 @Order(100)
 @Slf4j
-@ResponseBody
 @ControllerAdvice
-public class BeanValidationExceptionHandler extends BaseExceptionHandler {
+public class BeanValidationExceptionHandler {
 
   @ExceptionHandler(ValidationException.class)
   public ResponseEntity handleValidationException(ValidationException ex) throws Exception {
@@ -71,7 +69,7 @@ public class BeanValidationExceptionHandler extends BaseExceptionHandler {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BEAN_VALIDATION_ERROR);
     errorResponse.setParameters(collect);
 
-    return buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
@@ -93,7 +91,7 @@ public class BeanValidationExceptionHandler extends BaseExceptionHandler {
 
     errorResponse.setParameters(collect);
 
-    return buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(BindException.class)
@@ -125,6 +123,6 @@ public class BeanValidationExceptionHandler extends BaseExceptionHandler {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BEAN_VALIDATION_ERROR);
     errorResponse.setParameters(collect);
 
-    return buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
   }
 }

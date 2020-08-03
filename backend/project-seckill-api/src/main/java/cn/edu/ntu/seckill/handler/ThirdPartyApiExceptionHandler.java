@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -20,9 +19,8 @@ import java.util.HashMap;
  * @project project-seckill <br>
  */
 @Order(100)
-@ResponseBody
 @ControllerAdvice
-public class ThirdPartyApiExceptionHandler extends BaseExceptionHandler {
+public class ThirdPartyApiExceptionHandler {
 
   @ExceptionHandler(ThirdPartyApiException.class)
   public ResponseEntity handleThirdPartyApiException(
@@ -35,6 +33,6 @@ public class ThirdPartyApiExceptionHandler extends BaseExceptionHandler {
     map.put("rowArgs", e.getArgs());
     errorResponse.setParameters(map);
 
-    return buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
   }
 }

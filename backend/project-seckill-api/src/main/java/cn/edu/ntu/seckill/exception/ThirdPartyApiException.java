@@ -13,6 +13,9 @@ public class ThirdPartyApiException extends RuntimeException {
   private HttpStatus rawStatus;
   private String[] args;
 
+  public ThirdPartyApiException() {
+  }
+
   public ThirdPartyApiException(HttpStatus httpStatus, JSONObject originBody, String... args) {
     this.rawStatus = httpStatus;
     this.rawBody = originBody;
