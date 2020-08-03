@@ -5,6 +5,7 @@ import cn.edu.ntu.model.ErrorResponse;
 import cn.edu.ntu.seckill.exception.ListValidException;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @create 2020-07-28 22:19 <br>
  * @project validation <br>
  */
+@Order(100)
 @Slf4j
 @ResponseBody
 @ControllerAdvice

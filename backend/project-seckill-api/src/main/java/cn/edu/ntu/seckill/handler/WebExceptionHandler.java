@@ -2,6 +2,7 @@ package cn.edu.ntu.seckill.handler;
 
 import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +18,7 @@ import java.util.HashMap;
  * @create 2020-08-02 17:07 <br>
  * @project project-seckill <br>
  */
+@Order(100)
 @ResponseBody
 @ControllerAdvice
 public class WebExceptionHandler extends BaseExceptionHandler {
