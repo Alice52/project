@@ -4,6 +4,7 @@ import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
 import cn.edu.ntu.seckill.exception.ThirdPartyApiException;
 import cn.hutool.core.map.MapUtil;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +19,7 @@ import java.util.HashMap;
  * @create 2020-08-02 17:01 <br>
  * @project project-seckill <br>
  */
+@Order(100)
 @ResponseBody
 @ControllerAdvice
 public class ThirdPartyApiExceptionHandler extends BaseExceptionHandler {

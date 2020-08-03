@@ -1,9 +1,15 @@
 package cn.edu.ntu.seckill.handler;
 
+import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +25,17 @@ import java.util.Map;
  * @create 2020-07-21 23:45 <br>
  * @project project-seckill <br>
  */
+@Order
+@ResponseBody
+@ControllerAdvice
 public class BaseExceptionHandler {
+
+  @ExceptionHandler({Exception.class})
+  public ResponseEntity handleException(Exception e, HttpServletRequest request) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.SYSTEM_ERROR);
+
+    return buildResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR, e);
+  }
 
   protected static ResponseEntity buildResponseEntity(
       ErrorResponse errorResponse, HttpStatus status, Exception ex) {
