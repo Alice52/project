@@ -5,7 +5,6 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * @author zack <br>
@@ -15,8 +14,8 @@ import org.springframework.validation.annotation.Validated;
 @ApiResponses({
   @ApiResponse(code = 400, message = "Internal Error", response = ErrorResponse.class)
 })
-@Validated
 public class BaseController {
+
   /**
    * This is to build json response for single value, such as id, count, which is basic type.
    *

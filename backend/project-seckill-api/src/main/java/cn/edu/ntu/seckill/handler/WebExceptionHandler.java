@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +18,8 @@ import java.util.HashMap;
  * @project project-seckill <br>
  */
 @Order(100)
-@ResponseBody
 @ControllerAdvice
-public class WebExceptionHandler extends BaseExceptionHandler {
+public class WebExceptionHandler {
 
   @ExceptionHandler(NoHandlerFoundException.class)
   public ResponseEntity handleNoHandlerFoundException(
@@ -32,6 +30,6 @@ public class WebExceptionHandler extends BaseExceptionHandler {
     map.put("path", request.getRequestURI());
     errorResponse.setParameters(map);
 
-    return buildResponseEntity(errorResponse, HttpStatus.NOT_FOUND, e);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.NOT_FOUND, e);
   }
 }
