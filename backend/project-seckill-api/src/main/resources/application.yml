@@ -75,6 +75,22 @@ spring:
       #   slf4j:
       #     data-source-log-enabled: true
       #     statement-executable-sql-log-enable: true
+  mail:
+    host: ENC(KwgyFVRJzE76uUF+B2EOyjJgijQDrxhRWzrUBa6eUfmduClTbtpaCVxXRWWctYSi)
+    port: ENC(aQ+QkGxTWxhP+kRHozwLWqY+XF7ugh0XR276hj3jsUjC+3+zfqNXnQJo2XZP0+NF)
+    default-encoding: ENC(qB9K/XFkIcJGH80lNU2gJ2DVOLsFI6uuyui9MoAQA+ZI1WCLjAOjNfU7rrp3h3qo)
+    username: ENC(XtxDqyspABu9dQ0xSZ0zRV7MfVfk/7tN1rE/wkjko5vcjA0vgqmcE10FxRRYlribavOUtBGNy2PDPHWtIrrFUg==)
+    password: ENC(cVfVnGq4tQ6J3+FtW0TejImmx2ESWomD/tuGN5bJqMGM8v+Of/onqraHBd9xhH0J)
+    properties:
+      mail:
+        smtp:
+          # this is need by qq email server
+          # ssl:
+          #   enable: true
+          #   required: true
+          timeout: 10000
+          connectiontimeout: 10000
+          writetimeout: 10000
 
 mybatis:
   configuration:
