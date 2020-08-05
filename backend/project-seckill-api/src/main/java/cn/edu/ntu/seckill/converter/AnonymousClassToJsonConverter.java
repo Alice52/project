@@ -23,7 +23,7 @@ public class AnonymousClassToJsonConverter extends MessageConverter {
       if (null != event || null != event.getArgumentArray()) {
         List<Object> array = new ArrayList<>();
         for (Object argument : event.getArgumentArray()) {
-          if (ObjectUtil.isBasicType(argument)) {
+          if (ObjectUtil.isBasicType(argument) || argument instanceof String) {
             array.add(argument);
           } else {
             array.add(JSONUtil.toJsonPrettyStr(argument));
