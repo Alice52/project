@@ -27,33 +27,40 @@ public class ExceptionAspect {
   public void exceptionLogAspect() {}
 
   @Before("exceptionLogAspect()")
-  public void validateBefore(JoinPoint joinPoint) throws Exception {
-    Signature signature = joinPoint.getSignature();
-    MethodSignature mSignature = (MethodSignature) signature;
-    Object[] args = joinPoint.getArgs();
-    Object target = joinPoint.getTarget();
+  public void validateBefore(JoinPoint joinPoint) {
+    try {
+      Signature signature = joinPoint.getSignature();
+      MethodSignature mSignature = (MethodSignature) signature;
+      Object[] args = joinPoint.getArgs();
+      Object target = joinPoint.getTarget();
 
-    log.error(
-        "[enter] requestId: {} target: {}; method signature: {}; args: {};",
-        AppContext.getByKey(CommonConstant.REQUEST_ID, String.class),
-        target,
-        mSignature,
-        args);
+      log.error(
+          "[enter] requestId: {} target: {}; method signature: {}; args: {};",
+          AppContext.getByKey(CommonConstant.REQUEST_ID, String.class),
+          target,
+          mSignature,
+          args);
 
-    AppContext.upsertByKey(AppContextConstant.APP_CONTEXT_EXCEPTION, System.currentTimeMillis());
+      AppContext.upsertByKey(AppContextConstant.APP_CONTEXT_EXCEPTION, System.currentTimeMillis());
+    } catch (Exception ex) {
+      log.error("***Operation exception logging failed  doBefore()***", ex);
+    }
   }
 
   @AfterReturning(returning = "result", pointcut = "exceptionLogAspect()")
   public void doAfterReturning(Object result) {
-
-    log.error(
-        "[exit] requestId: {} duration: {}, result: {}",
-        AppContext.getByKey(CommonConstant.REQUEST_ID, String.class),
-        (System.currentTimeMillis()
-                - AppContext.getByKey(AppContextConstant.APP_CONTEXT_EXCEPTION, Long.class))
-            / 1000,
-        result);
-
-    AppContext.removeByKey(AppContextConstant.APP_CONTEXT_EXCEPTION);
+    try {
+      log.error(
+          "[exit] requestId: {} duration: {}, result: {}",
+          AppContext.getByKey(CommonConstant.REQUEST_ID, String.class),
+          (System.currentTimeMillis()
+                  - AppContext.getByKey(AppContextConstant.APP_CONTEXT_EXCEPTION, Long.class))
+              / 1000,
+          result);
+    } catch (Exception ex) {
+      log.error("***Operation exception logging failed  doAfterReturning()***", ex);
+    } finally {
+      AppContext.removeByKey(AppContextConstant.APP_CONTEXT_EXCEPTION);
+    }
   }
 }
