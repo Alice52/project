@@ -7,13 +7,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.MD5;
-import com.google.common.base.Utf8;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -45,8 +42,6 @@ public class UserServiceImpl implements IUserService {
     userPO.setSalt(IdUtil.simpleUUID());
     String password = convertPassword(userVO.getPassword(), userPO.getSalt());
     userPO.setPassword(password);
-    // this is do in db layer.
-    // userPO.setId(IdUtil.simpleUUID());
 
     return userPO;
   }
