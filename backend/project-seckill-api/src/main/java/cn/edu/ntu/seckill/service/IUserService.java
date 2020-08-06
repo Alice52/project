@@ -19,6 +19,7 @@ public interface IUserService {
    *
    * @param userVO
    * @return
+   * @throws UnsupportedEncodingException
    */
   String register(@NotNull UserVO userVO) throws UnsupportedEncodingException;
 }

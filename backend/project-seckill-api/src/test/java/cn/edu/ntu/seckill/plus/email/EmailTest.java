@@ -28,8 +28,8 @@ public class EmailTest {
   @Resource private IMailSenderService mailService;
 
   private static final String TO = "1252068782@qq.com";
-  private static final String SUBJECT = "Testing email";
-  private static final String CONTENT = "test content";
+  private static final String SUBJECT = "seckill validation code email";
+  private static final String CONTENT = "validation code content";
 
   @Test
   public void sendSimpleMailMessage() {
@@ -51,7 +51,7 @@ public class EmailTest {
 
   @Test
   public void sendPicMessage() throws FileNotFoundException {
-    String htmlStr = "<html><body>测试：图片1 <br> <img src=\'cid:pic1\'/> </body></html>";
+    String htmlStr = "<html><body>图片1 <br> <img src=\'cid:pic1\'/> </body></html>";
     Map<String, String> rscIdMap = new HashMap<>(2);
     rscIdMap.put("pic1", ResourceUtils.getFile("classpath:static/14894-8.jpg").getAbsolutePath());
     Assert.isTrue(mailService.sendMimeMessage(TO, SUBJECT, htmlStr, rscIdMap));
