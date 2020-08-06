@@ -95,9 +95,10 @@ public class ControllerAspect {
           optLog.getMethodName(),
           optLog.getRequestTime(),
           optLog.getParams());
-      AppContext.removeByKey(AppContextConstant.APP_CONTEXT_LOG);
     } catch (Exception e) {
       log.error("***Operation request logging failed doAfterReturning()***", e);
+    } finally {
+      AppContext.removeByKey(AppContextConstant.APP_CONTEXT_LOG);
     }
   }
 

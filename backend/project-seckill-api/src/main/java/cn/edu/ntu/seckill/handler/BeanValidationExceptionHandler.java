@@ -14,6 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
  */
 @Order(100)
 @Slf4j
+@ResponseBody
 @ControllerAdvice
 public class BeanValidationExceptionHandler {
 

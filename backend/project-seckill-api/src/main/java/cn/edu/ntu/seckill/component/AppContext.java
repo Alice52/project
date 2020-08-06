@@ -1,6 +1,7 @@
 package cn.edu.ntu.seckill.component;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjectUtil;
 
 import java.util.Map;
 
@@ -23,7 +24,8 @@ public class AppContext {
     return objectMap;
   }
 
-  public static void initAppHolder(Map<String, Object> map) {
+  public static void initAppHolder(Map<String, Object> map) throws Exception {
+
     appHolder.set(map);
   }
 
@@ -43,8 +45,8 @@ public class AppContext {
   }
 
   public static void removeByKey(String key) {
-    Map<String, Object> objectMap = getAppHolder();
-    if (objectMap.containsKey(key)) {
+    Map<String, Object> objectMap = appHolder.get();
+    if (ObjectUtil.isNotNull(objectMap) && objectMap.containsKey(key)) {
       objectMap.remove(key);
     }
   }
