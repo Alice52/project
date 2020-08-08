@@ -1,6 +1,7 @@
 package cn.edu.ntu.seckill.component;
 
 import cn.edu.ntu.seckill.model.bo.EmailStruct;
+import cn.edu.ntu.seckill.utils.ValidatorUtils;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,13 +16,17 @@ import javax.mail.internet.MimeMessage;
 import java.util.function.Supplier;
 
 /**
+ * Supplier<R> supplier cannot compile error, I think this is strange.
+ *
+ * <p>// TODO: this need check and do research.
+ *
  * @author zack <br>
  * @create 2020-08-06 21:46 <br>
  * @project project-seckill <br>
  */
-@Slf4j
 @Component
-public class EmailUtil<T extends EmailStruct, R extends Object> {
+@Slf4j
+public class EmailContext<T extends EmailStruct, R extends Object> {
 
   @Resource private JavaMailSender mailSender;
 
@@ -39,7 +44,8 @@ public class EmailUtil<T extends EmailStruct, R extends Object> {
   public boolean send(T t, Supplier<R> supplier) {
 
     // 1. parameter validation
-    if (StrUtil.isBlank(t.getTo())) {
+    if (StrUtil.isBlank(t.getTo()) || !ValidatorUtils.validateEmail(t.getTo())) {
+      log.error("email receiver invalid: {}", t.getTo());
       return false;
     }
 

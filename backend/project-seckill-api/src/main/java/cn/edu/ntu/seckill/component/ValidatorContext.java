@@ -11,7 +11,7 @@ import javax.validation.Validator;
  * @project validation <br>
  */
 @Component
-public final class ValidatorUtils {
+public final class ValidatorContext {
   private static Validator validator;
 
   public static Validator getValidator() {
@@ -20,6 +20,6 @@ public final class ValidatorUtils {
 
   @Resource
   public void setValidator(Validator validator) {
-    ValidatorUtils.validator = validator;
+    ValidatorContext.validator = validator;
   }
 }

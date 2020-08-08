@@ -14,13 +14,13 @@ import java.util.Optional;
 public enum ErrorMessageEnum {
   SYSTEM_ERROR(999999, "Internal Server Error"),
   BEAN_VALIDATION_ERROR(400400, "Validate bean property error"),
-  // common
   INVALID_TOKEN(400401, "invalid token, please login"),
-  // UNKNOWN_EXCEPTION(999999, "unknown exception"),
   NOT_FOUND(400404, "api do not existence"),
-  // login module: 5002xx
 
-  // third party api error
+  // db layer errors
+  SQL_SYNTAX_EXCEPTION(500501, "sql syntax error"),
+
+  // third party api errors
   THIRD_PARTY_CALL_EXCEPTION(600400, "third party api error");
 
   private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageEnum.class);

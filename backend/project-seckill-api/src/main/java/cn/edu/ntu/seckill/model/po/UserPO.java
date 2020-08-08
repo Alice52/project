@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
@@ -19,12 +18,7 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Validated
-public class UserPO {
-
-  @Length(max = 36, min = 36)
-  private String id;
-
+public class UserPO extends BasePO {
   private Long phone;
 
   @NotBlank private String name;
@@ -37,5 +31,5 @@ public class UserPO {
   @NotNull private String password;
   @NotNull private String salt;
 
-  @DateTimeFormat private LocalDateTime registerDate;
+  @DateTimeFormat private LocalDateTime registeredDate;
 }

@@ -1,11 +1,13 @@
 package cn.edu.ntu.seckill.service;
 
+import cn.edu.ntu.seckill.exception.UserException;
 import cn.edu.ntu.seckill.model.po.UserPO;
 import cn.edu.ntu.seckill.model.vo.UserVO;
 import cn.edu.ntu.seckill.repository.IUserRepository;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.MD5;
 import org.springframework.stereotype.Service;
 
@@ -28,17 +30,39 @@ public class UserServiceImpl implements IUserService {
   @Override
   public String register(@NotNull UserVO userVO) throws UnsupportedEncodingException {
 
+    this.validateDuplicated(userVO.getEmail());
+
     UserPO userPO = convert2PO(userVO);
     userRepository.create(userPO);
 
     return userPO.getId();
   }
 
+  private void validateDuplicated(String email) {
+
+    UserPO userPO = userRepository.queryByEmail(email);
+
+    if (ObjectUtil.isNotNull(userPO)) {
+      throw new UserException().new UserAlreadyExistenceException(email);
+    }
+  }
+
+  private UserPO validateThenGet(String email) {
+
+    UserPO userPO = userRepository.queryByEmail(email);
+
+    if (ObjectUtil.isNull(userPO)) {
+      throw new UserException().new UserNotExistenceException(email);
+    }
+
+    return userPO;
+  }
+
   private static UserPO convert2PO(UserVO userVO) throws UnsupportedEncodingException {
 
     @Valid UserPO userPO = new UserPO();
     BeanUtil.copyProperties(userVO, userPO);
-    userPO.setRegisterDate(LocalDateTime.now());
+    userPO.setRegisteredDate(LocalDateTime.now());
     userPO.setSalt(IdUtil.simpleUUID());
     String password = convertPassword(userVO.getPassword(), userPO.getSalt());
     userPO.setPassword(password);
