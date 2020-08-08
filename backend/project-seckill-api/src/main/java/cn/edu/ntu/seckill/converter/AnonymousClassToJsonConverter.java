@@ -3,6 +3,7 @@ package cn.edu.ntu.seckill.converter;
 import ch.qos.logback.classic.pattern.MessageConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -20,10 +21,13 @@ public class AnonymousClassToJsonConverter extends MessageConverter {
   @Override
   public String convert(ILoggingEvent event) {
     try {
-      if (null != event || null != event.getArgumentArray()) {
+      if (null != event && null != event.getArgumentArray()) {
         List<Object> array = new ArrayList<>();
+
         for (Object argument : event.getArgumentArray()) {
-          if (ObjectUtil.isBasicType(argument) || argument instanceof String) {
+          if (ObjectUtil.isNull(argument)) {
+            array.add(StrUtil.EMPTY_JSON);
+          } else if (ObjectUtil.isBasicType(argument) || argument instanceof String) {
             array.add(argument);
           } else {
             array.add(JSONUtil.toJsonPrettyStr(argument));
@@ -33,9 +37,8 @@ public class AnonymousClassToJsonConverter extends MessageConverter {
         return MessageFormatter.arrayFormat(event.getMessage(), array.toArray()).getMessage();
       }
       return super.convert(event);
-
     } catch (Exception e) {
-      return event.getMessage();
+      return super.convert(event);
     }
   }
 }
