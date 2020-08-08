@@ -1,6 +1,6 @@
 package cn.edu.ntu.seckill.configuarion;
 
-import cn.edu.ntu.seckill.interceptor.AccessInterceptor;
+import cn.edu.ntu.seckill.interceptor.RequestInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,7 +18,7 @@ import java.util.List;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-  @Resource private AccessInterceptor accessInterceptor;
+  @Resource private RequestInterceptor accessInterceptor;
 
   /**
    * in this class will handle user model, validate token, <br>
