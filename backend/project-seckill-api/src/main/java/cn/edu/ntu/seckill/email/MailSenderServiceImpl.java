@@ -1,6 +1,6 @@
 package cn.edu.ntu.seckill.email;
 
-import cn.edu.ntu.seckill.component.EmailUtil;
+import cn.edu.ntu.seckill.component.EmailContext;
 import cn.edu.ntu.seckill.model.bo.EmailStruct;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.Map;
 @Service
 public class MailSenderServiceImpl implements IMailSenderService {
 
-  @Resource private EmailUtil emailUtil;
+  @Resource private EmailContext emailUtil;
 
   @Override
   public boolean sendSimpleMailMessage(String to, String subject, String content) {

@@ -2,7 +2,6 @@ package cn.edu.ntu.seckill.plus.email;
 
 import cn.edu.ntu.seckill.email.IMailSenderService;
 import cn.hutool.core.lang.Assert;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +21,7 @@ import java.util.Map;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Slf4j
 public class EmailTest {
-
   @Resource private IMailSenderService mailService;
 
   private static final String TO = "1252068782@qq.com";

@@ -6,15 +6,19 @@
 
     <!-- handle column mapping -->
     <resultMap id="BaseResultMap" type="UserPO">
-        <result column="registerDate" property="registerDate"></result>
+        <result column="registered_date" property="registeredDate"></result>
     </resultMap>
 
     <insert id="create" parameterType="UserPO" keyColumn="id">
         <selectKey keyProperty="id" resultType="string" order="BEFORE">
             SELECT REPLACE(UUID(), '-', '') AS id FROM DUAL
         </selectKey>
-        INSERT INTO `seckill.user`(id, email, name, password, salt, registerDate, phone)
+        INSERT INTO `seckill.user`(id, email, name, password, salt, registered_date, phone)
         VALUES(#{id}, #{email,jdbcType=VARCHAR}, #{name},
-            #{password}, #{salt}, #{registerDate,jdbcType=TIMESTAMP}, #{phone,jdbcType=BIGINT})
+        #{password}, #{salt}, #{registeredDate,jdbcType=TIMESTAMP}, #{phone,jdbcType=BIGINT})
     </insert>
+
+    <select id="queryByEmail" resultType="userPO">
+        SELECT id, phone, name, age, email, registered_date FROM `seckill.user` WHERE email = #{email}
+    </select>
 </mapper>

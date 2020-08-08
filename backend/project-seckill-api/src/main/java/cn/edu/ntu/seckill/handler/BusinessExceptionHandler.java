@@ -29,4 +29,15 @@ public class BusinessExceptionHandler {
 
     return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
   }
+
+
+  @ExceptionHandler(UserException.UserAlreadyExistenceException.class)
+  public ResponseEntity handleUserAlreadyExistenceException(
+          UserException.UserAlreadyExistenceException e) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.INVALID_TOKEN);
+
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
+  }
+
+
 }
