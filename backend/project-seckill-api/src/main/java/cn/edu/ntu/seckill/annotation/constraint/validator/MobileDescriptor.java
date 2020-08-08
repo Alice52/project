@@ -1,7 +1,7 @@
 package cn.edu.ntu.seckill.annotation.constraint.validator;
 
 import cn.edu.ntu.seckill.annotation.constraint.Mobile;
-import cn.edu.ntu.seckill.utils.ValidatorUtil;
+import cn.edu.ntu.seckill.utils.ValidatorUtils;
 import cn.hutool.core.util.StrUtil;
 
 import javax.validation.ConstraintValidator;
@@ -28,6 +28,6 @@ public class MobileDescriptor implements ConstraintValidator<Mobile, String> {
       return true;
     }
 
-    return ValidatorUtil.validateMobile(obj);
+    return ValidatorUtils.validateMobile(obj);
   }
 }

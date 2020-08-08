@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * @author zack <br>
  * @create 2020-07-19 15:23 <br>
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/project-seckill")
 @Slf4j
 public class TestController extends BaseController {
+
 
   @GetMapping("/log")
   public String log() {

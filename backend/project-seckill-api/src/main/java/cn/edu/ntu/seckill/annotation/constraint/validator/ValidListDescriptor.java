@@ -1,7 +1,7 @@
 package cn.edu.ntu.seckill.annotation.constraint.validator;
 
 import cn.edu.ntu.seckill.annotation.constraint.ValidList;
-import cn.edu.ntu.seckill.component.ValidatorUtils;
+import cn.edu.ntu.seckill.component.ValidatorContext;
 import cn.edu.ntu.seckill.exception.ListValidException;
 
 import javax.validation.ConstraintValidator;
@@ -31,7 +31,7 @@ public class ValidListDescriptor implements ConstraintValidator<ValidList, List>
   @Override
   public boolean isValid(List values, ConstraintValidatorContext context) {
 
-    Validator validator = ValidatorUtils.getValidator();
+    Validator validator = ValidatorContext.getValidator();
 
     Map<Integer, Set<ConstraintViolation<Object>>> errors = new HashMap<>();
     int size = values.size();
