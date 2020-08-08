@@ -2,9 +2,7 @@ package cn.edu.ntu.seckill.aop;
 
 import cn.edu.ntu.seckill.component.AppContext;
 import cn.edu.ntu.seckill.constants.AppContextConstant;
-import cn.edu.ntu.seckill.constants.CommonConstant;
 import cn.edu.ntu.seckill.model.vo.Log;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -23,10 +21,11 @@ import javax.servlet.http.HttpServletRequest;
  * @create 2020-07-26 23:48 <br>
  * @project project-seckill <br>
  */
-@Slf4j
 @Aspect
 @Component
+@Slf4j
 public class ControllerAspect {
+  private static final String ASPECT_PREFIX = "controller:";
 
   @Pointcut("execution (* cn.edu.ntu.seckill.controller.*.*(..))")
   public void requestLogAspect() {}
@@ -48,9 +47,8 @@ public class ControllerAspect {
       String params = JSONUtil.toJsonStr(paramsArray);
       String parameters = JSONUtil.toJsonStr(request.getParameterMap());
 
-      log.error(
-          "[enter] requestId: {} uri: {}, beanName: {}, remoteAddr: {}, methodName: {}, method: {}, params: {}, parameters: {}",
-          AppContext.getByKey(CommonConstant.REQUEST_ID, String.class),
+      log.info(
+          "[enter] uri: {}, beanName: {}, remoteAddr: {}, methodName: {}, method: {}, params: {}, parameters: {}",
           uri,
           beanName,
           remoteAddr,
@@ -67,7 +65,7 @@ public class ControllerAspect {
       optLog.setSessionId(sessionId);
       optLog.setUri(uri);
       optLog.setRequestTime(beginTime);
-      AppContext.upsertByKey(AppContextConstant.APP_CONTEXT_LOG, optLog);
+      AppContext.upsertByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, optLog);
 
     } catch (Exception e) {
       log.error("***Operation request logging failed  doBefore()***", e);
@@ -77,20 +75,13 @@ public class ControllerAspect {
   @AfterReturning(returning = "result", pointcut = "requestLogAspect()")
   public void doAfterReturning(Object result) {
     try {
-      Log optLog = AppContext.getByKey(AppContextConstant.APP_CONTEXT_LOG, Log.class);
-      if (ObjectUtil.isEmpty(result)) {
-        log.error(" response result is null");
-        return;
-      }
-      optLog.setResult(result.toString());
-      long beginTime = optLog.getRequestTime();
-      long requestTime = (System.currentTimeMillis() - beginTime) / 1000;
-      optLog.setRequestTime(requestTime);
+      Log optLog =
+          AppContext.getByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, Log.class);
 
-      log.error(
-          "[exit] requestId: {}, duration time: {}s, uri: {},  method name: {},  params: {}, parameters: {}",
-          AppContext.getByKey(CommonConstant.REQUEST_ID, String.class),
-          requestTime,
+      log.info(
+          "[exit] result: {} duration time: {}ms, uri: {},  method name: {},  params: {}, parameters: {}",
+          result,
+          System.currentTimeMillis() - optLog.getRequestTime(),
           optLog.getUri(),
           optLog.getMethodName(),
           optLog.getRequestTime(),
@@ -98,7 +89,7 @@ public class ControllerAspect {
     } catch (Exception e) {
       log.error("***Operation request logging failed doAfterReturning()***", e);
     } finally {
-      AppContext.removeByKey(AppContextConstant.APP_CONTEXT_LOG);
+      AppContext.removeByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG);
     }
   }
 

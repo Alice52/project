@@ -2,6 +2,10 @@ package cn.edu.ntu.seckill.handler;
 
 import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
+import cn.edu.ntu.seckill.component.AppContext;
+import cn.edu.ntu.seckill.constants.AppContextConstant;
+import cn.hutool.core.map.MapUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 /**
  * The function of this class is to build a response.
@@ -21,15 +21,16 @@ import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
  * <p>Please do not add @ControllerAdvice annotation. <br>
  * due to it will catch earlier.
  *
- * <p> https://github.com/Alice52/project/issues/33
+ * <p>https://github.com/Alice52/project/issues/33
  *
  * @author zack <br>
  * @create 2020-07-21 23:45 <br>
  * @project project-seckill <br>
  */
-@Order(LOWEST_PRECEDENCE)
+@Order
 @ControllerAdvice
 @ResponseBody
+@Slf4j
 public class DefaultExceptionHandler {
 
   @ExceptionHandler({Exception.class})
@@ -41,12 +42,9 @@ public class DefaultExceptionHandler {
 
   protected static ResponseEntity buildResponseEntity(
       ErrorResponse errorResponse, HttpStatus status, Exception ex) {
+    log.error("exception info: ", ex);
 
-    Map<String, Object> parameters = new HashMap<>(2);
-    parameters.put("message", ex.getMessage());
-    parameters.put("cause", ex.getCause());
-
-    errorResponse.setParameters(parameters);
+    errorResponse.setParameters(MapUtil.of("message", ex.getMessage()));
     return new ResponseEntity<>(errorResponse, status);
   }
 
