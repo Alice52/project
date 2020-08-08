@@ -44,6 +44,7 @@
         <slf4j.api.version>1.7.25</slf4j.api.version>
         <logback.core.version>1.2.3</logback.core.version>
         <logback.classic.version>1.2.3</logback.classic.version>
+        <logback.janino.version>3.0.6</logback.janino.version>
 
         <!-- swagger -->
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
@@ -112,6 +113,11 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.classic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>janino</artifactId>
+                <version>${logback.janino.version}</version>
             </dependency>
 
             <!-- swagger2 -->

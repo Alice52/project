@@ -6,5 +6,5 @@ package cn.edu.ntu.seckill.constants;
  * @project project-seckill <br>
  */
 public final class CommonConstant {
-    public static final String REQUEST_ID = "requestId";
+
 }
