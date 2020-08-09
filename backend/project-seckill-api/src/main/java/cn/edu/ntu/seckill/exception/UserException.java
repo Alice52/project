@@ -35,4 +35,13 @@ public class UserException extends RuntimeException {
       super(message);
     }
   }
+
+  public class InvalidValidationCodeException extends RuntimeException {
+
+    public InvalidValidationCodeException() {}
+
+    public InvalidValidationCodeException(String message) {
+      super(message);
+    }
+  }
 }

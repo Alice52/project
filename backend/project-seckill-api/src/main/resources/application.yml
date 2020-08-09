@@ -91,6 +91,17 @@ spring:
           timeout: 10000
           connectiontimeout: 10000
           writetimeout: 10000
+  redis:
+    host: ENC(6hY7MaESdo1jx/6ZHRAMcHM701ZVhEyLnFQpizADsXyOEUjgL8CNhqcTJJQOk9CK)
+    port: ENC(eGEvmyM63hvc7Vj3XoQArH7v0Uf2vsQTJcnZptv+ykd9zfrJ9GkCe03HF2r1z6KS)
+    password: ENC(1oOxsSuSGMpyyG2EtWiIS9dGTLSwjE5U6gsqwG8+4ynRf+5Rwavd9zQ7juioMMYh)
+    database: 10
+    # this is million second
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 50
+        min-idle: 20
 
 mybatis:
   configuration:

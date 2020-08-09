@@ -62,4 +62,6 @@ public class UserVO {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  private String validationCode;
 }

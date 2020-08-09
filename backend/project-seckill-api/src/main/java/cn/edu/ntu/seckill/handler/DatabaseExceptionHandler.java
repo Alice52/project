@@ -23,7 +23,7 @@ public class DatabaseExceptionHandler {
 
   @ExceptionHandler(MySQLSyntaxErrorException.class)
   public ResponseEntity handleMySQLSyntaxErrorException(MySQLSyntaxErrorException ex) {
-    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.SQL_SYNTAX_EXCEPTION);
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.SQL_SYNTAX_ERROR);
 
     return DefaultExceptionHandler.buildResponseEntity(
         errorResponse, HttpStatus.INTERNAL_SERVER_ERROR, ex);

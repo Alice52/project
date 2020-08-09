@@ -16,7 +16,7 @@ public class Log {
   private String beanName;
   private String user;
   private String methodName;
-  private String params;
+  private Object params;
   private String sessionId;
   private String uri;
   private long requestTime;

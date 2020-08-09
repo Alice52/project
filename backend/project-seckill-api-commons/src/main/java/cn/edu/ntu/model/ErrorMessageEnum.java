@@ -12,16 +12,26 @@ import java.util.Optional;
  * @project seckill-backend <br>
  */
 public enum ErrorMessageEnum {
+  // common errors
   SYSTEM_ERROR(999999, "Internal Server Error"),
+
+  // client errors
   BEAN_VALIDATION_ERROR(400400, "Validate bean property error"),
-  INVALID_TOKEN(400401, "invalid token, please login"),
-  NOT_FOUND(400404, "api do not existence"),
+  INVALID_TOKEN_ERROR(400401, "Invalid token, please login"),
+  NOT_FOUND_ERROR(400404, "Api do not existence"),
 
   // db layer errors
-  SQL_SYNTAX_EXCEPTION(500501, "sql syntax error"),
+  SQL_SYNTAX_ERROR(500501, "Sql syntax error"),
+
+  // business logic errors
+  EMAIL_SEND_ERROR(500511, "Email send error"),
 
   // third party api errors
-  THIRD_PARTY_CALL_EXCEPTION(600400, "third party api error");
+  THIRD_PARTY_CALL_ERROR(600400, "Third party api error"),
+
+  // user module errors
+  USER_DUPLICATED_ERROR(700411, "User info duplicated error"),
+  VALIDATION_CODE_ERROR(700412, "Validation code invalid error");
 
   private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageEnum.class);
   private Integer errorCode;
