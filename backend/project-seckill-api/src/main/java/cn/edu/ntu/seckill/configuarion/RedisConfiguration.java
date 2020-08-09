@@ -4,8 +4,10 @@ import cn.edu.ntu.seckill.serializer.DateTimeJsonDeserializer;
 import cn.edu.ntu.seckill.serializer.DateTimeJsonSerializer;
 import cn.hutool.core.date.DateTime;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,7 +31,7 @@ import static com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping.NON_FINA
 public class RedisConfiguration {
 
   @Bean("springSessionDefaultRedisSerializer")
-  public RedisSerializer setSerializer(){
+  public RedisSerializer setSerializer() {
     return new GenericJackson2JsonRedisSerializer();
   }
 
@@ -47,6 +49,8 @@ public class RedisConfiguration {
         new Jackson2JsonRedisSerializer(Object.class);
 
     ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.registerModule(new JavaTimeModule());
     SimpleModule simpleModule = new SimpleModule();
     simpleModule.addSerializer(DateTime.class, new DateTimeJsonSerializer());
     simpleModule.addDeserializer(DateTime.class, new DateTimeJsonDeserializer());

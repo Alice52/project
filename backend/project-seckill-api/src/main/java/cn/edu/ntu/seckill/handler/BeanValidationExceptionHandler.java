@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -39,9 +38,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class BeanValidationExceptionHandler {
 
-
   @ExceptionHandler(ValidationException.class)
   public ResponseEntity handleValidationException(ValidationException ex) throws Exception {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BEAN_VALIDATION_ERROR);
 
     Throwable cause = ex.getCause();
     Map<String, Object> collect = new HashMap<>(16);
@@ -65,12 +64,18 @@ public class BeanValidationExceptionHandler {
                             }));
           });
     } else {
-      log.error(ex.getMessage(), ex.getCause(), ex.getStackTrace());
-      // TODO: what will happened, if i throw exception here?
-      throw new Exception(cause);
+      log.error(
+          "validation bean error, type {}, params {}, message {}, cause {}, stack trace {}",
+          ex.getClass().getTypeName(),
+          ex.getClass().getTypeParameters(),
+          ex.getMessage(),
+          ex.getCause(),
+          ex.getStackTrace());
+
+      collect.put("message", ex.getMessage());
+      collect.put("exception type", ex.getClass().getTypeName());
     }
 
-    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BEAN_VALIDATION_ERROR);
     errorResponse.setParameters(collect);
 
     return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);

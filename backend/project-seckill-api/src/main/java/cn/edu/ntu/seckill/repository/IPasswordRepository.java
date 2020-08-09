@@ -1,6 +1,6 @@
 package cn.edu.ntu.seckill.repository;
 
-import cn.edu.ntu.seckill.model.po.UserPO;
+import cn.edu.ntu.seckill.model.po.PasswordPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
@@ -10,34 +10,31 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * @author zack <br>
- * @create 2020-07-26 19:20 <br>
+ * @create 2020-08-09 15:30 <br>
  * @project project-seckill <br>
  */
 @Validated
 @Mapper
-public interface IUserRepository {
+public interface IPasswordRepository {
   /**
-   * Create a new user.
+   * Create a new user password record.
    *
-   * @param userPO
+   * @param passwordPO
    * @return user id.
    */
-  void create(@Valid UserPO userPO);
+  void create(@Valid PasswordPO passwordPO);
 
   /**
    * // TODO: can add index in this column.<br>
    * Get by email.
    *
-   * @param email
+   * @param userId
    * @return UserPO
    */
-  UserPO queryByEmail(@NotBlank @Param("email") String email);
+  PasswordPO queryByUserId(@NotBlank @Param("userId") String userId);
 
-  /**
-   * Get by userId.
-   *
-   * @param userId
-   * @return
-   */
-  UserPO queryByUserId(@NotBlank @Param("userId") String userId);
+  void updatePassword(
+      @NotBlank @Param("userId") String userId,
+      @NotBlank @Param("salt") String salt,
+      @NotBlank @Param("password") String password);
 }

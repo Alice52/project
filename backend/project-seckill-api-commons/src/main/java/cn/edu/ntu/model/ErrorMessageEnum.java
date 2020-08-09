@@ -31,7 +31,8 @@ public enum ErrorMessageEnum {
 
   // user module errors
   USER_DUPLICATED_ERROR(700411, "User info duplicated error"),
-  VALIDATION_CODE_ERROR(700412, "Validation code invalid error");
+  VALIDATION_CODE_ERROR(700412, "Validation code invalid error"),
+  User_NOT_EXIST_ERROR(700413, "User is not existence error");
 
   private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageEnum.class);
   private Integer errorCode;

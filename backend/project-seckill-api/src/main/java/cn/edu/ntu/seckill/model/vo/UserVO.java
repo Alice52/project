@@ -52,6 +52,7 @@ public class UserVO {
   @NotBlank private String password;
 
   @Email private String email;
+  private String validationCode;
 
   @JsonIgnore
   public String getPassword() {
@@ -63,5 +64,13 @@ public class UserVO {
     this.password = password;
   }
 
-  private String validationCode;
+  @JsonIgnore
+  public String getValidationCode() {
+    return validationCode;
+  }
+
+  @JsonProperty
+  public void setValidationCode(String validationCode) {
+    this.validationCode = validationCode;
+  }
 }

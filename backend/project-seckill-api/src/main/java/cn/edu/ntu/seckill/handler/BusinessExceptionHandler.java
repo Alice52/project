@@ -31,6 +31,14 @@ public class BusinessExceptionHandler {
     return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
   }
 
+  @ExceptionHandler(UserException.UserNotExistenceException.class)
+  public ResponseEntity handleUserUserNotExistenceException(
+      UserException.UserNotExistenceException e) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.User_NOT_EXIST_ERROR);
+
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
+  }
+
   @ExceptionHandler(UserException.UserAlreadyExistenceException.class)
   public ResponseEntity handleUserAlreadyExistenceException(
       UserException.UserAlreadyExistenceException e) {
@@ -48,13 +56,16 @@ public class BusinessExceptionHandler {
   }
 
   @ExceptionHandler(BusinessException.SendEmailException.class)
-  public ResponseEntity handleSendEmailException(
-          BusinessException.SendEmailException e) {
+  public ResponseEntity handleSendEmailException(BusinessException.SendEmailException e) {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.EMAIL_SEND_ERROR);
 
     return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
   }
 
+  @ExceptionHandler(UserException.InvalidTokenException.class)
+  public ResponseEntity handleSendEmailException(UserException.InvalidTokenException e) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.INVALID_TOKEN_ERROR);
 
-
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.UNAUTHORIZED, e);
+  }
 }

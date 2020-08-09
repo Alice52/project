@@ -22,8 +22,17 @@ public class UserException extends RuntimeException {
 
     public UserNotExistenceException() {}
 
-    public UserNotExistenceException(String message) {
-      super(StrUtil.format("Cannot find user by `{}` condition.", message));
+    public UserNotExistenceException(String condition, String message) {
+      super(StrUtil.format("Cannot find user by `{}` condition `{}`.", message, condition));
+    }
+  }
+
+  public class InvalidTokenException extends RuntimeException {
+
+    public InvalidTokenException() {}
+
+    public InvalidTokenException(String message) {
+      super(message);
     }
   }
 
@@ -41,6 +50,24 @@ public class UserException extends RuntimeException {
     public InvalidValidationCodeException() {}
 
     public InvalidValidationCodeException(String message) {
+      super(message);
+    }
+  }
+
+  public class RegisterException extends RuntimeException {
+
+    public RegisterException() {}
+
+    public RegisterException(String message) {
+      super(message);
+    }
+  }
+
+  public class InvalidPassword extends RuntimeException {
+
+    public InvalidPassword() {}
+
+    public InvalidPassword(String message) {
       super(message);
     }
   }
