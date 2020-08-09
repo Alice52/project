@@ -4,6 +4,7 @@ import cn.edu.ntu.seckill.annotation.swagger.UserApi;
 import cn.edu.ntu.seckill.email.IMailSenderService;
 import cn.edu.ntu.seckill.exception.BusinessException;
 import cn.edu.ntu.seckill.exception.UserException;
+import cn.edu.ntu.seckill.model.bo.UserBO;
 import cn.edu.ntu.seckill.model.vo.UserVO;
 import cn.edu.ntu.seckill.service.IUserService;
 import cn.hutool.core.util.ObjectUtil;
@@ -15,11 +16,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -42,9 +45,57 @@ public class UserController extends BaseController {
 
   @Resource private HttpServletRequest httpServletRequest;
   @Resource private RedisTemplate redisTemplate;
-
   @Resource private IUserService userService;
   @Resource private IMailSenderService mailSenderService;
+
+  /**
+   * User login interface, and response a token.
+   *
+   * @param userId
+   * @param password
+   * @return
+   * @throws UnsupportedEncodingException
+   */
+  @PostMapping(value = "/login")
+  public JSON login(
+      @NotBlank @RequestParam("userId") String userId,
+      @NotBlank @RequestParam("password") String password)
+      throws UnsupportedEncodingException {
+    String token = userService.login(userId, password);
+
+    return buildJson("token", token);
+  }
+
+  /**
+   * Get user detail by token.
+   *
+   * @param userBO
+   * @return
+   * @throws UnsupportedEncodingException
+   */
+  @GetMapping(value = "/view")
+  public UserVO view(@ApiIgnore UserBO userBO) {
+
+    return userService.getByUserId(userBO.getId());
+  }
+
+  /**
+   * Change password.
+   *
+   * @param password
+   * @param userBO
+   * @return
+   * @throws UnsupportedEncodingException
+   */
+  @PutMapping(value = "/change-password")
+  public JSON changePassword(
+      @NotBlank @RequestParam("password") String password, @ApiIgnore UserBO userBO)
+      throws UnsupportedEncodingException {
+
+    boolean b = userService.changePassword(userBO, password);
+
+    return buildJson("success", b);
+  }
 
   /**
    * Register a new user.
@@ -78,7 +129,8 @@ public class UserController extends BaseController {
     Object codeFromRedis = httpServletRequest.getSession().getAttribute("validation code");
     if (ObjectUtil.isNull(codeFromRedis)) {
       throw new UserException()
-      .new InvalidValidationCodeException("Validation code is expire, please obtain and try again.");
+      .new InvalidValidationCodeException(
+          "Validation code is expire, please obtain and try again.");
     }
 
     String code = String.valueOf(codeFromRedis);

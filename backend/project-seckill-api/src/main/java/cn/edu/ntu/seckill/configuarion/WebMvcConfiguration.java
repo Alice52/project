@@ -19,6 +19,7 @@ import java.util.List;
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
   @Resource private RequestInterceptor accessInterceptor;
+  @Resource private UserArgumentResolver userArgumentResolver;
 
   /**
    * in this class will handle user model, validate token, <br>
@@ -27,7 +28,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
    * @param argumentResolvers
    */
   @Override
-  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {}
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    argumentResolvers.add(userArgumentResolver);
+  }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {}

@@ -2,9 +2,10 @@ package cn.edu.ntu.seckill.controller;
 
 import cn.edu.ntu.seckill.annotation.swagger.GoodsApi;
 import cn.edu.ntu.seckill.exception.ThirdPartyApiException;
+import cn.edu.ntu.seckill.model.po.PasswordPO;
 import cn.edu.ntu.seckill.model.vo.UserVO;
+import cn.edu.ntu.seckill.repository.IPasswordRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class TestController extends BaseController {
 
-  @Resource
-  private HttpServletRequest httpServletRequest;
+  @Resource private IPasswordRepository passwordRepository;
 
+  @Resource private HttpServletRequest httpServletRequest;
 
   @GetMapping("/log")
   public String log() {
@@ -37,7 +38,10 @@ public class TestController extends BaseController {
 
   @GetMapping("/hello")
   public String hello() {
+    PasswordPO passwordPO = passwordRepository.queryByUserId("5c0d7482da1411ea93d70242ac110006");
     log.info("test log");
+
+    log.info("password model: {}", passwordPO);
     return "hello project-seckill";
   }
 

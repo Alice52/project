@@ -7,7 +7,7 @@ package cn.edu.ntu.seckill.redis;
  */
 public abstract class BasePrefix implements KeyPrefix {
 
-  private int expireSeconds;
+  @Deprecated private int expireSeconds;
 
   private String prefix;
 

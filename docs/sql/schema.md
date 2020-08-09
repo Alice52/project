@@ -97,8 +97,6 @@ DROP TABLE IF EXISTS `seckill.user`;
 CREATE TABLE `seckill.user` (
   `id` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `salt` varchar(36) NOT NULL,
   `registered_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `email` varchar(50) DEFAULT NULL,
   `phone` decimal(13,0) DEFAULT NULL,
@@ -116,5 +114,21 @@ CREATE TABLE `seckill.user` (
 -- DELIMITER ;
 ```
 
-7. message relavent
+7. seckill.password
+
+```sql
+DROP TABLE IF EXISTS `seckill.password`;
+CREATE TABLE `seckill.password` (
+  `id` varchar(36) NOT NULL,
+  `user_id` varchar(36) NOT NULL,
+  `salt` varchar(36) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+8. message relavent
    // TODO:

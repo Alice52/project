@@ -12,7 +12,10 @@ public interface KeyPrefix {
    *
    * @return int
    */
-  int expireSeconds();
+  @Deprecated
+  default int expireSeconds() {
+    return 0;
+  };
 
   /**
    * set key prefix.

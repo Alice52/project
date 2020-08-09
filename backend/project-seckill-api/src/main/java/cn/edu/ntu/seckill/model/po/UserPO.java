@@ -1,11 +1,13 @@
 package cn.edu.ntu.seckill.model.po;
 
+import cn.edu.ntu.seckill.annotation.constraint.Mobile;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
@@ -19,7 +21,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserPO extends BasePO {
-  private Long phone;
+
+  @Mobile private String phone;
 
   @NotBlank private String name;
 
@@ -27,9 +30,6 @@ public class UserPO extends BasePO {
   @Min(0)
   private Integer age;
 
-  @Email private String email;
-  @NotNull private String password;
-  @NotNull private String salt;
-
+  @NotBlank @Email private String email;
   @DateTimeFormat private LocalDateTime registeredDate;
 }
