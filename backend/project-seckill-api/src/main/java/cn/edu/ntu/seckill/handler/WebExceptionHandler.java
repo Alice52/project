@@ -26,7 +26,7 @@ public class WebExceptionHandler {
   @ExceptionHandler(NoHandlerFoundException.class)
   public ResponseEntity handleNoHandlerFoundException(
       NoHandlerFoundException e, HttpServletRequest request) {
-    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.NOT_FOUND);
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.NOT_FOUND_ERROR);
 
     HashMap<String, Object> map = new HashMap<>(4);
     map.put("path", request.getRequestURI());

@@ -28,7 +28,7 @@ public class ThirdPartyApiExceptionHandler {
   public ResponseEntity handleThirdPartyApiException(
       ThirdPartyApiException e, HttpServletRequest request) {
 
-    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.THIRD_PARTY_CALL_EXCEPTION);
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.THIRD_PARTY_CALL_ERROR);
 
     HashMap<String, Object> map = MapUtil.of("rawStatus", e.getRawStatus());
     map.put("rowBody", e.getRawBody());

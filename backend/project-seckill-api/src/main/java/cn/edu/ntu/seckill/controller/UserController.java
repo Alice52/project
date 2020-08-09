@@ -3,16 +3,21 @@ package cn.edu.ntu.seckill.controller;
 import cn.edu.ntu.seckill.annotation.swagger.UserApi;
 import cn.edu.ntu.seckill.email.IMailSenderService;
 import cn.edu.ntu.seckill.exception.BusinessException;
+import cn.edu.ntu.seckill.exception.UserException;
 import cn.edu.ntu.seckill.model.vo.UserVO;
 import cn.edu.ntu.seckill.service.IUserService;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -35,6 +40,9 @@ import java.time.LocalDateTime;
 @Slf4j
 public class UserController extends BaseController {
 
+  @Resource private HttpServletRequest httpServletRequest;
+  @Resource private RedisTemplate redisTemplate;
+
   @Resource private IUserService userService;
   @Resource private IMailSenderService mailSenderService;
 
@@ -48,16 +56,43 @@ public class UserController extends BaseController {
   @PostMapping(value = "/register")
   public JSON register(@Valid @RequestBody UserVO userVO) throws UnsupportedEncodingException {
 
-    userVO.setRegisterDate(LocalDateTime.now());
+    validateValidationCode(userVO.getValidationCode());
 
+    userVO.setRegisterDate(LocalDateTime.now());
     String uuid = userService.register(userVO);
+
     return buildJson("id", uuid);
   }
 
   /**
+   * Validate validation code.<br>
+   *
+   * @param codeFromVO
+   */
+  private void validateValidationCode(String codeFromVO) {
+
+    if (StrUtil.isBlank(codeFromVO)) {
+      throw new UserException().new InvalidValidationCodeException("Please fill validation code.");
+    }
+
+    Object codeFromRedis = httpServletRequest.getSession().getAttribute("validation code");
+    if (ObjectUtil.isNull(codeFromRedis)) {
+      throw new UserException()
+      .new InvalidValidationCodeException("Validation code is expire, please obtain and try again.");
+    }
+
+    String code = String.valueOf(codeFromRedis);
+    if (!StrUtil.equals(code, codeFromVO)) {
+      throw new UserException()
+      .new InvalidValidationCodeException("Invalid validation code, please try again.");
+    }
+  }
+
+  /**
+   * This api can be implemented by using redis directly.
+   *
    * @param email
    * @return
-   * @throws UnsupportedEncodingException
    */
   @GetMapping(value = "/opt")
   public JSON generateValidationCode(
@@ -71,6 +106,10 @@ public class UserController extends BaseController {
     if (!success) {
       throw new BusinessException().new SendEmailException(email);
     }
+
+    // this operation has nothing with spring session.
+    /* redisTemplate.opsForValue().set("validation code1", randomNumbers, 60, TimeUnit.SECONDS);*/
+    httpServletRequest.getSession().setAttribute("validation code", randomNumbers);
 
     return buildJson("success", true);
   }

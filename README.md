@@ -6,9 +6,11 @@
 2. Redis
 3. rocket mq
 4. spring boot
-5. open resty
-6. cdn
-7. mybatis
+5. spring sesssion
+   - only `/user/opt` use spring session, it's session will be whole.
+6. open resty
+7. cdn
+8. mybatis
 
 ### backend
 
@@ -60,7 +62,13 @@
    - 对这个字段进行读取, innodb 的行锁会阻塞其他线程对整条纪录的读取[有些线程读取的仅仅是商品本身的信息]
    - 可以拆分成单独的表, 就解决了这个问题, 而拆成小表之后读取速度会相应的变快
 2. 可以把 password 从 user 表中单独拆分出来
+
    - same as 1.
+
+3. 用户注册时需要校验 email 重复的问题:
+   - 现在是先查询了一遍数据库, 做校验
+   - 之后再进行插入或者异常
+   - 优化: 考虑在 email 和 isDeleted 加复合的 unique 索引, 直接插入注册信息, 处理 duplicated 异常, 对用户进行 duplicated 提示
 
 ---
 
@@ -77,3 +85,8 @@
 
 2. change package name: `projectname`
 3. change `$module` for log
+
+### performance
+
+1. tomcaat
+2. redis

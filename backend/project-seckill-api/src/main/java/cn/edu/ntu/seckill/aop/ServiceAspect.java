@@ -3,7 +3,6 @@ package cn.edu.ntu.seckill.aop;
 import cn.edu.ntu.seckill.component.AppContext;
 import cn.edu.ntu.seckill.constants.AppContextConstant;
 import cn.edu.ntu.seckill.model.vo.Log;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -35,13 +34,12 @@ public class ServiceAspect {
         long beginTime = System.currentTimeMillis();
         String beanName = joinPoint.getSignature().getDeclaringTypeName();
         String methodName = joinPoint.getSignature().getName();
-        Object[] paramsArray = joinPoint.getArgs();
-        String params = JSONUtil.toJsonPrettyStr(paramsArray);
+        Object[] params = joinPoint.getArgs();
 
         Log optLog = new Log();
         optLog.setBeanName(beanName);
         optLog.setMethodName(methodName);
-        optLog.setParams(params != null ? params : "");
+        optLog.setParams(params);
         optLog.setRequestTime(beginTime);
 
         log.info("[enter] beanName: {}, methodName: {}, params: {}", beanName, methodName, params);
