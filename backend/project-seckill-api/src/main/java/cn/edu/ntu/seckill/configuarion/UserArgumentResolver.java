@@ -1,11 +1,10 @@
 package cn.edu.ntu.seckill.configuarion;
 
+import cn.edu.ntu.seckill.constants.UserConstant;
 import cn.edu.ntu.seckill.exception.UserException;
 import cn.edu.ntu.seckill.model.bo.UserBO;
-import cn.edu.ntu.seckill.model.po.UserPO;
 import cn.edu.ntu.seckill.redis.RedisUserKeyEnum;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,6 +15,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zack <br>
@@ -47,20 +47,18 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     String token = headerValues[0];
-    Object object =
-        redisTemplate
-            .opsForValue()
-            .get(RedisKeyUtils.buildKey(RedisUserKeyEnum.USER_TOKEN, token));
+    String redisUserTokenKey = RedisKeyUtils.buildKey(RedisUserKeyEnum.USER_TOKEN, token);
+    Object object = redisTemplate.opsForValue().get(redisUserTokenKey);
+    // renew user token
+    redisTemplate.expire(redisUserTokenKey, UserConstant.TOKEN_VALID_TIME, TimeUnit.HOURS);
 
-    if (!(object instanceof UserPO)) {
+    if (!(object instanceof UserBO)) {
       throw new UserException().new InvalidTokenException();
     }
 
-    UserPO userPO = (UserPO) object;
-    UserBO userBO = new UserBO();
-    BeanUtil.copyProperties(userPO, userBO);
-    userBO.setToken(token);
+    UserBO user = (UserBO) object;
+    user.setToken(token);
 
-    return userBO;
+    return user;
   }
 }

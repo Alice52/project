@@ -46,7 +46,9 @@ public interface IUserService {
       throws UnsupportedEncodingException;
 
   /**
-   * User login by password and responed a token.
+   * User login by password and response a token.
+   *
+   * <p>// TODO: should delete login token stored in redis when next login.
    *
    * @param userId
    * @param password
@@ -57,10 +59,20 @@ public interface IUserService {
       throws UnsupportedEncodingException;
 
   /**
+   * It can replace by global userBO.<br>
    * Query user by userId.
    *
    * @param userId
    * @return UserVO
    */
+  @Deprecated
   UserVO getByUserId(@NotBlank String userId);
+
+  /**
+   * Validate validation code.<br>
+   *
+   * @param codeFromVO
+   * @param codeFromRedis
+   */
+  void validateValidationCode(String codeFromVO, Object codeFromRedis);
 }

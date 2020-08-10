@@ -18,12 +18,12 @@
         #{phone,jdbcType=BIGINT})
     </insert>
 
-    <select id="queryByEmail" resultType="userPO">
+    <select id="queryByEmail" resultType="userBO">
         SELECT id, phone, name, age, email, registered_date
         FROM `seckill.user`
         WHERE email = #{email} and is_deleted = 0
     </select>
-    <select id="queryByUserId" resultType="userPO">
+    <select id="queryByUserId" resultType="userBO">
         SELECT id, phone, name, age, email, registered_date
         FROM `seckill.user`
         WHERE id = #{userId} and is_deleted = 0

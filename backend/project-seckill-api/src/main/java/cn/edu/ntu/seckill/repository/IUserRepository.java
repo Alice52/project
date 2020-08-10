@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.repository;
 
+import cn.edu.ntu.seckill.model.bo.UserBO;
 import cn.edu.ntu.seckill.model.po.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,15 +30,15 @@ public interface IUserRepository {
    * Get by email.
    *
    * @param email
-   * @return UserPO
+   * @return UserBO
    */
-  UserPO queryByEmail(@NotBlank @Param("email") String email);
+  UserBO queryByEmail(@NotBlank @Param("email") String email);
 
   /**
    * Get by userId.
    *
    * @param userId
-   * @return
+   * @return UserBO
    */
-  UserPO queryByUserId(@NotBlank @Param("userId") String userId);
+  UserBO queryByUserId(@NotBlank @Param("userId") String userId);
 }

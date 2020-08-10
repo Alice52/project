@@ -12,7 +12,8 @@ import io.swagger.annotations.ApiResponses;
  * @project project-seckill <br>
  */
 @ApiResponses({
-  @ApiResponse(code = 400, message = "Internal Error", response = ErrorResponse.class)
+  @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class),
+  @ApiResponse(code = 500, message = "Internal Error", response = ErrorResponse.class)
 })
 public class BaseController {
 
