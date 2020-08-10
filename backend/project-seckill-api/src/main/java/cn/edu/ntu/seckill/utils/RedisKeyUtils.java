@@ -9,8 +9,18 @@ import cn.hutool.core.util.StrUtil;
  * @project project-seckill <br>
  */
 public final class RedisKeyUtils {
-  public static String buildKey(RedisUserKeyEnum userToken, String token) {
+  public static String buildDeleteKey(RedisUserKeyEnum userToken, String... params) {
 
-    return StrUtil.concat(true, userToken.getPrefix(), token);
+    return buildKey(userToken, params);
+  }
+
+  public static String buildKey(RedisUserKeyEnum userToken, String... params) {
+
+    String realKey = userToken.getPrefix();
+    for (String param : params) {
+      realKey = realKey + StrUtil.COLON + param;
+    }
+
+    return realKey;
   }
 }

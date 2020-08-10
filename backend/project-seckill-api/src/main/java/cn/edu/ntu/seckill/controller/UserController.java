@@ -1,13 +1,13 @@
 package cn.edu.ntu.seckill.controller;
 
 import cn.edu.ntu.seckill.annotation.swagger.UserApi;
+import cn.edu.ntu.seckill.converter.UserConverter;
 import cn.edu.ntu.seckill.email.IMailSenderService;
 import cn.edu.ntu.seckill.exception.BusinessException;
 import cn.edu.ntu.seckill.exception.UserException;
 import cn.edu.ntu.seckill.model.bo.UserBO;
 import cn.edu.ntu.seckill.model.vo.UserVO;
 import cn.edu.ntu.seckill.service.IUserService;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSON;
@@ -69,14 +69,19 @@ public class UserController extends BaseController {
   /**
    * Get user detail by token.
    *
-   * @param userBO
-   * @return
+   * <p>User in can be got from redis.<br>
+   * If user change any info, we will upsert redis user.
+   *
+   * @param user
+   * @return UserVO
    * @throws UnsupportedEncodingException
    */
   @GetMapping(value = "/view")
-  public UserVO view(@ApiIgnore UserBO userBO) {
+  public UserVO view(@ApiIgnore UserBO user) {
 
-    return userService.getByUserId(userBO.getId());
+    return UserConverter.INSTANCE.bo2vo(user);
+
+    /* return userService.getByUserId(user.getId());*/
   }
 
   /**
@@ -107,37 +112,18 @@ public class UserController extends BaseController {
   @PostMapping(value = "/register")
   public JSON register(@Valid @RequestBody UserVO userVO) throws UnsupportedEncodingException {
 
-    validateValidationCode(userVO.getValidationCode());
-
-    userVO.setRegisterDate(LocalDateTime.now());
-    String uuid = userService.register(userVO);
-
-    return buildJson("id", uuid);
-  }
-
-  /**
-   * Validate validation code.<br>
-   *
-   * @param codeFromVO
-   */
-  private void validateValidationCode(String codeFromVO) {
-
+    String codeFromVO = userVO.getValidationCode();
     if (StrUtil.isBlank(codeFromVO)) {
       throw new UserException().new InvalidValidationCodeException("Please fill validation code.");
     }
 
     Object codeFromRedis = httpServletRequest.getSession().getAttribute("validation code");
-    if (ObjectUtil.isNull(codeFromRedis)) {
-      throw new UserException()
-      .new InvalidValidationCodeException(
-          "Validation code is expire, please obtain and try again.");
-    }
+    userService.validateValidationCode(codeFromVO, codeFromRedis);
 
-    String code = String.valueOf(codeFromRedis);
-    if (!StrUtil.equals(code, codeFromVO)) {
-      throw new UserException()
-      .new InvalidValidationCodeException("Invalid validation code, please try again.");
-    }
+    userVO.setRegisterDate(LocalDateTime.now());
+    String uuid = userService.register(userVO);
+
+    return buildJson("id", uuid);
   }
 
   /**

@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.repository;
 
+import cn.edu.ntu.seckill.model.bo.PasswordBO;
 import cn.edu.ntu.seckill.model.po.PasswordPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,8 +32,15 @@ public interface IPasswordRepository {
    * @param userId
    * @return UserPO
    */
-  PasswordPO queryByUserId(@NotBlank @Param("userId") String userId);
+  PasswordBO queryByUserId(@NotBlank @Param("userId") String userId);
 
+  /**
+   * Update password.
+   *
+   * @param userId
+   * @param salt
+   * @param password
+   */
   void updatePassword(
       @NotBlank @Param("userId") String userId,
       @NotBlank @Param("salt") String salt,
