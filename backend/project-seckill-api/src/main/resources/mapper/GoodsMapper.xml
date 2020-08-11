@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.seckill.repository.IGoodsRepository">
+
+    <insert id="create" parameterType="GoodsPO" keyColumn="id">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            SELECT REPLACE(UUID(), '-', '') AS id FROM DUAL
+        </selectKey>
+        INSERT INTO `seckill.goods`(id, name, title, img, detail, price, stock)
+        VALUES(#{id}, #{name}, #{title}, #{img}, #{detail}, #{price}, #{stock})
+    </insert>
+
+    <select id="queryByName" resultType="GoodsPO">
+            SELECT id, name, title, img, detail, price, stock
+            FROM `seckill.goods`
+            WHERE name = #{goodsName} and is_deleted = 0
+        </select>
+
+    <select id="queryById" resultType="GoodsPO">
+        SELECT id, name, title, img, detail, price, stock
+        FROM `seckill.goods`
+        WHERE name = #{id} and is_deleted = 0
+    </select>
+
+    <update id="update" parameterType="GoodsPO">
+            UPDATE `seckill.goods`
+            SET name = #{goods.name}, title =#{goods.title}, img =#{goods.img},
+                detail =#{goods.detail}, price = #{goods.price}, stock = #{goods.stock}
+            WHERE id = #{id} and is_deleted = 0
+   </update>
+</mapper>

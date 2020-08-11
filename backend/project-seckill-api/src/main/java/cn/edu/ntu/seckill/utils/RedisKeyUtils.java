@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.utils;
 
+import cn.edu.ntu.seckill.redis.KeyPrefix;
 import cn.edu.ntu.seckill.redis.RedisUserKeyEnum;
 import cn.hutool.core.util.StrUtil;
 
@@ -9,18 +10,20 @@ import cn.hutool.core.util.StrUtil;
  * @project project-seckill <br>
  */
 public final class RedisKeyUtils {
-  public static String buildDeleteKey(RedisUserKeyEnum userToken, String... params) {
+  public static String buildDeleteKey(KeyPrefix prefix, String... params) {
 
-    return buildKey(userToken, params);
+    return buildKey(prefix, params);
   }
 
-  public static String buildKey(RedisUserKeyEnum userToken, String... params) {
+  public static String buildKey(KeyPrefix prefix, String... params) {
 
-    String realKey = userToken.getPrefix();
+    String realKey = prefix.getPrefix();
     for (String param : params) {
       realKey = realKey + StrUtil.COLON + param;
     }
 
     return realKey;
   }
+
+
 }
