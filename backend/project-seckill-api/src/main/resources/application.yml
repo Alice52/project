@@ -76,21 +76,27 @@ spring:
       #     data-source-log-enabled: true
       #     statement-executable-sql-log-enable: true
   mail:
+    protocol: smtp
     host: ENC(KwgyFVRJzE76uUF+B2EOyjJgijQDrxhRWzrUBa6eUfmduClTbtpaCVxXRWWctYSi)
-    port: ENC(aQ+QkGxTWxhP+kRHozwLWqY+XF7ugh0XR276hj3jsUjC+3+zfqNXnQJo2XZP0+NF)
+    port: ENC(nvvb0wOLlW+Kl+2CLMay0AyhVmWzXr5Ma2Tn4hTWSyMb95lPCjaIXpHm2Oms/9rB)
     default-encoding: ENC(qB9K/XFkIcJGH80lNU2gJ2DVOLsFI6uuyui9MoAQA+ZI1WCLjAOjNfU7rrp3h3qo)
     username: ENC(XtxDqyspABu9dQ0xSZ0zRV7MfVfk/7tN1rE/wkjko5vcjA0vgqmcE10FxRRYlribavOUtBGNy2PDPHWtIrrFUg==)
     password: ENC(cVfVnGq4tQ6J3+FtW0TejImmx2ESWomD/tuGN5bJqMGM8v+Of/onqraHBd9xhH0J)
     properties:
       mail:
         smtp:
-          # this is need by qq email server
-          # ssl:
-          #   enable: true
-          #   required: true
+          # this is also need by qq email server
+          ssl:
+            enable: true
+            required: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
           timeout: 10000
           connectiontimeout: 10000
           writetimeout: 10000
+
   redis:
     host: ENC(6hY7MaESdo1jx/6ZHRAMcHM701ZVhEyLnFQpizADsXyOEUjgL8CNhqcTJJQOk9CK)
     port: ENC(eGEvmyM63hvc7Vj3XoQArH7v0Uf2vsQTJcnZptv+ykd9zfrJ9GkCe03HF2r1z6KS)
