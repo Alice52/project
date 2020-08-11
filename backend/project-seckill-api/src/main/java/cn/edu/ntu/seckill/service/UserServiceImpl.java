@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,7 +50,11 @@ public class UserServiceImpl implements IUserService {
       .new InvalidPassword("Username or password is wrong, please check and retry again");
     }
 
-    String token = IdUtil.fastSimpleUUID();
+    String token = user.getId() + StrUtil.COLON + IdUtil.fastSimpleUUID();
+    Set<String> keys =
+        redisTemplate.keys(
+            RedisKeyUtils.buildDeleteKey(RedisUserKeyEnum.USER_TOKEN, user.getId(), "*"));
+    Optional.ofNullable(keys).ifPresent(x -> redisTemplate.delete(keys));
 
     redisTemplate
         .opsForValue()
