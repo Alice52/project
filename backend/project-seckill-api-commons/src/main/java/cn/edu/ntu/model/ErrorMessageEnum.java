@@ -29,6 +29,10 @@ public enum ErrorMessageEnum {
   // third party api errors
   THIRD_PARTY_CALL_ERROR(600400, "Third party api error"),
 
+  // goods errors
+  GOODS_NOT_EXISTENCE_ERROR(8004001, "Goods not existence error"),
+  GOODS_NAME_DUPLICATED_ERROR(8004001, "Goods name duplicated error"),
+
   // user module errors
   USER_DUPLICATED_ERROR(700411, "User info duplicated error"),
   VALIDATION_CODE_ERROR(700412, "Validation code invalid error"),
