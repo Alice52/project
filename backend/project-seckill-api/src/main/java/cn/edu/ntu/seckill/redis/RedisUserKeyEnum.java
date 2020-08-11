@@ -6,7 +6,7 @@ package cn.edu.ntu.seckill.redis;
  * @project project-seckill <br>
  */
 public enum RedisUserKeyEnum implements KeyPrefix {
-  USER_TOKEN("seckill-plus:user:token:");
+  USER_TOKEN("seckill-plus:user:token");
 
   private String prefix;
 
