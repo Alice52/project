@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.repository;
 
+import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.po.GoodsPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -37,6 +38,7 @@ public interface IGoodsRepository {
    * @param goodsId
    * @return
    */
+  @Deprecated
   GoodsPO queryById(@Param("id") String goodsId);
 
   /**
@@ -45,5 +47,22 @@ public interface IGoodsRepository {
    * @param goodsId
    * @param po
    */
+  void fullScaleUpdate(@Param("id") String goodsId, @Param("goods") GoodsPO po);
+
+  /**
+   * Update specify columns.
+   *
+   * @param goodsId
+   * @param po
+   */
+  @Deprecated
   void update(@Param("id") String goodsId, @Param("goods") GoodsPO po);
+
+  /**
+   * Get by condition.
+   *
+   * @param goods
+   * @return
+   */
+  GoodsPO getByCondition(GoodsBO goods);
 }

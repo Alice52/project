@@ -21,13 +21,74 @@
     <select id="queryById" resultType="GoodsPO">
         SELECT id, name, title, img, detail, price, stock
         FROM `seckill.goods`
-        WHERE name = #{id} and is_deleted = 0
+        WHERE id = #{id} and is_deleted = 0
     </select>
 
-    <update id="update" parameterType="GoodsPO">
+    <update id="fullScaleUpdate" parameterType="GoodsPO">
             UPDATE `seckill.goods`
             SET name = #{goods.name}, title =#{goods.title}, img =#{goods.img},
                 detail =#{goods.detail}, price = #{goods.price}, stock = #{goods.stock}
             WHERE id = #{id} and is_deleted = 0
    </update>
+
+    <!-- it also can use trim label:
+
+        UPDATE `seckill.goods`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="lastName!=null">
+                name=#{lastName},
+            </if>
+        </trim>
+        WHERE id=#{id}
+    -->
+    <update id="update" parameterType="GoodsPO">
+        UPDATE `seckill.goods`
+        <set>
+            <if test="goods.name!=null &amp;&amp; goods.name.trim() != &quot;&quot;">
+                name=#{goods.name},
+            </if>
+            <if test="goods.title!=null &amp;&amp; goods.title.trim() != &quot;&quot;">
+                title=#{goods.title},
+            </if>
+            <if test="goods.img != null and goods.img.trim()  != ''">
+                img=#{goods.img},
+            </if>
+            <if test="goods.detail != null and goods.detail.trim()  != ''">
+                detail=#{goods.detail},
+            </if>
+            <if test="goods.detail != null and goods.detail != ''">
+                detail=#{goods.detail},
+            </if>
+            <if test="goods.price != null and goods.price > 0">
+                price=#{goods.price},
+            </if>
+            <if test="goods.stock != null and goods.stock > 0">
+                stock=#{goods.stock}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getByCondition" resultType="GoodsPO">
+        SELECT id, name, title, img, detail, price, stock
+        FROM `seckill.goods`
+        WHERE is_deleted = 0
+        <trim suffixOverrides="and">
+            <if test="id!=null">
+                AND id=#{id}
+            </if>
+            <if test="name!=null &amp;&amp; name!=&quot;&quot;">
+                <!-- AND name like "%${name}%"-->
+                AND name=#{name}
+            </if>
+            <if test="title!=null and title.trim()!=&quot;&quot;">
+                AND title=#{title}
+            </if>
+            <if test="detail!=null &amp;&amp; detail!=&quot;&quot;">
+                AND detail=#{detail}
+            </if>
+        </trim>
+    </select>
+
+
 </mapper>

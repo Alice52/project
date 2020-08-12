@@ -9,11 +9,14 @@ import cn.edu.ntu.seckill.redis.RedisGoodsKeyEnum;
 import cn.edu.ntu.seckill.repository.IGoodsRepository;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zack <br>
@@ -43,35 +46,54 @@ public class GoodsServiceImpl implements IGoodsService {
   @Override
   public GoodsVO getById(String goodsId) {
 
-    GoodsBO goods = getBOById(goodsId);
-    cacheGoods(goods);
+    GoodsBO condition = new GoodsBO();
+    condition.setId(goodsId);
+
+    GoodsBO goods = getBOByCondition(goodsId, condition);
+    cacheGoods(goods, goodsId);
 
     return GoodsConverter.INSTANCE.bo2vo(goods);
   }
 
   @Override
-  public String update(GoodsBO goods) {
+  public GoodsVO getByName(@NotBlank String name) {
+    GoodsBO condition = new GoodsBO();
+    condition.setName(name);
+
+    GoodsBO goods = getBOByCondition(name, condition);
+    cacheGoods(goods, name);
+
+    return GoodsConverter.INSTANCE.bo2vo(goods);
+  }
+
+  @Override
+  public String fullScaleUpdate(GoodsBO goods, boolean isFullScaleUpdate) {
+
+    validateDuplicateName(goods.getName(), goods.getId());
+
+    GoodsPO goodsPO = GoodsConverter.INSTANCE.bo2po(goods);
+    if (isFullScaleUpdate) {
+      goodsRepository.fullScaleUpdate(goods.getId(), goodsPO);
+    } else {
+      goodsRepository.update(goods.getId(), goodsPO);
+    }
 
     // remove the redis cache of this goods
     redisTemplate.delete(RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, goods.getId()));
-
-    GoodsPO goodsPO = GoodsConverter.INSTANCE.bo2po(goods);
-    goodsRepository.update(goods.getId(), goodsPO);
     GoodsBO newBO = GoodsConverter.INSTANCE.po2bo(goodsPO);
-
     cacheGoods(newBO);
 
-    return newBO.getId();
+    return goods.getId();
   }
 
   /**
    * Get GoodsBO from Redis cache.
    *
-   * @param goodsId
+   * @param key
    * @return
    */
-  private GoodsBO getGoodsVOFromCache(String goodsId) {
-    String realKey = RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, goodsId);
+  private GoodsBO getGoodsVOFromCache(String key) {
+    String realKey = RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, key);
     Object object = redisTemplate.opsForValue().get(realKey);
 
     if (object instanceof GoodsBO) {
@@ -86,24 +108,59 @@ public class GoodsServiceImpl implements IGoodsService {
    * if not exist, it will return data queried from database, <br>
    * else will return null
    *
-   * @param goodsId
+   * @param key
+   * @param condition
    * @return
    */
-  private GoodsBO getBOById(String goodsId) {
-    GoodsBO goods = getGoodsVOFromCache(goodsId);
+  private GoodsBO getBOByCondition(String key, GoodsBO condition) {
+    GoodsBO goods = getGoodsVOFromCache(key);
 
     if (ObjectUtil.isNotNull(goods)) {
       return goods;
     }
 
-    GoodsPO po = goodsRepository.queryById(goodsId);
-    if (ObjectUtil.isNull(po)) {
-      throw new GoodsException().new GoodsNotExistenceException(goodsId);
-    }
-
+    GoodsPO po = goodsRepository.getByCondition(condition);
+    validateExistence(po, key);
     goods = GoodsConverter.INSTANCE.po2bo(po);
 
     return goods;
+  }
+
+  /**
+   * Validate object existence, obtained by maker.
+   *
+   * @param object
+   * @param marker
+   */
+  private void validateExistence(Object object, Object marker) {
+    if (ObjectUtil.isNull(object)) {
+      throw new GoodsException().new GoodsNotExistenceException(marker);
+    }
+  }
+
+  /**
+   * Validate PO existence:
+   *
+   * <p>If not existence, throw GoodsNotExistenceException, <br>
+   * else convert to BO.
+   *
+   * @param po
+   * @param maker
+   * @return
+   */
+  private GoodsBO ensureExistenceThenConvert(GoodsPO po, GoodsBO maker) {
+    validateExistence(po, maker);
+
+    return GoodsConverter.INSTANCE.po2bo(po);
+  }
+
+  /**
+   * Validate goods name duplicated.
+   *
+   * @param goodsName
+   */
+  private void validateDuplicateName(String goodsName) {
+    validateDuplicateName(goodsName, null);
   }
 
   /**
@@ -111,31 +168,50 @@ public class GoodsServiceImpl implements IGoodsService {
    * If it is duplicated, will throw an GoodsNameDuplicateException.
    *
    * @param goodsName
+   * @param updatedGoodId
    */
-  private void validateDuplicateName(String goodsName) {
+  private void validateDuplicateName(String goodsName, String updatedGoodId) {
+
     GoodsPO po = goodsRepository.queryByName(goodsName);
+    if (ObjectUtil.isNull(po)) {
+      return;
+    }
 
-    Optional.ofNullable(po)
-        .ifPresent(
-            x -> {
-              cacheGoods(GoodsConverter.INSTANCE.po2bo(po));
-              throw new GoodsException().new GoodsNameDuplicateException(goodsName);
-            });
+    GoodsBO goods = GoodsConverter.INSTANCE.po2bo(po);
+    cacheGoods(goods, goodsName);
 
+    boolean updatedDuplicate =
+        StrUtil.isNotBlank(updatedGoodId) && !StrUtil.equals(po.getId(), updatedGoodId);
+    if (StrUtil.isBlank(updatedGoodId) || updatedDuplicate) {
+      throw new GoodsException().new GoodsNameDuplicateException(goodsName);
+    }
   }
-
   /**
    * Cache goods to redis, and can retire by goodsId.
    *
    * @param bo
    */
-  private void cacheGoods(GoodsBO bo) {
+  private void cacheGoods(GoodsBO bo, String key, long seconds) {
+
     Optional.ofNullable(bo)
         .ifPresent(
             x -> {
               redisTemplate
                   .opsForValue()
-                  .set(RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, bo.getId()), bo);
+                  .set(
+                      RedisKeyUtils.buildKey(
+                          RedisGoodsKeyEnum.GOODS, key == null ? bo.getId() : key),
+                      bo,
+                      seconds,
+                      TimeUnit.SECONDS);
             });
+  }
+
+  private void cacheGoods(GoodsBO bo, String key) {
+    cacheGoods(bo, key, 2 * 60);
+  }
+
+  private void cacheGoods(GoodsBO bo) {
+    cacheGoods(bo, null, 2 * 60);
   }
 }

@@ -23,8 +23,10 @@ public class GoodsException extends RuntimeException {
 
     public GoodsNotExistenceException() {}
 
-    public GoodsNotExistenceException(String goodsId) {
-      super(StrUtil.format("Cannot find goods according to id: {}, please check again.", goodsId));
+    public GoodsNotExistenceException(Object object) {
+      super(
+          StrUtil.format(
+              "Cannot find goods according to condition: {}, please check again.", object));
     }
   }
 }

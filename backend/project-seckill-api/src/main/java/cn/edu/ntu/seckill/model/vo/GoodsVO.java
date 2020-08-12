@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -21,29 +22,22 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class GoodsVO {
 
+  @ApiModelProperty(hidden = true)
   private String id;
 
-  @ApiModelProperty(required = true)
-  @NotBlank
-  private String name;
+  @NotBlank private String name;
 
-  @ApiModelProperty(required = true)
-  @NotBlank
-  private String title;
+  @NotBlank private String title;
 
-  @ApiModelProperty(required = true)
-  @NotBlank
-  private String image;
+  @NotBlank private String image;
 
-  @ApiModelProperty(required = true)
-  @NotBlank
-  private String detail;
+  @NotBlank private String detail;
 
-  @ApiModelProperty(required = true)
+  @NotNull
   @Min(0)
   private BigDecimal price;
 
-  @ApiModelProperty(required = true)
+  @NotNull
   @Min(0)
   private Integer stock;
 }
