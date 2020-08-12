@@ -118,10 +118,10 @@ public class GoodsServiceImpl implements IGoodsService {
     Optional.ofNullable(po)
         .ifPresent(
             x -> {
+              cacheGoods(GoodsConverter.INSTANCE.po2bo(po));
               throw new GoodsException().new GoodsNameDuplicateException(goodsName);
             });
 
-    cacheGoods(GoodsConverter.INSTANCE.po2bo(po));
   }
 
   /**
@@ -130,7 +130,7 @@ public class GoodsServiceImpl implements IGoodsService {
    * @param bo
    */
   private void cacheGoods(GoodsBO bo) {
-    Optional.ofNullable(bo.getId())
+    Optional.ofNullable(bo)
         .ifPresent(
             x -> {
               redisTemplate
