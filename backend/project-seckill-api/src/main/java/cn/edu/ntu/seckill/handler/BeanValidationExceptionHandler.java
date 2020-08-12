@@ -78,7 +78,7 @@ public class BeanValidationExceptionHandler {
 
     errorResponse.setParameters(collect);
 
-    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, ex);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
@@ -100,22 +100,22 @@ public class BeanValidationExceptionHandler {
 
     errorResponse.setParameters(collect);
 
-    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, ex);
   }
 
   @ExceptionHandler(BindException.class)
   public ResponseEntity handleBindException(BindException ex) {
 
-    return getErrorResults(ex.getBindingResult());
+    return getErrorResults(ex.getBindingResult(), ex);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 
-    return getErrorResults(ex.getBindingResult());
+    return getErrorResults(ex.getBindingResult(), ex);
   }
 
-  private ResponseEntity getErrorResults(BindingResult bindingResult) {
+  private ResponseEntity getErrorResults(BindingResult bindingResult, Exception ex) {
     Map<String, Object> collect =
         bindingResult.getFieldErrors().stream()
             .collect(
@@ -132,6 +132,6 @@ public class BeanValidationExceptionHandler {
     ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BEAN_VALIDATION_ERROR);
     errorResponse.setParameters(collect);
 
-    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, ex);
   }
 }

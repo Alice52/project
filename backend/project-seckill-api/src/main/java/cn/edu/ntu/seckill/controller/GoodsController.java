@@ -6,7 +6,6 @@ import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
 import cn.edu.ntu.seckill.service.IGoodsService;
 import cn.hutool.json.JSON;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,7 +20,6 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/goods")
 @GoodsApi
-@Validated
 public class GoodsController extends BaseController {
 
   @Resource private IGoodsService goodsService;
@@ -30,27 +28,32 @@ public class GoodsController extends BaseController {
   public JSON create(@RequestBody @Valid GoodsVO goodsVO) {
 
     GoodsBO goodsBO = GoodsConverter.INSTANCE.vo2bo(goodsVO);
-
     String goodsId = goodsService.create(goodsBO);
 
     return buildJson("id", goodsId);
   }
 
-  @PostMapping("/{goodsId}")
+  @GetMapping("/{goodsId}")
   public GoodsVO view(@PathVariable("goodsId") @NotNull String goodsId) {
 
-    GoodsVO goodsVO = goodsService.getById(goodsId);
+    return goodsService.getById(goodsId);
+  }
 
-    return goodsVO;
+  @GetMapping
+  public GoodsVO viewByName(@RequestParam("goodsName") @NotNull String goodsName) {
+
+    return goodsService.getByName(goodsName);
   }
 
   @PutMapping("/{goodsId}")
   public JSON update(
-      @PathVariable("goodsId") @NotNull String goodsId, @RequestBody @Valid GoodsVO goodsVO) {
+      @PathVariable("goodsId") @NotNull String goodsId,
+      @RequestBody GoodsVO goodsVO,
+      @RequestParam(value = "isFullScaleUpdate", defaultValue = "true") boolean isFullScaleUpdate) {
 
     GoodsBO goods = GoodsConverter.INSTANCE.vo2bo(goodsVO);
     goods.setId(goodsId);
-    String id = goodsService.update(goods);
+    String id = goodsService.fullScaleUpdate(goods, isFullScaleUpdate);
 
     return buildJson("id", id);
   }

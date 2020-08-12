@@ -2,8 +2,6 @@ package cn.edu.ntu.seckill.handler;
 
 import cn.edu.ntu.model.ErrorMessageEnum;
 import cn.edu.ntu.model.ErrorResponse;
-import cn.edu.ntu.seckill.component.AppContext;
-import cn.edu.ntu.seckill.constants.AppContextConstant;
 import cn.hutool.core.map.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * The function of this class is to build a response.
@@ -44,7 +44,11 @@ public class DefaultExceptionHandler {
       ErrorResponse errorResponse, HttpStatus status, Exception ex) {
     log.error("exception info: ", ex);
 
-    errorResponse.setParameters(MapUtil.of("message", ex.getMessage()));
+    Map<String, Object> message =
+        Optional.ofNullable(errorResponse.getParameters())
+            .orElse(MapUtil.of("message", ex.getMessage()));
+
+    errorResponse.setParameters(message);
     return new ResponseEntity<>(errorResponse, status);
   }
 

@@ -24,7 +24,7 @@ public interface IGoodsService {
   String create(@Valid GoodsBO goodsBO);
 
   /**
-   * Get and convert to goodsVO from database.
+   * Get and convert to goodsVO from database by goods id.
    *
    * @param goodsId
    * @return
@@ -32,11 +32,19 @@ public interface IGoodsService {
   GoodsVO getById(@NotBlank String goodsId);
 
   /**
-   * Update goods info from given goods.<br>
-   * And the update must be full scale update.
+   * Get and convert to goodsVO from database by goods name.
    *
-   * @param goodsBO
+   * @param name
    * @return
    */
-  String update(@Valid GoodsBO goodsBO);
+  GoodsVO getByName(@NotBlank String name);
+
+  /**
+   * And also can full scale update.
+   *
+   * @param goodsBO
+   * @param isFullScaleUpdate
+   * @return
+   */
+  String fullScaleUpdate(@Valid GoodsBO goodsBO, boolean isFullScaleUpdate);
 }

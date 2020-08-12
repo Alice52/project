@@ -5,6 +5,7 @@ import cn.edu.ntu.seckill.model.po.GoodsPO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -31,7 +32,10 @@ public interface GoodsConverter {
    * @param goodsBO
    * @return
    */
-  @Mapping(target = "id", expression = "java(IdUtil.fastSimpleUUID())")
+  @Mappings({
+    @Mapping(target = "id", expression = "java(IdUtil.fastSimpleUUID())"),
+    @Mapping(target = "img", source = "image")
+  })
   GoodsPO bo2po(GoodsBO goodsBO);
 
   /**
