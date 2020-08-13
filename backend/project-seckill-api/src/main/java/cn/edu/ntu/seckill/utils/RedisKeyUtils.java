@@ -1,7 +1,6 @@
 package cn.edu.ntu.seckill.utils;
 
 import cn.edu.ntu.seckill.redis.KeyPrefix;
-import cn.edu.ntu.seckill.redis.RedisUserKeyEnum;
 import cn.hutool.core.util.StrUtil;
 
 /**
@@ -24,6 +23,4 @@ public final class RedisKeyUtils {
 
     return realKey;
   }
-
-
 }

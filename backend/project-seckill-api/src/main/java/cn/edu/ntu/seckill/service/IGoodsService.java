@@ -6,6 +6,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author zack <br>
@@ -47,4 +49,16 @@ public interface IGoodsService {
    * @return
    */
   String fullScaleUpdate(@Valid GoodsBO goodsBO, boolean isFullScaleUpdate);
+
+  /**
+   * Show goods list on page
+   *
+   * <p>// TODO: pagination info: "_meta": {"total": 0, "page": 1, "pageSize": 1}
+   *
+   * @param pageSize
+   * @param currentPage
+   * @param searchKey
+   * @return
+   */
+  List<GoodsVO> list(@NotNull Integer pageSize, @NotNull Integer currentPage, String searchKey);
 }

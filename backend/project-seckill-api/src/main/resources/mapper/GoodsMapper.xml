@@ -16,7 +16,7 @@
             SELECT id, name, title, img, detail, price, stock
             FROM `seckill.goods`
             WHERE name = #{goodsName} and is_deleted = 0
-        </select>
+    </select>
 
     <select id="queryById" resultType="GoodsPO">
         SELECT id, name, title, img, detail, price, stock
@@ -29,7 +29,7 @@
             SET name = #{goods.name}, title =#{goods.title}, img =#{goods.img},
                 detail =#{goods.detail}, price = #{goods.price}, stock = #{goods.stock}
             WHERE id = #{id} and is_deleted = 0
-   </update>
+    </update>
 
     <!-- it also can use trim label:
 
@@ -50,10 +50,10 @@
             <if test="goods.title!=null &amp;&amp; goods.title.trim() != &quot;&quot;">
                 title=#{goods.title},
             </if>
-            <if test="goods.img != null and goods.img.trim()  != ''">
+            <if test="goods.img != null and goods.img.trim() != ''">
                 img=#{goods.img},
             </if>
-            <if test="goods.detail != null and goods.detail.trim()  != ''">
+            <if test="goods.detail != null and goods.detail.trim() != ''">
                 detail=#{goods.detail},
             </if>
             <if test="goods.detail != null and goods.detail != ''">
@@ -90,5 +90,13 @@
         </trim>
     </select>
 
-
+    <select id="list" resultType="GoodsPO">
+        SELECT id, name, title, img, detail, price, stock
+        FROM `seckill.goods`
+        WHERE is_deleted = 0
+        <if test="searchKey != null and searchKey != ''">
+            AND (name LIKE "%${searchKey}%" OR title LIKE CONCAT('%',#{searchKey},'%'))
+        </if>
+        LIMIT #{pageSize}, #{currentPage}
+    </select>
 </mapper>
