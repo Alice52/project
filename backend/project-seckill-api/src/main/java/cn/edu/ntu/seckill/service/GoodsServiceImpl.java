@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -86,6 +87,13 @@ public class GoodsServiceImpl implements IGoodsService {
     return goods.getId();
   }
 
+  @Override
+  public List<GoodsVO> list(Integer pageSize, Integer currentPage, String searchKey) {
+
+    List<GoodsPO> pos = goodsRepository.list(pageSize, currentPage, searchKey);
+
+    return GoodsConverter.INSTANCE.pos2vos(pos);
+  }
   /**
    * Get GoodsBO from Redis cache.
    *

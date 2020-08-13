@@ -7,6 +7,6 @@ package cn.edu.ntu.seckill.constants;
  */
 public final class UserConstant {
 
-  /* the unit is hours*/
+  /** the unit is hours */
   public static final long TOKEN_VALID_TIME = 2;
 }

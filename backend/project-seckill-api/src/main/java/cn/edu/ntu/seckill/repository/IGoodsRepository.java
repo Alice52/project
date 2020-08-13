@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author zack <br>
@@ -65,4 +67,17 @@ public interface IGoodsRepository {
    * @return
    */
   GoodsPO getByCondition(GoodsBO goods);
+
+  /**
+   * * Get goods list.
+   *
+   * @param pageSize
+   * @param currentPage
+   * @param searchKey
+   * @return
+   */
+  List<GoodsPO> list(
+      @NotNull @Param("pageSize") Integer pageSize,
+      @NotNull @Param("currentPage") Integer currentPage,
+      @Param("searchKey") String searchKey);
 }

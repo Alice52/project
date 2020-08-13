@@ -56,4 +56,29 @@ public interface GoodsConverter {
    * @return
    */
   GoodsVO bo2vo(GoodsBO bo);
+
+  /**
+   * Conver bos to vos.
+   *
+   * @param bos
+   * @return
+   */
+  List<GoodsVO> bos2vos(List<GoodsBO> bos);
+
+  /**
+   * Convert pos to bos.
+   *
+   * @param pos
+   * @return
+   */
+  List<GoodsBO> pos2bos(List<GoodsPO> pos);
+
+  /**
+   * convert pos to vos.
+   *
+   * @param pos
+   * @return
+   */
+  @Deprecated
+  List<GoodsVO> pos2vos(List<GoodsPO> pos);
 }
