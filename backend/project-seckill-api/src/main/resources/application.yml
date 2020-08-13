@@ -8,6 +8,12 @@ jasypt:
 swagger2:
   enable: true
 
+druid:
+  spring:
+    monitor:
+      enable: true
+      locations: cn.edu.ntu.seckill.repository.*
+
 spring:
   application:
     name: project-seckill
