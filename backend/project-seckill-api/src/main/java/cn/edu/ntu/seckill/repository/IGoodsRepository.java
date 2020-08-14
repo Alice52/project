@@ -78,6 +78,8 @@ public interface IGoodsRepository {
    */
   List<GoodsPO> list(
       @NotNull @Param("pageSize") Integer pageSize,
-      @NotNull @Param("currentPage") Integer currentPage,
+      @NotNull @Param("offSet") Integer offSet,
       @Param("searchKey") String searchKey);
+
+  Integer count(@Param("searchKey") String searchKey);
 }

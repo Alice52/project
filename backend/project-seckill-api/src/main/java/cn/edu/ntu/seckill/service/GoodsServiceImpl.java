@@ -5,6 +5,8 @@ import cn.edu.ntu.seckill.exception.GoodsException;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.po.GoodsPO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
+import cn.edu.ntu.seckill.model.vo.ListVO;
+import cn.edu.ntu.seckill.model.vo.Pagination;
 import cn.edu.ntu.seckill.redis.RedisGoodsKeyEnum;
 import cn.edu.ntu.seckill.repository.IGoodsRepository;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
@@ -88,12 +90,39 @@ public class GoodsServiceImpl implements IGoodsService {
   }
 
   @Override
-  public List<GoodsVO> list(Integer pageSize, Integer currentPage, String searchKey) {
+  public ListVO<GoodsVO> list(Integer pageSize, Integer currentPage, String searchKey) {
 
-    List<GoodsPO> pos = goodsRepository.list(pageSize, currentPage, searchKey);
-
-    return GoodsConverter.INSTANCE.pos2vos(pos);
+    Integer total = goodsRepository.count(searchKey);
+    Pagination pagination = buildPagination(total, pageSize, currentPage);
+    List<GoodsPO> pos = goodsRepository.list(pageSize, (pagination.getCurrentPage() - 1) * pagination.getPageSize() , searchKey);
+    
+    return new ListVO<GoodsVO>(pagination, GoodsConverter.INSTANCE.pos2vos(pos));
   }
+
+  private Pagination buildPagination(Integer total, Integer pageSize, Integer currentPage) {
+
+    if(null == pageSize) {
+      pageSize = 20;
+    }
+
+    if(null == currentPage) {
+      currentPage = 1;
+    }
+
+    Integer pageCount = 0;
+    if((total % pageSize) == 0){
+      pageCount = total / pageSize;
+    }else {
+      pageCount = total / pageSize + 1;
+    }
+    
+    if (currentPage > pageCount) {
+        currentPage = 1;
+    }
+
+    return new Pagination(total, pageCount, currentPage, pageSize);
+  }
+
   /**
    * Get GoodsBO from Redis cache.
    *
@@ -194,6 +223,7 @@ public class GoodsServiceImpl implements IGoodsService {
       throw new GoodsException().new GoodsNameDuplicateException(goodsName);
     }
   }
+
   /**
    * Cache goods to redis, and can retire by goodsId.
    *

@@ -97,6 +97,15 @@
         <if test="searchKey != null and searchKey != ''">
             AND (name LIKE "%${searchKey}%" OR title LIKE CONCAT('%',#{searchKey},'%'))
         </if>
-        LIMIT #{pageSize}, #{currentPage}
+        LIMIT #{pageSize} OFFSET #{offSet}
+    </select>
+
+    <select id="count" resultType="integer">
+        SELECT COUNT(id)
+        FROM `seckill.goods`
+        WHERE is_deleted = 0
+        <if test="searchKey != null and searchKey != ''">
+            AND (name LIKE "%${searchKey}%" OR title LIKE CONCAT('%',#{searchKey},'%'))
+        </if>
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package cn.edu.ntu.seckill.service;
 
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
+import cn.edu.ntu.seckill.model.vo.ListVO;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -60,5 +61,5 @@ public interface IGoodsService {
    * @param searchKey
    * @return
    */
-  List<GoodsVO> list(@NotNull Integer pageSize, @NotNull Integer currentPage, String searchKey);
+  ListVO<GoodsVO> list(@NotNull Integer pageSize, @NotNull Integer currentPage, String searchKey);
 }
