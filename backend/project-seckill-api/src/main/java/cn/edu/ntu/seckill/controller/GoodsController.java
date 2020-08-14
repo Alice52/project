@@ -4,6 +4,7 @@ import cn.edu.ntu.seckill.annotation.swagger.GoodsApi;
 import cn.edu.ntu.seckill.converter.GoodsConverter;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
+import cn.edu.ntu.seckill.model.vo.ListVO;
 import cn.edu.ntu.seckill.service.IGoodsService;
 import cn.hutool.json.JSON;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class GoodsController extends BaseController {
   }
 
   @GetMapping("/list")
-  public List<GoodsVO> index(
+  public ListVO index(
       @RequestParam("pageSize") Integer pageSize,
       @RequestParam("currentPage") Integer currentPage,
       @RequestParam(value = "searchKey", required = false) String searchKey) {
