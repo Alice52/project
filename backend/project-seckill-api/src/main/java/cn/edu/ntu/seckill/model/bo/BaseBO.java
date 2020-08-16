@@ -1,4 +1,4 @@
-package cn.edu.ntu.seckill.model.po;
+package cn.edu.ntu.seckill.model.bo;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author zack <br>
- * @create 2020-08-08 14:21 <br>
+ * @create 2020-08-16 23:05 <br>
  * @project project-seckill <br>
  */
 @Data
@@ -14,12 +14,9 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class BasePO {
+public class BaseBO {
   private String id;
-  private boolean isDeleted;
-
   private LocalDateTime createdDate;
-
-  /** This column can be modify in db, use trigger if changed. */
   private LocalDateTime updatedDate;
+  private Boolean isDeleted;
 }

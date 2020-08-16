@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.service;
 
+import cn.edu.ntu.seckill.component.CacheUtils;
 import cn.edu.ntu.seckill.converter.GoodsConverter;
 import cn.edu.ntu.seckill.exception.GoodsException;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
@@ -9,6 +10,7 @@ import cn.edu.ntu.seckill.model.vo.ListVO;
 import cn.edu.ntu.seckill.model.vo.Pagination;
 import cn.edu.ntu.seckill.redis.RedisGoodsKeyEnum;
 import cn.edu.ntu.seckill.repository.IGoodsRepository;
+import cn.edu.ntu.seckill.utils.PaginationUtils;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -18,8 +20,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author zack <br>
@@ -31,6 +31,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
   @Resource private IGoodsRepository goodsRepository;
   @Resource private RedisTemplate redisTemplate;
+  @Resource private CacheUtils<GoodsBO> cacheService;
 
   @Override
   public String create(GoodsBO goods) {
@@ -51,9 +52,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     GoodsBO condition = new GoodsBO();
     condition.setId(goodsId);
-
-    GoodsBO goods = getBOByCondition(goodsId, condition);
-    cacheGoods(goods, goodsId);
+    GoodsBO goods = getBOByConditionThenCache(goodsId, condition);
 
     return GoodsConverter.INSTANCE.bo2vo(goods);
   }
@@ -63,8 +62,7 @@ public class GoodsServiceImpl implements IGoodsService {
     GoodsBO condition = new GoodsBO();
     condition.setName(name);
 
-    GoodsBO goods = getBOByCondition(name, condition);
-    cacheGoods(goods, name);
+    GoodsBO goods = getBOByConditionThenCache(name, condition);
 
     return GoodsConverter.INSTANCE.bo2vo(goods);
   }
@@ -93,51 +91,11 @@ public class GoodsServiceImpl implements IGoodsService {
   public ListVO<GoodsVO> list(Integer pageSize, Integer currentPage, String searchKey) {
 
     Integer total = goodsRepository.count(searchKey);
-    Pagination pagination = buildPagination(total, pageSize, currentPage);
-    List<GoodsPO> pos = goodsRepository.list(pageSize, (pagination.getCurrentPage() - 1) * pagination.getPageSize() , searchKey);
-    
-    return new ListVO<GoodsVO>(pagination, GoodsConverter.INSTANCE.pos2vos(pos));
-  }
+    Pagination pagination = PaginationUtils.buildPagination(total, pageSize, currentPage);
+    Integer offSet = (pagination.getCurrentPage() - 1) * pagination.getPageSize();
+    List<GoodsPO> pos = goodsRepository.list(pageSize, offSet, searchKey);
 
-  private Pagination buildPagination(Integer total, Integer pageSize, Integer currentPage) {
-
-    if(null == pageSize) {
-      pageSize = 20;
-    }
-
-    if(null == currentPage) {
-      currentPage = 1;
-    }
-
-    Integer pageCount = 0;
-    if((total % pageSize) == 0){
-      pageCount = total / pageSize;
-    }else {
-      pageCount = total / pageSize + 1;
-    }
-    
-    if (currentPage > pageCount) {
-        currentPage = 1;
-    }
-
-    return new Pagination(total, pageCount, currentPage, pageSize);
-  }
-
-  /**
-   * Get GoodsBO from Redis cache.
-   *
-   * @param key
-   * @return
-   */
-  private GoodsBO getGoodsVOFromCache(String key) {
-    String realKey = RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, key);
-    Object object = redisTemplate.opsForValue().get(realKey);
-
-    if (object instanceof GoodsBO) {
-      return (GoodsBO) object;
-    }
-
-    return null;
+    return new ListVO(pagination, GoodsConverter.INSTANCE.pos2vos(pos));
   }
 
   /**
@@ -149,7 +107,7 @@ public class GoodsServiceImpl implements IGoodsService {
    * @param condition
    * @return
    */
-  private GoodsBO getBOByCondition(String key, GoodsBO condition) {
+  private GoodsBO getBOByConditionThenCache(String key, GoodsBO condition) {
     GoodsBO goods = getGoodsVOFromCache(key);
 
     if (ObjectUtil.isNotNull(goods)) {
@@ -160,6 +118,7 @@ public class GoodsServiceImpl implements IGoodsService {
     validateExistence(po, key);
     goods = GoodsConverter.INSTANCE.po2bo(po);
 
+    cacheGoods(goods, key);
     return goods;
   }
 
@@ -209,16 +168,21 @@ public class GoodsServiceImpl implements IGoodsService {
    */
   private void validateDuplicateName(String goodsName, String updatedGoodId) {
 
-    GoodsPO po = goodsRepository.queryByName(goodsName);
-    if (ObjectUtil.isNull(po)) {
-      return;
+    // get from cache
+    GoodsBO goods = cacheService.get(RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, goodsName));
+
+    if (ObjectUtil.isNull(goods)) {
+      GoodsPO po = goodsRepository.queryByName(goodsName);
+      if (ObjectUtil.isNull(po)) {
+        return;
+      }
+
+      goods = GoodsConverter.INSTANCE.po2bo(po);
+      cacheGoods(goods, goodsName);
     }
 
-    GoodsBO goods = GoodsConverter.INSTANCE.po2bo(po);
-    cacheGoods(goods, goodsName);
-
     boolean updatedDuplicate =
-        StrUtil.isNotBlank(updatedGoodId) && !StrUtil.equals(po.getId(), updatedGoodId);
+        StrUtil.isNotBlank(updatedGoodId) && !StrUtil.equals(goods.getId(), updatedGoodId);
     if (StrUtil.isBlank(updatedGoodId) || updatedDuplicate) {
       throw new GoodsException().new GoodsNameDuplicateException(goodsName);
     }
@@ -230,19 +194,9 @@ public class GoodsServiceImpl implements IGoodsService {
    * @param bo
    */
   private void cacheGoods(GoodsBO bo, String key, long seconds) {
-
-    Optional.ofNullable(bo)
-        .ifPresent(
-            x -> {
-              redisTemplate
-                  .opsForValue()
-                  .set(
-                      RedisKeyUtils.buildKey(
-                          RedisGoodsKeyEnum.GOODS, key == null ? bo.getId() : key),
-                      bo,
-                      seconds,
-                      TimeUnit.SECONDS);
-            });
+    String realKey =
+        RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, key == null ? bo.getId() : key);
+    cacheService.cache(bo, realKey, seconds);
   }
 
   private void cacheGoods(GoodsBO bo, String key) {
@@ -250,6 +204,21 @@ public class GoodsServiceImpl implements IGoodsService {
   }
 
   private void cacheGoods(GoodsBO bo) {
-    cacheGoods(bo, null, 2 * 60);
+    cacheGoods(bo, null);
+  }
+
+  /**
+   * Get GoodsBO from Redis cache.
+   *
+   * @param key
+   * @return
+   */
+  private GoodsBO getGoodsVOFromCache(String key) {
+
+    if (StrUtil.isBlank(key)) {
+      return null;
+    }
+
+    return cacheService.get(RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, key));
   }
 }
