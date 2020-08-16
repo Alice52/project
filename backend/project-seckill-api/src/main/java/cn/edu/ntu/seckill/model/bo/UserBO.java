@@ -14,10 +14,9 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserBO {
+public class UserBO extends BaseBO {
 
   @NotBlank private String token;
-  @NotBlank private String id;
   private String phone;
   private String name;
   private Integer age;

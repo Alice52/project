@@ -24,7 +24,10 @@ import org.springframework.stereotype.Component;
 public class ServiceAspect {
   private static final String ASPECT_PREFIX = "service:";
 
-  @Pointcut("execution (* cn.edu.ntu.seckill.email.*.*(..))")
+  @Pointcut(
+      "execution (* cn.edu.ntu.seckill.email.*.*(..)) "
+          + "|| execution (* cn.edu.ntu.seckill.service.*.*(..)) "
+          + "|| execution (* cn.edu.ntu.seckill.component.*.*(..))")
   public void requestLogAspect() {}
 
   @Before("requestLogAspect()")
@@ -42,7 +45,7 @@ public class ServiceAspect {
         optLog.setParams(params);
         optLog.setRequestTime(beginTime);
 
-        log.info("[enter] beanName: {}, methodName: {}, params: {}", beanName, methodName, params);
+        log.info("[enter] method name: {}#{}, params: {}", beanName, methodName, params);
 
         AppContext.upsertByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, optLog);
       }
@@ -59,11 +62,11 @@ public class ServiceAspect {
             AppContext.getByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, Log.class);
 
         log.info(
-            "[exit] result: {}, duration time: {}ms, method name: {}, params: {}",
+            "[exit] result: {}, duration time: {}ms, method name: {}#{}",
             result,
             System.currentTimeMillis() - optLog.getRequestTime(),
-            optLog.getMethodName(),
-            optLog.getParams());
+            optLog.getBeanName(),
+            optLog.getMethodName());
       }
     } catch (Exception e) {
       log.error("***Operation service logging failed doAfterReturning()***", e);

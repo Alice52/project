@@ -11,7 +11,7 @@ import javax.validation.Validator;
  * @project validation <br>
  */
 @Component
-public final class ValidatorContext {
+public class ValidatorContext {
   private static Validator validator;
 
   public static Validator getValidator() {

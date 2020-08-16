@@ -16,16 +16,11 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoodsBO {
-
-  private String id;
+public class GoodsBO extends BaseBO {
 
   @NotBlank private String name;
-
   @NotBlank private String title;
-
   @NotBlank private String image;
-
   @NotBlank private String detail;
 
   @Min(0)

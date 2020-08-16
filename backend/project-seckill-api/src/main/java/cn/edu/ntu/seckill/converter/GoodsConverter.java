@@ -58,7 +58,7 @@ public interface GoodsConverter {
   GoodsVO bo2vo(GoodsBO bo);
 
   /**
-   * Conver bos to vos.
+   * Convert bos to vos.
    *
    * @param bos
    * @return

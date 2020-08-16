@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.model.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,17 +13,11 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class Pagination {
 
-    private Integer total;
-    private Integer pageCount;
-    private Integer currentPage;
-    private Integer pageSize;
-
-    public Pagination(Integer total, Integer pageCount, Integer currentPage, Integer pageSize) {
-        this.total = total;
-        this.pageCount = pageCount;
-        this.currentPage = currentPage;
-        this.pageSize = pageSize;
-    }
+  private Integer total;
+  private Integer pageCount;
+  private Integer currentPage;
+  private Integer pageSize;
 }

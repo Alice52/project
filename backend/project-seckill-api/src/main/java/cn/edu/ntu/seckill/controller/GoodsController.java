@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * @author zack <br>
@@ -36,9 +35,9 @@ public class GoodsController extends BaseController {
   }
 
   @GetMapping("/list")
-  public ListVO index(
-      @RequestParam("pageSize") Integer pageSize,
-      @RequestParam("currentPage") Integer currentPage,
+  public ListVO<GoodsVO> index(
+      @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
+      @RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
       @RequestParam(value = "searchKey", required = false) String searchKey) {
 
     return goodsService.list(pageSize, currentPage, searchKey);

@@ -47,10 +47,10 @@ public class ControllerAspect {
       Map<String, String[]> parameters = request.getParameterMap();
 
       log.info(
-          "[enter] uri: {}, beanName: {}, remoteAddr: {}, methodName: {}, method: {}, params: {}, parameters: {}",
+          "[enter] uri: {}, remote-addr: {}, method name: {}#{}, method: {}, params: {}, parameters: {}",
           uri,
-          beanName,
           remoteAddr,
+          beanName,
           methodName,
           method,
           params,
@@ -78,13 +78,12 @@ public class ControllerAspect {
           AppContext.getByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, Log.class);
 
       log.info(
-          "[exit] result: {} duration time: {}ms, uri: {},  method name: {},  params: {}, parameters: {}",
+          "[exit] result: {} duration time: {}ms, uri: {},  method name: {}#{}",
           result,
           System.currentTimeMillis() - optLog.getRequestTime(),
           optLog.getUri(),
-          optLog.getMethodName(),
-          optLog.getRequestTime(),
-          optLog.getParams());
+          optLog.getBeanName(),
+          optLog.getMethodName());
     } catch (Exception e) {
       log.error("***Operation request logging failed doAfterReturning()***", e);
     } finally {
