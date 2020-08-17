@@ -26,10 +26,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVO {
-
-  @ApiModelProperty(hidden = true)
-  private String id;
+public class UserVO extends BaseVO {
 
   @Mobile private String phone;
 

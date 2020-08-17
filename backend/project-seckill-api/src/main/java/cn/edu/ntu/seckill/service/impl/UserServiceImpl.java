@@ -1,4 +1,4 @@
-package cn.edu.ntu.seckill.service;
+package cn.edu.ntu.seckill.service.impl;
 
 import cn.edu.ntu.seckill.constants.UserConstant;
 import cn.edu.ntu.seckill.converter.PasswordConverter;
@@ -12,6 +12,7 @@ import cn.edu.ntu.seckill.model.vo.UserVO;
 import cn.edu.ntu.seckill.redis.RedisUserKeyEnum;
 import cn.edu.ntu.seckill.repository.IPasswordRepository;
 import cn.edu.ntu.seckill.repository.IUserRepository;
+import cn.edu.ntu.seckill.service.IUserService;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.edu.ntu.seckill.utils.SecurityUtils;
 import cn.hutool.core.util.IdUtil;

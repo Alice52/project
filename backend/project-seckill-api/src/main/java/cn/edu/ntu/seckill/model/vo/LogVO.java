@@ -1,6 +1,7 @@
 package cn.edu.ntu.seckill.model.vo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -10,7 +11,8 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class Log {
+@EqualsAndHashCode
+public class LogVO {
 
   private String url;
   private String beanName;

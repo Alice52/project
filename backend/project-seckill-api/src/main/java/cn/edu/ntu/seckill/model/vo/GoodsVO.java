@@ -20,10 +20,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class GoodsVO {
-
-  @ApiModelProperty(hidden = true)
-  private String id;
+public class GoodsVO  extends BaseVO{
 
   @NotBlank private String name;
 

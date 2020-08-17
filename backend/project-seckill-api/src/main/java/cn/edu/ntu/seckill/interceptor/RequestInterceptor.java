@@ -26,8 +26,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     MDC.put(REQUEST_ID_KEY, getRequestId(request));
-    // AppContext.upsertByKey(AppContextConstant.REQUEST_ID, IdUtil.fastSimpleUUID());
-
+    /** AppContext.upsertByKey(AppContextConstant.REQUEST_ID, IdUtil.fastSimpleUUID()); */
     return super.preHandle(request, response, handler);
   }
 
