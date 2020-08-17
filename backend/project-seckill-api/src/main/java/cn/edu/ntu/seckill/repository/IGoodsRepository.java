@@ -72,7 +72,7 @@ public interface IGoodsRepository {
    * * Get goods list.
    *
    * @param pageSize
-   * @param currentPage
+   * @param offSet
    * @param searchKey
    * @return
    */
@@ -81,5 +81,11 @@ public interface IGoodsRepository {
       @NotNull @Param("offSet") Integer offSet,
       @Param("searchKey") String searchKey);
 
+  /**
+   * Get count of satisfied data.
+   *
+   * @param searchKey
+   * @return
+   */
   Integer count(@Param("searchKey") String searchKey);
 }

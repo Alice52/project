@@ -2,7 +2,7 @@ package cn.edu.ntu.seckill.aop;
 
 import cn.edu.ntu.seckill.component.AppContext;
 import cn.edu.ntu.seckill.constants.AppContextConstant;
-import cn.edu.ntu.seckill.model.vo.Log;
+import cn.edu.ntu.seckill.model.vo.LogVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -56,15 +56,15 @@ public class ControllerAspect {
           params,
           parameters);
 
-      Log optLog = new Log();
-      optLog.setBeanName(beanName);
-      optLog.setMethodName(methodName);
-      optLog.setParams(params);
-      optLog.setRemoteAddr(remoteAddr);
-      optLog.setSessionId(sessionId);
-      optLog.setUri(uri);
-      optLog.setRequestTime(beginTime);
-      AppContext.upsertByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, optLog);
+      LogVO optLogVO = new LogVO();
+      optLogVO.setBeanName(beanName);
+      optLogVO.setMethodName(methodName);
+      optLogVO.setParams(params);
+      optLogVO.setRemoteAddr(remoteAddr);
+      optLogVO.setSessionId(sessionId);
+      optLogVO.setUri(uri);
+      optLogVO.setRequestTime(beginTime);
+      AppContext.upsertByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, optLogVO);
 
     } catch (Exception e) {
       log.error("***Operation request logging failed  doBefore()***", e);
@@ -74,16 +74,16 @@ public class ControllerAspect {
   @AfterReturning(returning = "result", pointcut = "requestLogAspect()")
   public void doAfterReturning(Object result) {
     try {
-      Log optLog =
-          AppContext.getByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, Log.class);
+      LogVO optLogVO =
+          AppContext.getByKey(ASPECT_PREFIX, AppContextConstant.APP_CONTEXT_LOG, LogVO.class);
 
       log.info(
           "[exit] result: {} duration time: {}ms, uri: {},  method name: {}#{}",
           result,
-          System.currentTimeMillis() - optLog.getRequestTime(),
-          optLog.getUri(),
-          optLog.getBeanName(),
-          optLog.getMethodName());
+          System.currentTimeMillis() - optLogVO.getRequestTime(),
+          optLogVO.getUri(),
+          optLogVO.getBeanName(),
+          optLogVO.getMethodName());
     } catch (Exception e) {
       log.error("***Operation request logging failed doAfterReturning()***", e);
     } finally {

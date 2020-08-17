@@ -31,7 +31,9 @@ public enum ErrorMessageEnum {
 
   // goods errors
   GOODS_NOT_EXISTENCE_ERROR(8004001, "Goods not existence error"),
-  GOODS_NAME_DUPLICATED_ERROR(8004001, "Goods name duplicated error"),
+  GOODS_NAME_DUPLICATED_ERROR(8004002, "Goods name duplicated error"),
+  SECKILL_GOODS_NAME_DUPLICATED_ERROR(8004005, "Seckill goods name duplicated error"),
+  SECKILL_GOODS_NOT_EXISTENCE_ERROR(8004005, "Seckill goods not existence error"),
 
   // user module errors
   USER_DUPLICATED_ERROR(700411, "User info duplicated error"),
