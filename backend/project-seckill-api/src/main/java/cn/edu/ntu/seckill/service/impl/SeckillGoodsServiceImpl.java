@@ -7,25 +7,27 @@ import cn.edu.ntu.seckill.exception.SeckillGoodsException;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.bo.SeckillGoodsBO;
 import cn.edu.ntu.seckill.model.po.SeckillGoodsPO;
+import cn.edu.ntu.seckill.model.po.SeckillStockPO;
 import cn.edu.ntu.seckill.model.vo.ListVO;
 import cn.edu.ntu.seckill.model.vo.SeckillGoodsVO;
 import cn.edu.ntu.seckill.redis.RedisGoodsKeyEnum;
 import cn.edu.ntu.seckill.redis.RedisSeckillGoodsKeyEnum;
 import cn.edu.ntu.seckill.repository.IGoodsRepository;
 import cn.edu.ntu.seckill.repository.ISeckillGoodsRepository;
+import cn.edu.ntu.seckill.repository.ISeckillStockRepository;
 import cn.edu.ntu.seckill.service.ISeckillGoodsService;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * // TODO: add seckill stock data
- *
  * @author zack <br>
  * @create 2020-08-17 21:28 <br>
  * @project project-seckill <br>
@@ -34,15 +36,20 @@ import javax.validation.constraints.NotNull;
 public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
 
   @Resource private ISeckillGoodsRepository seckillGoodsRepository;
+  @Resource private ISeckillStockRepository seckillStockRepository;
   @Resource private IGoodsRepository goodsRepository;
   @Resource private CacheUtils<SeckillGoodsBO> cacheService;
   @Resource private CacheUtils<GoodsBO> goodsCacheService;
+  @Resource private RedisTemplate redisTemplate;
 
   @Override
   public SeckillGoodsVO view(@NotBlank String goodsId) {
     SeckillGoodsBO condition = new SeckillGoodsBO();
     condition.setGoodsId(goodsId);
-    SeckillGoodsBO goods = getBOByConditionThenCache(goodsId, condition);
+    SeckillGoodsBO goods = validateAndGetByConditionThenCache(goodsId, condition);
+
+    SeckillStockPO stockPO = seckillStockRepository.getBySeckillGoodsId(goods.getId());
+    goods.setStock(ObjectUtil.isNull(stockPO) ? 0 : stockPO.getStock());
 
     return SeckillGoodsConverter.INSTANCE.bo2vo(goods);
   }
@@ -53,7 +60,24 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
     return null;
   }
 
-  private SeckillGoodsBO getBOByConditionThenCache(String key, SeckillGoodsBO condition) {
+  @Override
+  public String updateStock(@NotBlank String seckillGoodsId, @Min(0) @NotNull Integer stock) {
+    SeckillGoodsBO condition = new SeckillGoodsBO();
+    condition.setId(seckillGoodsId);
+    SeckillGoodsBO goodsBO = validateAndGetByConditionThenCache(seckillGoodsId, condition);
+
+    int updateStockCount = seckillStockRepository.updateStock(seckillGoodsId, stock);
+    if (updateStockCount <= 0) {
+      throw new SeckillGoodsException().new SeckillGoodsStockException(stock);
+    }
+
+    // update stock count in redis cache
+    initCacheInRedis(goodsBO.getId(), stock);
+
+    return goodsBO.getId();
+  }
+
+  private SeckillGoodsBO validateAndGetByConditionThenCache(String key, SeckillGoodsBO condition) {
 
     SeckillGoodsBO goods = getSeckillGoodsVOFromCache(key);
     if (ObjectUtil.isNotNull(goods)) {
@@ -94,12 +118,33 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
 
     validateDuplicateGoods(seckillGoodsBO.getGoodsId());
     SeckillGoodsPO po = SeckillGoodsConverter.INSTANCE.bo2po(seckillGoodsBO);
-
     seckillGoodsRepository.create(po);
+
+    SeckillStockPO stockPO = new SeckillStockPO(po.getId(), seckillGoodsBO.getStock());
+    seckillStockRepository.create(stockPO);
+
     // if update this goods, please delete the redis cache.
     cacheSeckillGoods(SeckillGoodsConverter.INSTANCE.po2bo(po));
 
+    initCacheInRedis(po.getId(), seckillGoodsBO.getStock());
     return po.getId();
+  }
+
+  private void initCacheInRedis(String seckillGoodsId, Integer stock) {
+    // set stock in redis cache
+    redisTemplate
+        .opsForValue()
+        .set(
+            RedisKeyUtils.buildKey(RedisSeckillGoodsKeyEnum.SECKILL_GOODS_STOCK, seckillGoodsId),
+            stock);
+
+    // set request threshold
+    redisTemplate
+        .opsForValue()
+        .set(
+            RedisKeyUtils.buildKey(
+                RedisSeckillGoodsKeyEnum.SECKILL_GOODS_THRESHOLDS, seckillGoodsId),
+            stock * 5);
   }
 
   private void validateDuplicateGoods(String goodsId) {

@@ -2,6 +2,7 @@ package cn.edu.ntu.seckill.model.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode
 public class SeckillGoodsPO extends BasePO {
   private String goodsId;
   private BigDecimal seckillPrice;

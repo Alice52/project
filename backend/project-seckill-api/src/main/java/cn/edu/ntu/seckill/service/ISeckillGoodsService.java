@@ -3,8 +3,12 @@ package cn.edu.ntu.seckill.service;
 import cn.edu.ntu.seckill.model.bo.SeckillGoodsBO;
 import cn.edu.ntu.seckill.model.vo.ListVO;
 import cn.edu.ntu.seckill.model.vo.SeckillGoodsVO;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +25,10 @@ public interface ISeckillGoodsService {
    * @param seckillGoodsBO
    * @return boolean
    */
+  @Transactional(
+      propagation = Propagation.REQUIRED,
+      isolation = Isolation.READ_COMMITTED,
+      rollbackFor = {Exception.class})
   String publishPromo(@Validated SeckillGoodsBO seckillGoodsBO);
 
   /**
@@ -41,4 +49,13 @@ public interface ISeckillGoodsService {
    */
   ListVO<SeckillGoodsVO> list(
       @NotNull Integer pageSize, @NotNull Integer currentPage, String searchKey);
+
+  /**
+   * Update seckill goods info by seckill goods id.
+   *
+   * @param seckillGoodsId
+   * @param stock
+   * @return
+   */
+  String updateStock(@NotBlank String seckillGoodsId, @Min(0) @NotNull Integer stock);
 }

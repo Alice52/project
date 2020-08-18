@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,7 +22,15 @@ import java.time.LocalDateTime;
 public class SeckillGoodsBO extends BaseBO {
 
   @NotNull private String goodsId;
-  @NotNull private BigDecimal seckillPrice;
+
+  @Min(0)
+  @NotNull
+  private BigDecimal seckillPrice;
+
+  @Min(0)
+  @NotNull
+  private Integer stock;
+
   @NotNull private LocalDateTime startDate;
   @NotNull private LocalDateTime endDate;
 }
