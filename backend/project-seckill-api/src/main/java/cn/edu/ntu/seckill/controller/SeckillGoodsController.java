@@ -27,7 +27,6 @@ public class SeckillGoodsController extends BaseController {
 
   @PostMapping("/publish-promo")
   public JSON create(@RequestBody @Valid SeckillGoodsVO goodsVO) {
-
     SeckillGoodsBO goodsBO = SeckillGoodsConverter.INSTANCE.vo2bo(goodsVO);
     String goodsId = seckillGoodsService.publishPromo(goodsBO);
 
@@ -41,6 +40,15 @@ public class SeckillGoodsController extends BaseController {
       @RequestParam(value = "searchKey", required = false) String searchKey) {
 
     return seckillGoodsService.list(pageSize, currentPage, searchKey);
+  }
+
+  @PutMapping("/update")
+  public JSON updateStock(
+      @RequestParam(value = "seckillGoodsId") String seckillGoodsId,
+      @RequestParam(value = "stock") Integer stock) {
+
+    String uuid = seckillGoodsService.updateStock(seckillGoodsId, stock);
+    return buildJson("id", uuid);
   }
 
   @GetMapping("/{goodsId}")

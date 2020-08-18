@@ -1,11 +1,14 @@
 package cn.edu.ntu.seckill.converter;
 
+import cn.edu.ntu.seckill.enumeration.SeckillStatusEnum;
 import cn.edu.ntu.seckill.model.bo.SeckillGoodsBO;
 import cn.edu.ntu.seckill.model.po.SeckillGoodsPO;
 import cn.edu.ntu.seckill.model.vo.SeckillGoodsVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -48,6 +51,7 @@ public interface SeckillGoodsConverter {
    * @param bo
    * @return
    */
+  @Mapping(target = "status", expression = "java(initStatus(bo))")
   SeckillGoodsVO bo2vo(SeckillGoodsBO bo);
 
   /**
@@ -74,4 +78,24 @@ public interface SeckillGoodsConverter {
    */
   @Deprecated
   List<SeckillGoodsVO> pos2vos(List<SeckillGoodsPO> pos);
+
+  /**
+   * Init seckill status.
+   *
+   * @param bo
+   * @return
+   */
+  default SeckillStatusEnum initStatus(SeckillGoodsBO bo) {
+
+    LocalDateTime now = LocalDateTime.now();
+    if (bo.getStartDate().isBefore(now)) {
+      return SeckillStatusEnum.NOT_STARTED;
+    }
+
+    if (bo.getEndDate().isAfter(now)) {
+      return SeckillStatusEnum.FINISHED;
+    }
+
+    return SeckillStatusEnum.ON_GOING;
+  }
 }

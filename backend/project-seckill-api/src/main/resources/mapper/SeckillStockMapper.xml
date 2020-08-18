@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.seckill.repository.ISeckillStockRepository">
+    <sql id="BaseColumns">
+        id, updated_date, created_date
+    </sql>
+
+    <resultMap id="BaseMap" type="SeckillStockPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="seckill_goods_stock" jdbcType="INTEGER" property="stock"/>
+        <result column="seckill_goods_id" jdbcType="VARCHAR" property="goodsId"/>
+    </resultMap>
+
+    <insert id="create" parameterType="SeckillStockPO" keyProperty="id">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            SELECT REPLACE(UUID(), '-', '') AS id FROM DUAL
+        </selectKey>
+        INSERT INTO `seckill.seckill_stock`(id, seckill_goods_id, seckill_goods_stock)
+        VALUES(#{id}, #{goodsId}, #{stock})
+    </insert>
+
+    <select id="getByPK" resultMap="BaseMap">
+        SELECT seckill_goods_id, seckill_goods_stock,
+        <include refid="BaseColumns"/>
+        FROM `seckill.seckill_stock`
+        WHERE is_deleted = FALSE AND id = #{id}
+    </select>
+
+    <select id="getBySeckillGoodsId" resultMap="BaseMap">
+        SELECT seckill_goods_id, seckill_goods_stock,
+        <include refid="BaseColumns"/>
+        FROM `seckill.seckill_stock`
+        WHERE is_deleted = FALSE AND seckill_goods_id = #{seckillGoodsId}
+    </select>
+
+    <update id="decrease">
+        UPDATE `seckill.seckill_stock`
+        SET seckill_goods_stock = seckill_goods_stock - #{stock}
+        WHERE  seckill_goods_id = #{seckillGoodsId} AND is_deleted = FALSE AND seckill_goods_stock >= #{stock}
+    </update>
+
+    <update id="updateStock">
+        UPDATE `seckill.seckill_stock`
+        SET seckill_goods_stock = #{stock}
+        WHERE  seckill_goods_id = #{seckillGoodsId} AND is_deleted = FALSE
+    </update>
+</mapper>

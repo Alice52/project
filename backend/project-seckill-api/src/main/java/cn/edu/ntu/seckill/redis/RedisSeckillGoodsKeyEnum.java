@@ -6,7 +6,9 @@ package cn.edu.ntu.seckill.redis;
  * @project project-seckill <br>
  */
 public enum RedisSeckillGoodsKeyEnum implements KeyPrefix {
-  SECKILL_GOODS("seckill-plus:seckill_goods");
+  SECKILL_GOODS("seckill-plus:seckill_goods"),
+  SECKILL_GOODS_THRESHOLDS("seckill-plus:seckill_goods_threshold"),
+  SECKILL_GOODS_STOCK("seckill-plus:seckill_goods_stock");
 
   private String prefix;
 
@@ -16,7 +18,7 @@ public enum RedisSeckillGoodsKeyEnum implements KeyPrefix {
     return className + ":" + prefix;
   }
 
-    RedisSeckillGoodsKeyEnum(String prefix) {
+  RedisSeckillGoodsKeyEnum(String prefix) {
     this.prefix = prefix;
   }
 }

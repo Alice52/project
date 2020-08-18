@@ -17,9 +17,7 @@ import java.time.LocalDateTime;
 public class BasePO {
   private String id;
   private boolean isDeleted;
-
   private LocalDateTime createdDate;
-
   /** This column can be modify in db, use trigger if changed. */
   private LocalDateTime updatedDate;
 }

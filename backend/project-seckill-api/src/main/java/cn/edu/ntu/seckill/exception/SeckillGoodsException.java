@@ -9,6 +9,16 @@ import cn.hutool.core.util.StrUtil;
  */
 public class SeckillGoodsException extends RuntimeException {
 
+  public class SeckillGoodsStockException extends RuntimeException {
+
+    public SeckillGoodsStockException() {}
+
+    public SeckillGoodsStockException(Integer stock) {
+
+      super(StrUtil.format("Seckill goods stock: {}, please check again.", stock));
+    }
+  }
+
   public class SeckillGoodsDuplicateException extends RuntimeException {
 
     public SeckillGoodsDuplicateException() {}
