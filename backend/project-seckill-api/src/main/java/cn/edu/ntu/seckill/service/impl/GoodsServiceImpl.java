@@ -15,13 +15,13 @@ import cn.edu.ntu.seckill.utils.PaginationUtils;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.google.common.util.concurrent.RateLimiter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zack <br>
@@ -198,7 +198,7 @@ public class GoodsServiceImpl implements IGoodsService {
   private void cacheGoods(GoodsBO bo, String key, long seconds) {
     String realKey =
         RedisKeyUtils.buildKey(RedisGoodsKeyEnum.GOODS, key == null ? bo.getId() : key);
-    cacheService.cache(bo, realKey, seconds);
+    cacheService.set(bo, realKey, seconds, TimeUnit.SECONDS);
   }
 
   private void cacheGoods(GoodsBO bo, String key) {

@@ -6,9 +6,12 @@ package cn.edu.ntu.seckill.redis;
  * @project project-seckill <br>
  */
 public enum RedisUserKeyEnum implements KeyPrefix {
-  USER_TOKEN("seckill-plus:user:token");
+  ALL,
+  USER_TOKEN("token");
 
-  private String prefix;
+  private String prefix = KeyPrefix.prefix;
+
+  RedisUserKeyEnum() {}
 
   @Override
   public String getPrefix() {
@@ -17,6 +20,6 @@ public enum RedisUserKeyEnum implements KeyPrefix {
   }
 
   RedisUserKeyEnum(String prefix) {
-    this.prefix = prefix;
+    this.prefix += prefix;
   }
 }
