@@ -7,4 +7,5 @@ package cn.edu.ntu.seckill.constants;
  */
 public final class CommonConstant {
 
+  public static final String REDIS_PREFIX_PROJECT_NAME = "seckill-plus:{}:";
 }

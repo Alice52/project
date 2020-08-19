@@ -2,13 +2,13 @@ package cn.edu.ntu.seckill.repository;
 
 import cn.edu.ntu.seckill.model.bo.SeckillGoodsBO;
 import cn.edu.ntu.seckill.model.po.SeckillGoodsPO;
-import java.math.BigDecimal;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * @author zack <br>
@@ -44,8 +44,10 @@ public interface ISeckillGoodsRepository {
   /**
    * Update seckill goods price.
    *
-   * @param condition
-   * @return
+   * @param goodsId
+   * @param price
    */
-  void updatePrice(@NotBlank @Param("goodsId") String goodsId, @Min(0) @NotNull @Param("price") BigDecimal price);
+  void updatePrice(
+      @NotBlank @Param("goodsId") String goodsId,
+      @Min(0) @NotNull @Param("price") BigDecimal price);
 }

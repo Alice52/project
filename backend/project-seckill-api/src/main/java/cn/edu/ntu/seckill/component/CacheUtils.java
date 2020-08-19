@@ -1,14 +1,19 @@
 package cn.edu.ntu.seckill.component;
 
+import cn.edu.ntu.seckill.redis.KeyPrefix;
+import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.LFUCache;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,5 +60,27 @@ public class CacheUtils<T> {
     }
 
     return null;
+  }
+
+  public void removeAll(KeyPrefix prefix, String maker) {
+    Set<String> keys = redisTemplate.keys(RedisKeyUtils.buildDeleteKey(prefix, maker, "*"));
+    Optional.ofNullable(keys).ifPresent(x -> redisTemplate.delete(keys));
+  }
+
+  /**
+   * Remove all cache keys found by makers.
+   *
+   * @param prefix
+   * @param key
+   * @param keys
+   */
+  public void remove(KeyPrefix prefix, String key, String... keys) {
+
+    Arrays.stream(ArrayUtil.append(keys, key))
+        .forEach(
+            x -> {
+              Set<String> keySet = redisTemplate.keys(RedisKeyUtils.buildDeleteKey(prefix, x));
+              Optional.ofNullable(keySet).ifPresent(y -> redisTemplate.delete(keySet));
+            });
   }
 }

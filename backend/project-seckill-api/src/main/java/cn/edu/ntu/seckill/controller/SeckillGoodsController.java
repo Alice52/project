@@ -9,10 +9,10 @@ import cn.edu.ntu.seckill.service.ISeckillGoodsService;
 import cn.hutool.json.JSON;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * @author zack <br>

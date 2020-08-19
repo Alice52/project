@@ -1,5 +1,7 @@
 package cn.edu.ntu.seckill.redis;
 
+import cn.edu.ntu.seckill.constants.CommonConstant;
+
 /**
  * @author zack <br>
  * @create 2020-07-24 22:22 <br>
@@ -7,6 +9,7 @@ package cn.edu.ntu.seckill.redis;
  */
 public interface KeyPrefix {
 
+  String prefix = CommonConstant.REDIS_PREFIX_PROJECT_NAME;;
   /**
    * set expire time.
    *

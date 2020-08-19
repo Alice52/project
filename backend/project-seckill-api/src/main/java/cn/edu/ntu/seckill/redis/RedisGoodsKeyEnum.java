@@ -1,14 +1,19 @@
 package cn.edu.ntu.seckill.redis;
 
+import cn.edu.ntu.seckill.constants.CommonConstant;
+
 /**
  * @author zack <br>
  * @create 2020-08-11 22:46 <br>
  * @project project-seckill <br>
  */
 public enum RedisGoodsKeyEnum implements KeyPrefix {
-  GOODS("seckill-plus:goods");
+  ALL,
+  GOODS("goods");
 
-  private String prefix;
+  private String prefix = KeyPrefix.prefix;
+
+  RedisGoodsKeyEnum() {}
 
   @Override
   public String getPrefix() {
@@ -17,6 +22,6 @@ public enum RedisGoodsKeyEnum implements KeyPrefix {
   }
 
   RedisGoodsKeyEnum(String prefix) {
-    this.prefix = prefix;
+    this.prefix = CommonConstant.REDIS_PREFIX_PROJECT_NAME + prefix;
   }
 }
