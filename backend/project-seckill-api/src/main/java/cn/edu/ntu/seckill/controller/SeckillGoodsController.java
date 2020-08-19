@@ -9,6 +9,7 @@ import cn.edu.ntu.seckill.service.ISeckillGoodsService;
 import cn.hutool.json.JSON;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -43,11 +44,12 @@ public class SeckillGoodsController extends BaseController {
   }
 
   @PutMapping("/update")
-  public JSON updateStock(
+  public JSON update(
       @RequestParam(value = "seckillGoodsId") String seckillGoodsId,
-      @RequestParam(value = "stock") Integer stock) {
+      @RequestParam(value = "stock") Integer stock,
+      @RequestParam(value = "price") BigDecimal price) {
 
-    String uuid = seckillGoodsService.updateStock(seckillGoodsId, stock);
+    String uuid = seckillGoodsService.updateSeckillGoods(seckillGoodsId, stock, price);
     return buildJson("id", uuid);
   }
 
