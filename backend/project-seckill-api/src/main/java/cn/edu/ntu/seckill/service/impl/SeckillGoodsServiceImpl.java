@@ -22,11 +22,9 @@ import cn.hutool.core.util.StrUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import javax.annotation.Resource;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * @author zack <br>
@@ -71,6 +69,10 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
     if (updateStockCount <= 0) {
       throw new SeckillGoodsException().new SeckillGoodsStockException(stock);
     }
+
+    // remove cache data in redis
+    cacheService.remove(
+        RedisSeckillGoodsKeyEnum.SECKILL_GOODS, goodsBO.getId(), goodsBO.getGoodsId());
 
     // update stock count in redis cache
     initCacheInRedis(goodsBO.getId(), stock);

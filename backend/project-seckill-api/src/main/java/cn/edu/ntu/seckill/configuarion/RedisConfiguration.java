@@ -43,6 +43,7 @@ public class RedisConfiguration {
     // handle key serialization
     StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
     redisTemplate.setKeySerializer(stringRedisSerializer);
+    redisTemplate.setHashKeySerializer(stringRedisSerializer);
 
     // handle value serialization
     Jackson2JsonRedisSerializer jackson2JsonRedisSerializer =
@@ -61,6 +62,7 @@ public class RedisConfiguration {
     jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
     redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
 
     return redisTemplate;
   }

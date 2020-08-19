@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
     String token = user.getId() + StrUtil.COLON + IdUtil.fastSimpleUUID();
     Set<String> keys =
         redisTemplate.keys(
-            RedisKeyUtils.buildDeleteKey(RedisUserKeyEnum.USER_TOKEN, user.getId(), "*"));
+            RedisKeyUtils.buildDeleteKey(RedisUserKeyEnum.USER_TOKEN, user.getId()));
     Optional.ofNullable(keys).ifPresent(x -> redisTemplate.delete(keys));
 
     redisTemplate

@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * @author zack <br>
@@ -58,5 +58,8 @@ public interface ISeckillGoodsService {
    * @param stock
    * @return
    */
-  String updateSeckillGoods(@NotBlank String seckillGoodsId, @Min(0) @NotNull Integer stock, @Min(0) @NotNull BigDecimal price);
+  String updateSeckillGoods(
+      @NotBlank String seckillGoodsId,
+      @Min(0) @NotNull Integer stock,
+      @Min(0) @NotNull BigDecimal price);
 }

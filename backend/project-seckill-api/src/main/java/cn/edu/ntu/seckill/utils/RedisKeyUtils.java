@@ -9,14 +9,14 @@ import cn.hutool.core.util.StrUtil;
  * @project project-seckill <br>
  */
 public final class RedisKeyUtils {
-  public static String buildDeleteKey(KeyPrefix prefix, String... params) {
+  public static String buildDeleteKey(KeyPrefix prefix, String id, String... params) {
 
-    return buildKey(prefix, params);
+    return buildKey(prefix, id, params);
   }
 
-  public static String buildKey(KeyPrefix prefix, String... params) {
+  public static String buildKey(KeyPrefix prefix, String id, String... params) {
 
-    String realKey = prefix.getPrefix();
+    String realKey = StrUtil.removeSuffix(StrUtil.format(prefix.getPrefix(), id), StrUtil.COLON);
     for (String param : params) {
       realKey = realKey + StrUtil.COLON + param;
     }
