@@ -22,6 +22,7 @@ import cn.hutool.core.util.StrUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -55,16 +56,16 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
   }
 
   @Override
-  public ListVO<SeckillGoodsVO> list(
-      @NotNull Integer pageSize, @NotNull Integer currentPage, String searchKey) {
+  public ListVO<SeckillGoodsVO> list(Integer pageSize, Integer currentPage, String searchKey) {
     return null;
   }
 
   @Override
-  public String updateStock(@NotBlank String seckillGoodsId, @Min(0) @NotNull Integer stock) {
+  public String updateSeckillGoods(String seckillGoodsId, Integer stock, BigDecimal price) {
     SeckillGoodsBO condition = new SeckillGoodsBO();
     condition.setId(seckillGoodsId);
     SeckillGoodsBO goodsBO = validateAndGetByConditionThenCache(seckillGoodsId, condition);
+    seckillGoodsRepository.updatePrice(goodsBO.getGoodsId(), price);
 
     int updateStockCount = seckillStockRepository.updateStock(seckillGoodsId, stock);
     if (updateStockCount <= 0) {

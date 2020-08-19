@@ -30,4 +30,10 @@
             </if>
         </trim>
     </select>
+
+    <update id="updatePrice">
+        UPDATE `seckill.seckill_goods`
+        SET seckill_price = #{price}
+        WHERE goods_id = #{goodsId} AND is_deleted = FALSE
+    </update>
 </mapper>
