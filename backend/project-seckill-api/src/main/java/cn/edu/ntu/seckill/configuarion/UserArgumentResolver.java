@@ -1,10 +1,10 @@
 package cn.edu.ntu.seckill.configuarion;
 
+import cn.edu.ntu.seckill.component.CacheUtils;
 import cn.edu.ntu.seckill.constants.UserConstant;
 import cn.edu.ntu.seckill.exception.UserException;
 import cn.edu.ntu.seckill.model.bo.UserBO;
 import cn.edu.ntu.seckill.redis.RedisUserKeyEnum;
-import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
   @Resource RedisTemplate redisTemplate;
+  @Resource CacheUtils<UserBO> cacheService;
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
@@ -47,16 +48,16 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     String token = headerValues[0];
-    String redisUserTokenKey = RedisKeyUtils.buildKey(RedisUserKeyEnum.USER_TOKEN, token);
-    Object object = redisTemplate.opsForValue().get(redisUserTokenKey);
-    // renew user token
-    redisTemplate.expire(redisUserTokenKey, UserConstant.TOKEN_VALID_TIME, TimeUnit.HOURS);
+    UserBO user = cacheService.get(RedisUserKeyEnum.USER_TOKEN, token);
 
-    if (!(object instanceof UserBO)) {
+    if (ObjectUtil.isNull(user)) {
       throw new UserException().new InvalidTokenException();
     }
 
-    UserBO user = (UserBO) object;
+    // renew user token
+    cacheService.expire(
+        RedisUserKeyEnum.USER_TOKEN, token, UserConstant.TOKEN_VALID_TIME, TimeUnit.HOURS);
+
     user.setToken(token);
 
     return user;

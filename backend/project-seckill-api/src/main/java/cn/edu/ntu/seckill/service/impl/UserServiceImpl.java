@@ -1,5 +1,6 @@
 package cn.edu.ntu.seckill.service.impl;
 
+import cn.edu.ntu.seckill.component.CacheUtils;
 import cn.edu.ntu.seckill.constants.UserConstant;
 import cn.edu.ntu.seckill.converter.PasswordConverter;
 import cn.edu.ntu.seckill.converter.UserConverter;
@@ -13,18 +14,14 @@ import cn.edu.ntu.seckill.redis.RedisUserKeyEnum;
 import cn.edu.ntu.seckill.repository.IPasswordRepository;
 import cn.edu.ntu.seckill.repository.IUserRepository;
 import cn.edu.ntu.seckill.service.IUserService;
-import cn.edu.ntu.seckill.utils.RedisKeyUtils;
 import cn.edu.ntu.seckill.utils.SecurityUtils;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,9 +32,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl implements IUserService {
 
-  @Resource private RedisTemplate redisTemplate;
   @Resource private IUserRepository userRepository;
   @Resource private IPasswordRepository passwordRepository;
+  @Resource CacheUtils<UserBO> cacheService;
 
   @Override
   public String login(String userId, String password) throws UnsupportedEncodingException {
@@ -51,19 +48,10 @@ public class UserServiceImpl implements IUserService {
       .new InvalidPassword("Username or password is wrong, please check and retry again");
     }
 
+    cacheService.removeAll(RedisUserKeyEnum.ALL, user.getId());
     String token = user.getId() + StrUtil.COLON + IdUtil.fastSimpleUUID();
-    Set<String> keys =
-        redisTemplate.keys(
-            RedisKeyUtils.buildDeleteKey(RedisUserKeyEnum.USER_TOKEN, user.getId()));
-    Optional.ofNullable(keys).ifPresent(x -> redisTemplate.delete(keys));
-
-    redisTemplate
-        .opsForValue()
-        .set(
-            RedisKeyUtils.buildKey(RedisUserKeyEnum.USER_TOKEN, token),
-            user,
-            UserConstant.TOKEN_VALID_TIME,
-            TimeUnit.HOURS);
+    cacheService.set(
+        UserConstant.TOKEN_VALID_TIME, TimeUnit.HOURS, user, RedisUserKeyEnum.USER_TOKEN, token);
 
     return token;
   }
@@ -115,7 +103,7 @@ public class UserServiceImpl implements IUserService {
     password = SecurityUtils.convertPassword(password, salt);
 
     passwordRepository.updatePassword(user.getId(), salt, password);
-    redisTemplate.delete(RedisKeyUtils.buildKey(RedisUserKeyEnum.USER_TOKEN, user.getToken()));
+    cacheService.removeAll(RedisUserKeyEnum.ALL, user.getId());
 
     return true;
   }
@@ -179,11 +167,9 @@ public class UserServiceImpl implements IUserService {
   private UserBO validateThenGetByUserId(String userId, String token) {
 
     if (StrUtil.isBlank(token)) {
-      String redisUserTokenKey = RedisKeyUtils.buildKey(RedisUserKeyEnum.USER_TOKEN, token);
-      Object object = redisTemplate.opsForValue().get(redisUserTokenKey);
-
-      if ((object instanceof UserBO)) {
-        return (UserBO) object;
+      UserBO userBO = cacheService.get(RedisUserKeyEnum.USER_TOKEN, token);
+      if (ObjectUtil.isNotNull(userBO)) {
+        return userBO;
       }
     }
 

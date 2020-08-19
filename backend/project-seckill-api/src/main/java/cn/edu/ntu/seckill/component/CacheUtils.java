@@ -26,17 +26,39 @@ import java.util.concurrent.TimeUnit;
 public class CacheUtils<T> {
 
   /** cache in memory 5 seconds, and max cache number is 100 */
-  private LFUCache<String, Object> memoryCache = CacheUtil.newLFUCache(100, 5 * 1000);
+  private LFUCache<String, Object> memoryCache = CacheUtil.newLFUCache(100, 500);
 
   @Resource private RedisTemplate redisTemplate;
 
-  public void cache(T bo, String realKey, long seconds) {
+  public void set(final long seconds, T bo, KeyPrefix prefix, String id, String... key) {
+    set(seconds, TimeUnit.SECONDS, bo, prefix, id, key);
+  }
+
+  public void set(
+      final long seconds, final TimeUnit unit, T bo, KeyPrefix prefix, String id, String... key) {
+    String realKey = RedisKeyUtils.buildKey(prefix, id, key);
+    set(bo, realKey, seconds, unit);
+  }
+
+  public void set(T bo, String realKey, final long timeout, final TimeUnit unit) {
     Optional.ofNullable(bo)
         .ifPresent(
             x -> {
               memoryCache.put(realKey, bo);
-              redisTemplate.opsForValue().set(realKey, bo, seconds, TimeUnit.SECONDS);
+              redisTemplate.opsForValue().set(realKey, bo, timeout, unit);
             });
+  }
+
+  public boolean expire(KeyPrefix prefix, String key, final long timeout, final TimeUnit unit) {
+
+    String realKey = RedisKeyUtils.buildKey(prefix, key);
+    return redisTemplate.expire(realKey, timeout, unit);
+  }
+
+  public T get(KeyPrefix prefix, String key) {
+
+    String realKey = RedisKeyUtils.buildKey(prefix, key);
+    return get(realKey);
   }
 
   public T get(String realKey) {
@@ -79,6 +101,7 @@ public class CacheUtils<T> {
     Arrays.stream(ArrayUtil.append(keys, key))
         .forEach(
             x -> {
+              memoryCache.remove(x);
               Set<String> keySet = redisTemplate.keys(RedisKeyUtils.buildDeleteKey(prefix, x));
               Optional.ofNullable(keySet).ifPresent(y -> redisTemplate.delete(keySet));
             });

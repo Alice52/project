@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zack <br>
@@ -202,7 +203,7 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
     String realKey =
         RedisKeyUtils.buildKey(
             RedisSeckillGoodsKeyEnum.SECKILL_GOODS, key == null ? bo.getId() : key);
-    cacheService.cache(bo, realKey, seconds);
+    cacheService.set(bo, realKey, seconds,  TimeUnit.SECONDS);
   }
 
   private void cacheSeckillGoods(SeckillGoodsBO bo, String key) {

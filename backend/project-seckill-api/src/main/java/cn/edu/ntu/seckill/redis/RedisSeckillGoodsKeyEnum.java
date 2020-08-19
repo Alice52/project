@@ -25,6 +25,6 @@ public enum RedisSeckillGoodsKeyEnum implements KeyPrefix {
   }
 
   RedisSeckillGoodsKeyEnum(String prefix) {
-    this.prefix = CommonConstant.REDIS_PREFIX_PROJECT_NAME + prefix;
+    this.prefix += prefix;
   }
 }
