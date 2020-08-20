@@ -19,6 +19,10 @@ public enum RedisUserKeyEnum implements KeyPrefix {
     return className + ":" + prefix;
   }
 
+  /**
+   * if prefix = token, then this.prefix = prefix;
+   * else this.prefix += prefix;
+   */
   RedisUserKeyEnum(String prefix) {
     this.prefix += prefix;
   }
