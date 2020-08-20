@@ -11,8 +11,7 @@
     <!--            <property name="LOG_PATTERN" value="${REQUEST_ID} [%thread] %-5level [%logger{50}.%M:%L] - %msg%n"/>-->
     <!--        </then>-->
     <!--        <else>-->
-    <!--            <property name="LOG_PATTERN"-->
-    <!--                      value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%logger{50}.%M:%L] - %msg%n"/>-->
+    <!--            <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%logger{50}.%M:%L] - %msg%n"/>-->
     <!--        </else>-->
     <!--    </if>-->
 
@@ -116,12 +115,29 @@
         <neverBlock>false</neverBlock>
         <appender-ref ref="STDOUT"/>
     </appender>
-
-    <root level="DEBUG">
+       <appender name="ASYNC_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+        <maxFlushTime>60</maxFlushTime>
+        <includeCallerData>false</includeCallerData>
+        <discardingThreshold>80</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <neverBlock>false</neverBlock>
         <appender-ref ref="FILE_DEBUG"/>
+    </appender>
+    <appender name="ASYNC_INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <maxFlushTime>60</maxFlushTime>
+        <includeCallerData>false</includeCallerData>
+        <discardingThreshold>80</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <neverBlock>false</neverBlock>
         <appender-ref ref="FILE_INFO"/>
+    </appender>
+
+
+    <root level="INFO">
         <appender-ref ref="FILE_ERROR"/>
-        <appender-ref ref="ASYNC_STDOUT"/>
-        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_DEBUG"/>
+        <appender-ref ref="ASYNC_INFO"/>
+        <!--  <appender-ref ref="ASYNC_STDOUT"/>  -->
+        <!--  <appender-ref ref="ASYNC_FILE"/>  -->
     </root>
 </configuration>

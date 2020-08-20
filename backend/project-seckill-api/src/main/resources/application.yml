@@ -1,5 +1,16 @@
 server:
   port: 8008
+  # if request count gt 1000 + 150, will refuse serve
+  tomcat:
+    # wait queue size
+    accept-count: 500
+    # max work threads
+    # sample: 4core 8g: 800
+    max-threads: 100
+    # min work thread
+    min-spare-threads: 50
+    # if connection count gt 1000, system will refuse connection
+    max-connections: 5000
 
 jasypt:
   encryptor:
@@ -30,10 +41,12 @@ spring:
       username: ENC(G07wPxuyb9kJOnY3JjNFCvUhVlMQihy/APHD0HnhHzg2qT/na3j2k/kViG7H4hVV)
       password: ENC(+hH8DdzTl3EIcR7kB7ZVGK7/WQR4GquK6LIo7apn7HXT3yD4T1QrAAUORMxqnORZ)
       url: ENC(DBdwDUQtm1qbuWx7KCZ2OKFxSBtCe+xtGbMiUEOu91YC9HSXYa3auy/vjGFl1/IhlEf+DzNd5bVAlmzwr8S8XW/I4+WTaN8J41QbnpwDRB0wJTmReVw7+j0VNSFRB9Hsv4yLvvmGYHi6rEjwKADtjIHQhkkhdqrOc6Ks2Sh/cbI=)
-      initial-size: 5
-      minIdle: 5
-      maxActive: 20
+      initial-size: 10
+      minIdle: 50
+      maxActive: 500
       maxWait: 60000
+      fail-fast: true
+      Keep-alive: true
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
       validationQuery: SELECT 1 FROM DUAL
@@ -45,7 +58,7 @@ spring:
       # If removed, the monitoring interface sql cannot collect statistics.
       # Wall is used for the firewall
       filters: stat,wall,slf4j
-      maxPoolPreparedStatementPerConnectionSize: 20
+      maxPoolPreparedStatementPerConnectionSize: 100
       useGlobalDataSourceStat: true
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
       # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
@@ -112,8 +125,8 @@ spring:
     timeout: 10000
     jedis:
       pool:
-        max-active: 50
-        min-idle: 20
+        max-active: 500
+        min-idle: 50
 
 mybatis:
   configuration:
