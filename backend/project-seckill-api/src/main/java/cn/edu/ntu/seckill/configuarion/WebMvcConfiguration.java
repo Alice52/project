@@ -1,6 +1,10 @@
 package cn.edu.ntu.seckill.configuarion;
 
 import cn.edu.ntu.seckill.interceptor.RequestInterceptor;
+import org.apache.coyote.http11.Http11NioProtocol;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -38,5 +42,20 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(accessInterceptor);
+  }
+
+  @Bean
+  public WebServerFactoryCustomizer embeddedServletContainerCustomizer() {
+    return (factory) -> {
+      ((TomcatServletWebServerFactory) factory)
+          .addConnectorCustomizers(
+              connector -> {
+                Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
+                // set keep-alive timeout: 30s
+                protocol.setKeepAliveTimeout(30000);
+                // client request gt 10000, will close keepalive connection
+                protocol.setMaxKeepAliveRequests(10000);
+              });
+    };
   }
 }
