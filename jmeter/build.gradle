@@ -45,6 +45,10 @@ afterEvaluate {
     jMeterExt.metaClass.reportXslt = "$projectDir/src/main/resources/jmeter-results-detail-report_21.xsl"
 }
 
+task wrapper(type: Wrapper) {
+   gradleVersion = '4.10.3' // version required
+}
+
 task copyToBin(type: Copy) {
     into "$buildDir/jmeter/bin"
     from "$projectDir/src/main/resources"

@@ -1,5 +1,11 @@
 ## usage
 
+0. prepare
+
+    ```shell
+    gradle wrapper 
+    ```
+
 1. windows
 
    ```bat
