@@ -25,6 +25,8 @@ public enum ErrorMessageEnum {
 
   // business logic errors
   EMAIL_SEND_ERROR(500511, "Email send error"),
+  API_RATE_LIMIT_ERROR(500512, "Api rate limit error"),
+  BUSINESS_ERROR(500513, "Business error"),
 
   // third party api errors
   THIRD_PARTY_CALL_ERROR(600400, "Third party api error"),

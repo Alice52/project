@@ -28,4 +28,8 @@ public class GoodsBO extends BaseBO {
 
   @Min(0)
   private Integer stock;
+
+  public GoodsBO(String id) {
+    super(id);
+  }
 }

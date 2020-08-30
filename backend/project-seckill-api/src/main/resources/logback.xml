@@ -115,7 +115,7 @@
         <neverBlock>false</neverBlock>
         <appender-ref ref="STDOUT"/>
     </appender>
-       <appender name="ASYNC_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="ASYNC_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
         <maxFlushTime>60</maxFlushTime>
         <includeCallerData>false</includeCallerData>
         <discardingThreshold>80</discardingThreshold>
@@ -132,12 +132,11 @@
         <appender-ref ref="FILE_INFO"/>
     </appender>
 
-
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="FILE_ERROR"/>
         <appender-ref ref="ASYNC_DEBUG"/>
         <appender-ref ref="ASYNC_INFO"/>
-        <!--  <appender-ref ref="ASYNC_STDOUT"/>  -->
-        <!--  <appender-ref ref="ASYNC_FILE"/>  -->
+        <!--  <appender-ref ref="ASYNC_STDOUT"/>-->
+        <!--  <appender-ref ref="ASYNC_FILE"/>-->
     </root>
 </configuration>

@@ -11,6 +11,8 @@ import cn.hutool.core.util.StrUtil;
 public enum RedisSeckillGoodsKeyEnum implements KeyPrefix {
   ALL,
   SECKILL_GOODS("seckill_goods"),
+  SECKILL_GOODS_OVER("seckill_goods_over"),
+  SECKILL_GOODS_TOKEN("seckill_goods_token"),
   SECKILL_GOODS_THRESHOLDS("seckill_goods_threshold"),
   SECKILL_GOODS_STOCK("seckill_goods_stock");
 

@@ -1,6 +1,7 @@
 package cn.edu.ntu.seckill.service;
 
 import cn.edu.ntu.seckill.model.bo.SeckillGoodsBO;
+import cn.edu.ntu.seckill.model.bo.UserBO;
 import cn.edu.ntu.seckill.model.vo.ListVO;
 import cn.edu.ntu.seckill.model.vo.SeckillGoodsVO;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,6 +21,15 @@ import java.math.BigDecimal;
  */
 @Validated
 public interface ISeckillGoodsService {
+  /**
+   * Get Seckill goods by condition.
+   *
+   * @param key
+   * @param condition
+   * @return
+   */
+  SeckillGoodsBO validateAndGetByConditionThenCache(String key, SeckillGoodsBO condition);
+
   /**
    * add seckill goods.
    *
@@ -56,10 +66,34 @@ public interface ISeckillGoodsService {
    *
    * @param seckillGoodsId
    * @param stock
+   * @param price
    * @return
    */
   String updateSeckillGoods(
       @NotBlank String seckillGoodsId,
       @Min(0) @NotNull Integer stock,
       @Min(0) @NotNull BigDecimal price);
+
+  /**
+   * Generate seckill token.
+   *
+   * @param seckillGoodsId
+   * @param goodsId
+   * @param user
+   * @return
+   */
+  String generateToken(@NotBlank String seckillGoodsId, @NotBlank String goodsId, UserBO user);
+
+  /**
+   * decrease stock.
+   *
+   * @param seckillGoodsId
+   * @param amount
+   * @return
+   */
+  @Transactional(
+      propagation = Propagation.REQUIRED,
+      isolation = Isolation.READ_COMMITTED,
+      rollbackFor = {Exception.class})
+  boolean decreaseStock(String seckillGoodsId, Integer amount);
 }

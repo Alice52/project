@@ -108,4 +108,10 @@
             AND (name LIKE "%${searchKey}%" OR title LIKE CONCAT('%',#{searchKey},'%'))
         </if>
     </select>
+
+    <update id="decreaseStock">
+        UPDATE `seckill.goods`
+        SET stock = stock - #{amount}
+        WHERE  id = #{goodsId} AND is_deleted = FALSE AND stock >= #{amount}
+    </update>
 </mapper>

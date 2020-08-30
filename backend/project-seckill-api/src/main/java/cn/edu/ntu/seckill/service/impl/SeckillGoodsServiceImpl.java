@@ -1,11 +1,13 @@
 package cn.edu.ntu.seckill.service.impl;
 
 import cn.edu.ntu.seckill.component.CacheUtils;
+import cn.edu.ntu.seckill.component.RedisTemplateUtils;
 import cn.edu.ntu.seckill.converter.SeckillGoodsConverter;
 import cn.edu.ntu.seckill.exception.GoodsException;
 import cn.edu.ntu.seckill.exception.SeckillGoodsException;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.bo.SeckillGoodsBO;
+import cn.edu.ntu.seckill.model.bo.UserBO;
 import cn.edu.ntu.seckill.model.po.SeckillGoodsPO;
 import cn.edu.ntu.seckill.model.po.SeckillStockPO;
 import cn.edu.ntu.seckill.model.vo.ListVO;
@@ -17,14 +19,16 @@ import cn.edu.ntu.seckill.repository.ISeckillGoodsRepository;
 import cn.edu.ntu.seckill.repository.ISeckillStockRepository;
 import cn.edu.ntu.seckill.service.ISeckillGoodsService;
 import cn.edu.ntu.seckill.utils.RedisKeyUtils;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.data.redis.core.RedisTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,6 +36,7 @@ import java.util.concurrent.TimeUnit;
  * @create 2020-08-17 21:28 <br>
  * @project project-seckill <br>
  */
+@Slf4j
 @Service
 public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
 
@@ -40,7 +45,7 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
   @Resource private IGoodsRepository goodsRepository;
   @Resource private CacheUtils<SeckillGoodsBO> cacheService;
   @Resource private CacheUtils<GoodsBO> goodsCacheService;
-  @Resource private RedisTemplate redisTemplate;
+  @Resource private RedisTemplateUtils redisTemplateUtils;
 
   @Override
   public SeckillGoodsVO view(@NotBlank String goodsId) {
@@ -81,7 +86,58 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
     return goodsBO.getId();
   }
 
-  private SeckillGoodsBO validateAndGetByConditionThenCache(String key, SeckillGoodsBO condition) {
+  @Override
+  public String generateToken(String seckillGoodsId, String goodsId, UserBO user) {
+
+    if (redisTemplateUtils.hasKey(RedisSeckillGoodsKeyEnum.SECKILL_GOODS_OVER, seckillGoodsId)) {
+      log.warn("seckill goods is sold out: {}", seckillGoodsId);
+      return null;
+    }
+    SeckillGoodsBO goodsBO = new SeckillGoodsBO();
+    goodsBO.setId(seckillGoodsId);
+    SeckillGoodsBO seckillGoodsBO = validateAndGetByConditionThenCache(seckillGoodsId, goodsBO);
+
+    LocalDateTime now = LocalDateTime.now();
+    if (now.isBefore(seckillGoodsBO.getStartDate()) || now.isAfter(seckillGoodsBO.getEndDate())) {
+      log.warn("seckill goods is not on sale: {}", seckillGoodsId);
+      return null;
+    }
+
+    long result =
+        redisTemplateUtils.increment(
+            -1, RedisSeckillGoodsKeyEnum.SECKILL_GOODS_THRESHOLDS, seckillGoodsBO.getId());
+    if (result < 0) {
+      log.warn("seckill goods is sold out: {}", seckillGoodsId);
+      return null;
+    }
+
+    // generate token
+    String token = IdUtil.fastSimpleUUID();
+    redisTemplateUtils.set(
+        token,
+        5 * 60,
+        TimeUnit.SECONDS,
+        RedisSeckillGoodsKeyEnum.SECKILL_GOODS_TOKEN,
+        seckillGoodsId,
+        user.getId());
+
+    return token;
+  }
+
+  @Override
+  public boolean decreaseStock(String seckillGoodsId, Integer amount) {
+
+    validateAndGetByConditionThenCache(seckillGoodsId, new SeckillGoodsBO(seckillGoodsId));
+    int decrease = seckillStockRepository.decrease(seckillGoodsId, amount);
+
+    if (decrease <= 0) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public SeckillGoodsBO validateAndGetByConditionThenCache(String key, SeckillGoodsBO condition) {
 
     SeckillGoodsBO goods = getSeckillGoodsVOFromCache(key);
     if (ObjectUtil.isNotNull(goods)) {
@@ -136,19 +192,11 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
 
   private void initCacheInRedis(String seckillGoodsId, Integer stock) {
     // set stock in redis cache
-    redisTemplate
-        .opsForValue()
-        .set(
-            RedisKeyUtils.buildKey(RedisSeckillGoodsKeyEnum.SECKILL_GOODS_STOCK, seckillGoodsId),
-            stock);
+    redisTemplateUtils.set(stock, RedisSeckillGoodsKeyEnum.SECKILL_GOODS_STOCK, seckillGoodsId);
 
     // set request threshold
-    redisTemplate
-        .opsForValue()
-        .set(
-            RedisKeyUtils.buildKey(
-                RedisSeckillGoodsKeyEnum.SECKILL_GOODS_THRESHOLDS, seckillGoodsId),
-            stock * 5);
+    redisTemplateUtils.set(
+        stock * 5, RedisSeckillGoodsKeyEnum.SECKILL_GOODS_THRESHOLDS, seckillGoodsId);
   }
 
   private void validateDuplicateGoods(String goodsId) {
@@ -203,7 +251,7 @@ public class SeckillGoodsServiceImpl implements ISeckillGoodsService {
     String realKey =
         RedisKeyUtils.buildKey(
             RedisSeckillGoodsKeyEnum.SECKILL_GOODS, key == null ? bo.getId() : key);
-    cacheService.set(bo, realKey, seconds,  TimeUnit.SECONDS);
+    cacheService.set(bo, realKey, seconds, TimeUnit.SECONDS);
   }
 
   private void cacheSeckillGoods(SeckillGoodsBO bo, String key) {

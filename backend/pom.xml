@@ -26,6 +26,9 @@
         <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
         <spring.aspect.version>1.9.1</spring.aspect.version>
 
+        <!-- mq -->
+        <mq.rocket.starter.version>2.0.1</mq.rocket.starter.version>
+
         <!-- database -->
         <mybatis.spring.boot.version>2.1.1</mybatis.spring.boot.version>
         <druid.starter.version>1.1.17</druid.starter.version>
@@ -63,6 +66,13 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- mq -->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${mq.rocket.starter.version}</version>
             </dependency>
 
             <!-- aspect -->
