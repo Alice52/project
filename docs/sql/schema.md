@@ -14,7 +14,7 @@ CREATE TABLE `seckill.goods` (
   `stock` int(11) DEFAULT '0' COMMENT '商品库存, -1表示没有限制',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `is_deleted` tinyint(1) DEFAULT false,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
@@ -33,11 +33,11 @@ CREATE TABLE `seckill.order` (
   `goods_price` decimal(10,2) DEFAULT '0.00' COMMENT '商品单价',
   `order_channel` tinyint(4) DEFAULT '0' COMMENT '1pc , 2android , 3ios',
   `status` tinyint(4) DEFAULT '0' COMMENT '订单状态, 0新建未支付, 1已支付, 2已发货, 3已收货, 4已退款, 5已完成',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP NULL COMMENT '订单的创建时间',
-  `pay_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP NULL COMMENT '支付时间',
+  `pay_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '支付时间',
+  `source` varchar(36) DEFAULT NULL COMMENT 'pc, h5',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `is_deleted` tinyint(1) DEFAULT false,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
@@ -54,7 +54,7 @@ CREATE TABLE `seckill.seckill_goods` (
   `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '秒杀结束时间',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `is_deleted` tinyint(1) DEFAULT false,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
@@ -63,14 +63,14 @@ CREATE TABLE `seckill.seckill_goods` (
 
 ```sql
 DROP TABLE IF EXISTS `seckill.seckill_stock`;
-CREATE TABLE `seckill.seckill_stock`(
+CREATE TABLE `seckill.seckill_stock` (
   `id` varchar(36) NOT NULL,
-  `seckill_goods_id` nvarchar(36) NOT NULL COMMENT '秒杀商品 ID',
-  `seckill_goods_count` int(11) DEFAULT 0 COMMENT '秒杀商品库存',
+  `seckill_goods_id` varchar(36) CHARACTER SET utf8 NOT NULL COMMENT '秒杀商品 ID',
+  `seckill_goods_stock` int(11) DEFAULT '0' COMMENT '秒杀商品库存',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `is_deleted` tinyint(1) DEFAULT false
-)
+  `is_deleted` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
 5. seckill.seckill_order
@@ -81,10 +81,11 @@ CREATE TABLE `seckill.seckill_order` (
   `id` varchar(36) NOT NULL,
   `user_id` varchar(36) DEFAULT NULL COMMENT '用户ID',
   `order_id` varchar(36) DEFAULT NULL COMMENT '订单ID',
-  `goods_id` varchar(36) DEFAULT NULL COMMENT '商品ID',
+  `seckill_goods_id` varchar(36) DEFAULT NULL COMMENT '商品ID',
+  `seckill_price` decimal(10,0) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `is_deleted` tinyint(1) DEFAULT false,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
@@ -129,5 +130,22 @@ CREATE TABLE `seckill.password` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-8. message relavent
+8. seckill.stock_log
+
+```sql
+DROP TABLE IF EXISTS `seckill.stock_log`;
+CREATE TABLE `seckill.stock_log` (
+  `id` varchar(36) NOT NULL,
+  `goods_id` varchar(36) NOT NULL COMMENT '商品ID',
+  `seckill_goods_id` varchar(36) DEFAULT NULL COMMENT '商品ID',
+  `amount` int(11) DEFAULT '0' COMMENT '商品数量',
+  `status` int(11) DEFAULT '0' COMMENT '状态',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+9. message relavent
    // TODO:

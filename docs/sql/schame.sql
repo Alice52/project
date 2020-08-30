@@ -6,12 +6,12 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `seckill.goods`;
 CREATE TABLE `seckill.goods` (
   `id` varchar(36) NOT NULL COMMENT '商品ID',
-  `goods_name` varchar(16) DEFAULT NULL COMMENT '商品名称',
-  `goods_title` varchar(64) DEFAULT NULL COMMENT '商品标题',
-  `goods_img` varchar(64) DEFAULT NULL COMMENT '商品的图片',
-  `goods_detail` longtext COMMENT '商品的详情介绍',
-  `goods_price` decimal(10,2) DEFAULT '0.00' COMMENT '商品单价',
-  `goods_stock` int(11) DEFAULT '0' COMMENT '商品库存, -1表示没有限制',
+  `name` varchar(16) DEFAULT NULL COMMENT '商品名称',
+  `title` varchar(64) DEFAULT NULL COMMENT '商品标题',
+  `img` varchar(64) DEFAULT NULL COMMENT '商品的图片',
+  `detail` longtext COMMENT '商品的详情介绍',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '商品单价',
+  `stock` int(11) DEFAULT '0' COMMENT '商品库存, -1表示没有限制',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` tinyint(1) DEFAULT '0',
@@ -38,7 +38,6 @@ CREATE TABLE `seckill.order` (
   `goods_price` decimal(10,2) DEFAULT '0.00' COMMENT '商品单价',
   `order_channel` tinyint(4) DEFAULT '0' COMMENT '1pc , 2android , 3ios',
   `status` tinyint(4) DEFAULT '0' COMMENT '订单状态, 0新建未支付, 1已支付, 2已发货, 3已收货, 4已退款, 5已完成',
-  `create_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '订单的创建时间',
   `pay_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '支付时间',
   `source` varchar(36) DEFAULT NULL COMMENT 'pc, h5',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -48,8 +47,19 @@ CREATE TABLE `seckill.order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of seckill.order
+-- Table structure for seckill.password
 -- ----------------------------
+DROP TABLE IF EXISTS `seckill.password`;
+CREATE TABLE `seckill.password` (
+  `id` varchar(36) NOT NULL,
+  `user_id` varchar(36) NOT NULL,
+  `salt` varchar(36) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for seckill.seckill_goods
@@ -81,16 +91,13 @@ CREATE TABLE `seckill.seckill_order` (
   `id` varchar(36) NOT NULL,
   `user_id` varchar(36) DEFAULT NULL COMMENT '用户ID',
   `order_id` varchar(36) DEFAULT NULL COMMENT '订单ID',
-  `goods_id` varchar(36) DEFAULT NULL COMMENT '商品ID',
+  `seckill_goods_id` varchar(36) DEFAULT NULL COMMENT '商品ID',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` tinyint(1) DEFAULT '0',
+  `seckill_price` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of seckill.seckill_order
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for seckill.seckill_stock
@@ -99,7 +106,7 @@ DROP TABLE IF EXISTS `seckill.seckill_stock`;
 CREATE TABLE `seckill.seckill_stock` (
   `id` varchar(36) NOT NULL,
   `seckill_goods_id` varchar(36) CHARACTER SET utf8 NOT NULL COMMENT '秒杀商品 ID',
-  `seckill_goods_count` int(11) DEFAULT '0' COMMENT '秒杀商品库存',
+  `seckill_goods_stock` int(11) DEFAULT '0' COMMENT '秒杀商品库存',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` tinyint(1) DEFAULT '0'
@@ -110,6 +117,22 @@ CREATE TABLE `seckill.seckill_stock` (
 -- ----------------------------
 INSERT INTO `seckill.seckill_stock` VALUES ('cfb190b1d94711ea93d70242ac110006', '92f61330d94711ea93d70242ac110006', '500', '2020-08-08 15:21:55', '2020-08-08 15:21:55', '0');
 INSERT INTO `seckill.seckill_stock` VALUES ('da71038fd94711ea93d70242ac110006', 'a4301748d94711ea93d70242ac110006', '300', '2020-08-08 15:22:12', '2020-08-08 15:22:12', '0');
+
+-- ----------------------------
+-- Table structure for seckill.stock_log
+-- ----------------------------
+DROP TABLE IF EXISTS `seckill.stock_log`;
+CREATE TABLE `seckill.stock_log` (
+  `id` varchar(36) NOT NULL,
+  `goods_id` varchar(36) NOT NULL COMMENT '商品ID',
+  `seckill_goods_id` varchar(36) DEFAULT NULL COMMENT '商品ID',
+  `amount` int(11) DEFAULT '0' COMMENT '商品数量',
+  `status` int(11) DEFAULT '0' COMMENT '状态',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for seckill.user
@@ -125,24 +148,5 @@ CREATE TABLE `seckill.user` (
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_deleted` tinyint(1) DEFAULT '0',
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of seckill.user
--- ----------------------------
-
--- ----------------------------
--- Table structure for seckill.password
--- ----------------------------
-DROP TABLE IF EXISTS `seckill.password`;
-CREATE TABLE `seckill.password` (
-  `id` varchar(36) NOT NULL,
-  `user_id` varchar(36) NOT NULL,
-  `salt` varchar(36) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
