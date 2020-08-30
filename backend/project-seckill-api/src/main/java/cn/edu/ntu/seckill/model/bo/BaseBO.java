@@ -19,4 +19,8 @@ public class BaseBO {
   private LocalDateTime createdDate;
   private LocalDateTime updatedDate;
   private Boolean isDeleted;
+
+  public BaseBO(String id) {
+    this.id = id;
+  }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.seckill.repository.IStockLogRepository">
+
+    <sql id="BaseColumns">
+        id, updated_date, created_date
+    </sql>
+
+    <resultMap id="BaseMap" type="StockLogPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="seckill_goods_id" jdbcType="VARCHAR" property="seckillGoodsId"/>
+    </resultMap>
+
+    <insert id="create" parameterType="StockLogPO" keyProperty="id">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            SELECT REPLACE(UUID(), '-', '') AS id FROM DUAL
+        </selectKey>
+        INSERT INTO `seckill.stock_log`(id, seckill_goods_id, goods_id, amount, status)
+        VALUES(#{id}, #{seckillGoodsId}, #{goodsId}, #{amount}, #{status})
+    </insert>
+
+    <select id="getByPK" resultMap="BaseMap">
+        SELECT seckill_goods_id, goods_id, amount, status
+        <include refid="BaseColumns"/>
+        FROM `seckill.stock_log`
+        WHERE is_deleted = FALSE AND id = #{id}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE `seckill.stock_log`
+        SET status = #{status}
+        WHERE id = #{id} AND is_deleted = FALSE
+    </update>
+</mapper>

@@ -140,3 +140,13 @@ management:
     web:
       exposure:
         include: 'loggers'
+
+apache:
+  rocketmq:
+    topicName: seckill-plus-topic
+    consumer:
+      consumerGroup: seckill-plus-consumer
+    producer:
+      producerGroup: seckill-plus-produce
+      transactionProducerGroup: seckill-plus-transaction-produce
+    namesrvAddr: ENC(JVAarAQvh/fYIGZBds+0CE2YdiujnnFKgcIzADLGsJrNW4feMiHDNSn7zSWrkdLMQZcSSGWm2ud3vQtz1c0w/Q==)

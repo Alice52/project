@@ -33,4 +33,8 @@ public class SeckillGoodsBO extends BaseBO {
 
   @NotNull private LocalDateTime startDate;
   @NotNull private LocalDateTime endDate;
+
+  public SeckillGoodsBO(String id) {
+    super(id);
+  }
 }

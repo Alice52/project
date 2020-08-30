@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.seckill.repository.ISeckillGoodsOrderRepository">
+
+    <insert id="insertSelective" parameterType="OrderBO" keyColumn="id">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            SELECT REPLACE(UUID(), '-', '') AS id FROM DUAL
+        </selectKey>
+        INSERT INTO `seckill.seckill_order`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            user_id,
+            <if test="seckillGoodsId != null">
+                seckill_goods_id,
+            </if>
+            <if test="seckillPrice != null">
+                seckill_price,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            #{userId},
+            <if test="seckillGoodsId != null">
+                #{seckillGoodsId},
+            </if>
+            <if test="seckillPrice != null">
+                #{seckillPrice},
+            </if>
+            <if test="orderId != null  ">
+                #{orderId},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

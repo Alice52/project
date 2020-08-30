@@ -88,4 +88,13 @@ public interface IGoodsRepository {
    * @return
    */
   Integer count(@Param("searchKey") String searchKey);
+
+  /**
+   * decrease stock.
+   *
+   * @param goodsId
+   * @param amount
+   * @return
+   */
+  int decreaseStock(@Param("goodsId") String goodsId, @Param("amount") Integer amount);
 }

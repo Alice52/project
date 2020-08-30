@@ -43,11 +43,12 @@ public interface ISeckillStockRepository {
 
   /**
    * Decrease stock by amount.
-   *
    * @param seckillGoodsId
    * @param stock
+   * @return
    */
-  void decrease(
+
+  int decrease(
       @NotBlank @Param("seckillGoodsId") String seckillGoodsId,
       @NotNull @Param("stock") Integer stock);
 

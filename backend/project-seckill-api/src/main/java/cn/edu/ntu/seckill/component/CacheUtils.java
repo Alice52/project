@@ -16,7 +16,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+// TODO: need refine the redis operation by RedisTemplateUtils.
 /**
+ * This utils will cache data in memory and redis, and get from memory first. <br>
+ * Notice different between <code>cn.edu.ntu.seckill.component.RedisTemplateUtils</code>
+ *
  * @author zack <br>
  * @create 2020-08-16 23:02 <br>
  * @project project-seckill <br>
@@ -53,6 +57,12 @@ public class CacheUtils<T> {
 
     String realKey = RedisKeyUtils.buildKey(prefix, key);
     return redisTemplate.expire(realKey, timeout, unit);
+  }
+
+  public T get(KeyPrefix prefix, String maker, String... key) {
+
+    String realKey = RedisKeyUtils.buildKey(prefix, maker, key);
+    return get(realKey);
   }
 
   public T get(KeyPrefix prefix, String key) {

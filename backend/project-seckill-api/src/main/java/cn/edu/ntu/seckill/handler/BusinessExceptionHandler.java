@@ -26,4 +26,18 @@ public class BusinessExceptionHandler {
 
     return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
   }
+
+  @ExceptionHandler(BusinessException.RateLimitException.class)
+  public ResponseEntity handleRateLimitException(BusinessException.RateLimitException e) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.API_RATE_LIMIT_ERROR);
+
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
+  }
+
+  @ExceptionHandler(BusinessException.class)
+  public ResponseEntity handleBusinessException(BusinessException e) {
+    ErrorResponse errorResponse = ErrorResponse.error(ErrorMessageEnum.BUSINESS_ERROR);
+
+    return DefaultExceptionHandler.buildResponseEntity(errorResponse, HttpStatus.BAD_REQUEST, e);
+  }
 }

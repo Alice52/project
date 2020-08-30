@@ -1,11 +1,16 @@
 package cn.edu.ntu.seckill.service;
 
+import cn.edu.ntu.seckill.exception.BusinessException;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
 import cn.edu.ntu.seckill.model.vo.ListVO;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -59,4 +64,27 @@ public interface IGoodsService {
    * @return
    */
   ListVO<GoodsVO> list(@NotNull Integer pageSize, @NotNull Integer currentPage, String searchKey);
+
+  /**
+   * Get BO.
+   *
+   * @param goodsId
+   * @param bo
+   * @return
+   */
+  GoodsBO validateAndGetByConditionThenCache(@NotBlank String goodsId, GoodsBO bo);
+
+  /**
+   * decrease goods stock.
+   *
+   * @param goodsId
+   * @param amount
+   * @return
+   * @throws BusinessException
+   */
+  @Transactional(
+      propagation = Propagation.REQUIRED,
+      isolation = Isolation.READ_COMMITTED,
+      rollbackFor = {Exception.class})
+  boolean decreaseStock(@NotBlank String goodsId, @Min(1) Integer amount) throws BusinessException;
 }

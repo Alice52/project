@@ -2,12 +2,14 @@ package cn.edu.ntu.seckill.service.impl;
 
 import cn.edu.ntu.seckill.component.CacheUtils;
 import cn.edu.ntu.seckill.converter.GoodsConverter;
+import cn.edu.ntu.seckill.exception.BusinessException;
 import cn.edu.ntu.seckill.exception.GoodsException;
 import cn.edu.ntu.seckill.model.bo.GoodsBO;
 import cn.edu.ntu.seckill.model.po.GoodsPO;
 import cn.edu.ntu.seckill.model.vo.GoodsVO;
 import cn.edu.ntu.seckill.model.vo.ListVO;
 import cn.edu.ntu.seckill.model.vo.Pagination;
+import cn.edu.ntu.seckill.mq.MqProducer;
 import cn.edu.ntu.seckill.redis.RedisGoodsKeyEnum;
 import cn.edu.ntu.seckill.repository.IGoodsRepository;
 import cn.edu.ntu.seckill.service.IGoodsService;
@@ -19,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +57,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     GoodsBO condition = new GoodsBO();
     condition.setId(goodsId);
-    GoodsBO goods = getBOByConditionThenCache(goodsId, condition);
+    GoodsBO goods = validateAndGetByConditionThenCache(goodsId, condition);
 
     return GoodsConverter.INSTANCE.bo2vo(goods);
   }
@@ -64,7 +67,7 @@ public class GoodsServiceImpl implements IGoodsService {
     GoodsBO condition = new GoodsBO();
     condition.setName(name);
 
-    GoodsBO goods = getBOByConditionThenCache(name, condition);
+    GoodsBO goods = validateAndGetByConditionThenCache(name, condition);
 
     return GoodsConverter.INSTANCE.bo2vo(goods);
   }
@@ -109,7 +112,8 @@ public class GoodsServiceImpl implements IGoodsService {
    * @param condition
    * @return
    */
-  private GoodsBO getBOByConditionThenCache(String key, GoodsBO condition) {
+  @Override
+  public GoodsBO validateAndGetByConditionThenCache(String key, GoodsBO condition) {
     GoodsBO goods = getGoodsVOFromCache(key);
 
     if (ObjectUtil.isNotNull(goods)) {
@@ -122,6 +126,18 @@ public class GoodsServiceImpl implements IGoodsService {
 
     cacheGoods(goods, key);
     return goods;
+  }
+
+  @Override
+  public boolean decreaseStock(@NotBlank String goodsId, @Min(1) Integer amount)
+      throws BusinessException {
+
+    int count = goodsRepository.decreaseStock(goodsId, amount);
+    if (count > 0) {
+      return true;
+    }
+
+    return false;
   }
 
   /**

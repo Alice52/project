@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ntu.seckill.repository.IGoodsOrderRepository">
+
+    <insert id="insertSelective" parameterType="OrderBO">
+        INSERT INTO `seckill.order`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="deliveryAddrId != null">
+                delivery_addr_id,
+            </if>
+            <if test="count != null">
+                goods_count,
+            </if>
+            <if test="channel != null">
+                channel,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="payDate != null">
+                pay_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="deliveryAddrId != null">
+                #{deliveryAddrId},
+            </if>
+            <if test="count != null &amp;&amp; count > 0">
+                #{count},
+            </if>
+            <if test="channel != null">
+                #{channel},
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="payDate != null">
+                payDate,
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
