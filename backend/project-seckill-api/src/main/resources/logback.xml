@@ -132,11 +132,11 @@
         <appender-ref ref="FILE_INFO"/>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="FILE_ERROR"/>
         <appender-ref ref="ASYNC_DEBUG"/>
         <appender-ref ref="ASYNC_INFO"/>
-        <!--  <appender-ref ref="ASYNC_STDOUT"/>-->
-        <!--  <appender-ref ref="ASYNC_FILE"/>-->
+<!--          <appender-ref ref="ASYNC_STDOUT"/>-->
+<!--          <appender-ref ref="ASYNC_FILE"/>-->
     </root>
 </configuration>

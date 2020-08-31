@@ -24,7 +24,6 @@
 
     <select id="getByPK" resultMap="BaseMap">
         SELECT seckill_goods_id, goods_id, amount, status
-        <include refid="BaseColumns"/>
         FROM `seckill.stock_log`
         WHERE is_deleted = FALSE AND id = #{id}
     </select>

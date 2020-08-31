@@ -3,9 +3,8 @@ package cn.edu.ntu.seckill.mq;
 import cn.edu.ntu.seckill.model.bo.StockLogBO;
 import cn.edu.ntu.seckill.service.IOrderService;
 import cn.edu.ntu.seckill.service.IStockLogService;
-import cn.edu.ntu.seckill.service.IStockService;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -86,7 +85,7 @@ public class MqProducer {
           public LocalTransactionState checkLocalTransaction(MessageExt msg) {
             // judge transaction status according to stock log data: COMMIT/ROLLBACK/UNKNOWN
             String jsonString = new String(msg.getBody());
-            Map<String, Object> map = BeanUtil.beanToMap(jsonString);
+            Map<String, Object> map = JSON.parseObject(jsonString, Map.class);
             String stockLogId = (String) map.get("stockLogId");
             StockLogBO stockLog = stockLogService.getByPK(stockLogId);
             if (stockLog == null) {
@@ -113,7 +112,7 @@ public class MqProducer {
    * @param stockLogId
    * @return
    */
-  public boolean transactionAsyncReduceStock(
+  public boolean reduceStockTransactionAsync(
       String userId, String goodsId, String seckillGoodsId, Integer amount, String stockLogId) {
     Map<String, Object> bodyMap = new HashMap<>(4);
     bodyMap.put("goodsId", goodsId);

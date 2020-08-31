@@ -24,8 +24,7 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
@@ -129,16 +128,32 @@ public class OrderController extends BaseController {
       }
     }
 
-    String stockLogId = stockLogService.initStockLog(goodsId, seckillGoodsId, amount);
-    // send reduce stock message asynchronously
-    if (!mqProducer.transactionAsyncReduceStock(
-        user.getId(), goodsId, seckillGoodsId, amount, stockLogId)) {
+    // 同步调用线程池的 submit 方法
+    // 拥塞窗口为20的等待队列, 用来队列化泄洪
+    Future<Object> future =
+        executorService.submit(
+            () -> {
+              String stockLogId = stockLogService.initStockLog(goodsId, seckillGoodsId, amount);
+              // send reduce stock message asynchronously
+              boolean asyncReduceStock =
+                  mqProducer.reduceStockTransactionAsync(
+                      user.getId(), goodsId, seckillGoodsId, amount, stockLogId);
+              if (!asyncReduceStock) {
+                if (StrUtil.isNotBlank(seckillGoodsId)) {
+                  // increase redis stock due to create order failed
+                  stockService.increaseStockInCache(seckillGoodsId, amount);
+                }
 
-      if (StrUtil.isNotBlank(seckillGoodsId)) {
-        // increase redis stock due to create order failed
-        stockService.increaseStockInCache(seckillGoodsId, amount);
-      }
+                throw new BusinessException("create order error");
+              }
 
+              return null;
+            });
+
+    try {
+      // block to wait execute finish
+      future.get();
+    } catch (InterruptedException | ExecutionException e) {
       throw new BusinessException("create order error");
     }
 
