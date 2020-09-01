@@ -1,12 +1,14 @@
 ## project-seckill
 
+![avatar](/docs/static/seckill-plus.png)
+
 ### technique
 
 1. MySQL
 2. Redis
-3. rocket mq
+3. Rocket MQ
 4. spring boot
-5. spring sesssion
+5. spring session
    - only `/user/opt` use spring session, it's session will be whole.
 6. open resty
 7. cdn
@@ -19,7 +21,7 @@
    - nginx 反向代理
    - 分布式会话管理
 
-   ![avatar](/docs/static//user-login-session.png)
+   ![avatar](/docs/static/user-login-session.png)
 
 2. 缓存: `将数据推到离用户最近的地方`
 
@@ -29,7 +31,7 @@
 
 3. ~~页面静态化~~
 
-   - cdn
+   - CDN
    - 动态请求缓存
    - 页面静态化
 
@@ -37,7 +39,7 @@
 
    - 缓存库存: `缓存击穿`
    - 下单异步化: 两种方式 `异步创建订单 / 异步减库存[行锁]`
-   - 异步事务: rocket-mq
+   - 异步事务: ROCKET-MQ
 
 5. 流量
 
@@ -54,52 +56,12 @@
 
      ![avatar](/docs/static/limit.png)
 
-- ~~防黄牛~~: 设备指纹
+7. ~~防黄牛~~: 设备指纹
 
-7. 性能测试
+8. 性能测试
 
    - jemter 压测
    - 优化
-
-8. 分布式会话管理
-
-   - 连接: keep-alive 问题
-   - token 续期
-   - token 安全: ~~放入自定义的 header 中~~/使用自定义协议
-   - sso:
-
-     - 同域名
-
-       ![avatar](/docs/static/sso-same-domain.png)
-
-     - 根域名相同子域名不同
-
-       ![avatar](/docs/static/sso-same-top-domain.png)
-
-     - 域名都不同
-
-       ![avatar](/docs/static/sso-diff.png)
-
-9. mysql 优化
-
-   ![avatar](/docs/static/mysql-standalone.png)
-
-   - mysql 应用性能优化: `缓存 + 异步 + 批处理`
-     - 写操作: 批量
-     - 读操作: 索引
-   - 单机配置性能优化
-     - max_connection: 1000 default 100
-     - innodb_file_per_table: 1
-     - innodb_buffer_pool_size: 60-80% 的内存
-     - innodb_log_file_size: 256M
-     - innodb_log_buffer_size: 16M
-     - innodb_flush_log_at_trx_commit:
-       - 0: 表示写入 redo/undo log 的 buffer 中就算成功[可能会丢失 1 秒的数据]
-       - 1: 表示每次书屋提交都会将数据 flush 到磁盘才算成功[真正的 acid]
-       - 2: 表示写入 redo/undo log 的 buffer 中且调用操作系统的 write 方法就算成功[write 方法之后数据被操作系统接管, 会在关机之前写入磁盘]
-     - innodb_data_file_path: idbata1:1G;idbata2:1G;idbata3:1G;auto extend
-   - 分布式性能优化
-     - 主从
 
 ### frontend
 
