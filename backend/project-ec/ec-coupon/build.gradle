@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':ec-common')
+}
+//bootRepackage.enabled = false
