@@ -1,4 +1,15 @@
 dependencies {
     implementation project(':ec-common')
 }
-//bootRepackage.enabled = false
+
+bootJar {
+    enabled = true
+    baseName = 'ec-coupon'
+    mainClassName = 'ec.coupon.Bootstrap'
+    excludeDevtools = true
+}
+
+// bootRepackage {
+//     enabled = true
+//     mainClass = 'ec.coupon.Bootstrap'
+// }

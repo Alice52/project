@@ -16,22 +16,22 @@ cache:
 branches:
   only:
     - develop
-    - project-ec
+    # - project-ec
 
-# jobs:
-#   include:
-#     - stage: build-$project_name
-#       script:
-#         # build project
-#         - cd $project_home/backend
-#         - travis_wait $travis_wait mvn clean package -DskipTests=true
-#         # push image
-#         - image_tag=$project_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
-#         - cd $project_home/backend
-#         - docker build -f Dockerfile --build-arg PROJECT_NAME=$project_name -t $image_tag .
-#         - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
-#         - sudo docker tag $image_tag $DOCKER_REPO/alice52/$image_tag
-#         - travis_wait $travis_wait sudo docker push $DOCKER_REPO/alice52/$image_tag
+jobs:
+  include:
+    - stage: build-$project_name
+      script:
+        # build project
+        - cd $project_home/backend/$project_name
+        - travis_wait $travis_wait ./gradlew clean build -x test --console=plain
+        # push image
+        - image_tag=$project_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
+        - cd $project_home/backend/$project_name
+        - docker build -f Dockerfile --build-arg PROJECT_NAME=$project_name -t $image_tag .
+        - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
+        - sudo docker tag $image_tag $DOCKER_REPO/alice52/$image_tag
+        - travis_wait $travis_wait sudo docker push $DOCKER_REPO/alice52/$image_tag
 
 notifications:
   email:
@@ -42,9 +42,7 @@ notifications:
 
 env:
   travis_wait: 50
-  project_name: project-name
+  project_name: project-ec
   project_home: $PWD
   commit_id: 000
   image_tag: 000
-  global:
-    - GH_REF=git@github.com:Alice52/project.git

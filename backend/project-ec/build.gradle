@@ -57,14 +57,11 @@ subprojects {
         mavenCentral()
     }
 
-    bootJar {
+    jar {
         enabled = true
-        manifest {
-            // attributes 'Start-Class': 'com.example.ExampleApplication'
-        }
-        excludeDevtools = true
     }
 
+    test.enabled = false
     dependencies {
         compileOnly 'org.projectlombok:lombok'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -87,3 +84,9 @@ subprojects {
         }
     }
 }
+
+wrapper {
+    gradleVersion = '6.6.1' // version required
+}
+
+bootJar { enabled = false}	
