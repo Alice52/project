@@ -1,4 +1,10 @@
 rootProject.name = 'project-ec'
 include 'ec-common'
 include 'ec-coupon'
+include 'ec-gateway'
+include 'ec-member'
+include 'ec-order'
+include 'ec-product'
+include 'ec-ware'
+include 'ec-thirdparty'
 

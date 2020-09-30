@@ -45,7 +45,6 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         mavenCentral()
         jcenter()
-
     }
 }
 
@@ -59,6 +58,7 @@ subprojects {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         mavenCentral()
+        jcenter()
     }
     jar {
         enabled = true
@@ -75,14 +75,18 @@ subprojects {
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
         annotationProcessor 'org.projectlombok:lombok'
-        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         }
     }
     dependencyManagement {
         imports {
-            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springcloudVersion}"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}"
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${ali_spring_cloud_version}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${spring_cloud_version}"
+
             mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
         }
         dependencies {

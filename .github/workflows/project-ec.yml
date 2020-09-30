@@ -23,7 +23,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build With Gradle
-        run:  |
+        run: |
           cd backend/project-ec
           ./gradlew clean build -x test --console=plain
 
@@ -38,3 +38,39 @@ jobs:
         with:
           name: ec-coupon-1.0-SNAPSHOT.jar
           path: backend/project-ec/ec-coupon/build/libs
+
+      - name: Upload Gradle gateway Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-gateway-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-gateway/build/libs
+
+      - name: Upload Gradle member Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-member-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-member/build/libs
+
+      - name: Upload Gradle order Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-order-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-order/build/libs
+
+      - name: Upload Gradle product Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-product-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-product/build/libs
+
+      - name: Upload Gradle ware Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-ware-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-ware/build/libs
+
+      - name: Upload Gradle thirdparty Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-thirdparty-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-thirdparty/build/libs

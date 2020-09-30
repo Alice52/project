@@ -3,7 +3,7 @@ dependencies {
 }
 
 bootJar {
-    baseName = 'ec-coupon'
-    mainClassName = 'ec.coupon.CouponApplication'
+    baseName = 'ec-product'
+    mainClassName = 'ec.product.ProductApplication'
     classifier = 'original'
 }
