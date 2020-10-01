@@ -92,6 +92,29 @@ subprojects {
         dependencies {
             dependencies {
                 dependency group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+                dependency "com.baomidou:mybatis-plus-boot-starter:${mybatisplus_version}"
+                dependency "mysql:mysql-connector-java:${mysql_version}"
+                dependency "com.alibaba:druid-spring-boot-starter:${druid_version}"
+                dependency "org.quartz-scheduler:quartz:${quartz_version}"
+                dependency "org.apache.shiro:shiro-core:${shiro_version}"
+                dependency "org.apache.shiro:shiro-spring:${shiro_version}"
+                dependency "io.jsonwebtoken:jjwt:${jwt_version}"
+                dependency "com.github.axet:kaptcha:${kaptcha_version}"
+                dependency "io.springfox:springfox-swagger2:${swagger_version}"
+                dependency "io.springfox:springfox-swagger-ui:${swagger_version}"
+                dependency "com.qiniu:qiniu-java-sdk:${qiniu_version}"
+                dependency "com.aliyun.oss:aliyun-sdk-oss:${aliyun_oss_version}"
+                dependency "com.qcloud:cos_api:${qcloud_cos_version}"
+                dependency "joda-time:joda-time:${joda_time_version}"
+                dependency "com.google.code.gson:gson:${gson_version}"
+                dependency "com.alibaba:fastjson:${fastjson_version}"
+                dependency "cn.hutool:hutool-all:${hutool_version}"
+                dependency "commons-lang:commons-lang:${common_lang_version}"
+                dependency "commons-fileupload:commons-fileupload:${commons_fileupload_version}"
+                dependency "commons-io:commons-io:${commons_io_version}"
+                dependency "commons-codec:commons-codec:${commons_codec_version}"
+                dependency "commons-configuration:commons-configuration:${commons_configuration_version}"
+                dependency "com.github.ulisesbocchio:jasypt-spring-boot-starter:${jasypt_encrtpy_version}"
             }
         }
     }

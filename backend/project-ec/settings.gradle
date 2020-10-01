@@ -7,4 +7,5 @@ include 'ec-order'
 include 'ec-product'
 include 'ec-ware'
 include 'ec-thirdparty'
+include 'ec-admin'
 
