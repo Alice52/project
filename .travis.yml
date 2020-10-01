@@ -32,7 +32,7 @@ jobs:
         # push image
         - image_tag=project-$module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
         - cd $project_home/backend/$project_name/$module_name
-        - docker build -f Dockerfile --build-arg MODULE_NAME=$module_name -t $image_tag .
+        - docker build -f Dockerfile --build-arg MODULE_NAME=$module_name --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD -t $image_tag .
         - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
         - sudo docker tag $image_tag $DOCKER_REPO/alice52/$image_tag
         - travis_wait $travis_wait sudo docker push $DOCKER_REPO/alice52/$image_tag
@@ -45,7 +45,7 @@ jobs:
         - export module_name=ec-admin
         # build project
         - cd $project_home/frontend/$module_name
-        - npm install
+        - travis_wait $travis_wait npm install
         - travis_wait $travis_wait npm run build
         # push image
         - image_tag=project-front-$module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
