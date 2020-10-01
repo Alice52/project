@@ -14,13 +14,9 @@ cache:
     - '$HOME/.m2/repository'
     - node_modules
 
-env:
-  - NODE_VERSION='10.15.3'
-
-before_install:
-  - nvm install $NODE_VERSION
-
 install:
+  - nvm install stable
+  - nvm use stable
   - npm install
 
 branches:
