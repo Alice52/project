@@ -7,4 +7,4 @@ RUN sh -c 'touch /app.jar'
 ENV JAVA_OPTS=""
 
 EXPOSE 8080
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -DJASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD -Dsun.net.httpserver.nodelay=true -jar /app.jar"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -DJASYPT_ENCRYPTOR_PASSWORD=ZACK_KEY -Dsun.net.httpserver.nodelay=true -jar /app.jar"]

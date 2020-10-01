@@ -16,9 +16,9 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.cj.jdbc.Driver
-            url: ENC(u6XDdboJSfTjGJFZrSUPEzQSGVjbWZyF144Z8AwHhTagJpaDOxpB1vKr1qixyqZ+hi2w4z/VfqPrt6Xtjwuu/0C4DtWpHhGTMZKOcmB0bg11McdxW8Jhmocq5nclBMdzUuxQCcDrG1I2lRlFXRttrQ0TlteJWXeUYFPwkQDlSjf7cD15rCnJIkGCYmt7EUkH)
-            username: ENC(BScEImzYFZT4Pz5sEk/b7sXUC7pZjsv36/2jPNXdxitWw8bxADkK7b2A3uHn8jmQ)
-            password: ENC(lb46Be0rzp7ukMbmSCt7NCRsReCSplTwcS1sZGApQZ5rnyRCCMMOKz68p60BHccf)
+            url: ENC(Ck+JmWp+/abg4spVDu/RsM3/tEcDbikihmOapZzAm2FR6wnl34DrCznQjaD6tyPnpp2e7vzkx6276qoYM96KFI/c4z9CiDUP0miKRnDU7nVPFF0g0CohMwsW1NPlN+DHVmedE4y+myJQs0GFJ6ALqYZiG21UmF49rzKjF6+oC7ViOpZorh7tf6xnKx8YhETU)
+            username: ENC(9tuul1AulECu58yn5RhB/v4plYTCLrFEnr5vjIRVry0nDbifrZpVDcOtZbHca5XT)
+            password: ENC(EcFbavNOvMk8O/PCWA5fFolSq/ZpJR5GefOpP6gKIPyOFHB2QWYZnuVETnRhf/cA)
             initial-size: 10
             max-active: 100
             min-idle: 10
