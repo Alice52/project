@@ -313,7 +313,7 @@ lib/quasar.jar
 
 ################################### front ####################################################################
 .DS_Store
-node_modules/
+**/node_modules/
 dist/
 npm-debug.log*
 yarn-debug.log*
