@@ -12,6 +12,16 @@ jdk:
 cache:
   directories:
     - '$HOME/.m2/repository'
+    - node_modules
+
+env:
+  - NODE_VERSION='10.15.3'
+
+before_install:
+  - nvm install $NODE_VERSION
+
+install:
+  - npm install
 
 branches:
   only:
@@ -28,7 +38,7 @@ jobs:
         - cd $project_home/backend/$project_name
         - travis_wait $travis_wait ./gradlew clean build -x test --console=plain
         # push image
-        - image_tag=$project_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
+        - image_tag=project-$module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
         - cd $project_home/backend/$project_name/$module_name
         - docker build -f Dockerfile --build-arg MODULE_NAME=$module_name -t $image_tag .
         - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
@@ -43,7 +53,7 @@ jobs:
         - cd $project_home/frontend/$module_name
         - travis_wait $travis_wait nmp run build
         # push image
-        - image_tag=$project_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
+        - image_tag=project-front-$module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
         - cd $project_home/frontend/$module_name
         - docker build -f Dockerfile -t $image_tag .
         - sudo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO
