@@ -21,7 +21,6 @@ jobs:
         run: |
           cd frontend/ec-admin
           npm install
-          npm clean cache
           npm run build
 
       - name: Upload Gradle ec-admin Artifact

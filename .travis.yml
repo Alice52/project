@@ -1,3 +1,4 @@
+sudo: required
 language: java
 
 git:
@@ -13,9 +14,6 @@ cache:
   directories:
     - '$HOME/.m2/repository'
     - node_modules
-
-node_js: '10.15.3'
-install: 'npm install'
 
 branches:
   only:
@@ -42,6 +40,8 @@ jobs:
     ############################################################## backend #############################################################################################
     - stage: build-$project_name-ec-admin-front
       script:
+        - wget -qO- https://deb.nodesource.com/setup_10.15.4 | sudo -E bash -
+        - sudo apt-get install -y nodejs
         - export module_name=ec-admin
         # build project
         - cd $project_home/frontend/$module_name
