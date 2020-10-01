@@ -45,6 +45,7 @@ jobs:
         - export module_name=ec-admin
         # build project
         - cd $project_home/frontend/$module_name
+        - npm install
         - travis_wait $travis_wait npm run build
         # push image
         - image_tag=project-front-$module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
