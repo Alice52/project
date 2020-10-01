@@ -13,6 +13,7 @@ jdk:
 cache:
   directories:
     - '$HOME/.m2/repository'
+    - $HOME/.gradle/caches/modules-2/
     - node_modules
 
 branches:
