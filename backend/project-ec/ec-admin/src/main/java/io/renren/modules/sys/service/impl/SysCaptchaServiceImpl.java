@@ -7,6 +7,8 @@
  */
 package io.renren.modules.sys.service.impl;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.CircleCaptcha;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.Producer;
@@ -19,7 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -39,6 +44,7 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
     }
     // 生成文字验证码
     String code = producer.createText();
+    CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(116, 36, 4, 10);
 
     SysCaptchaEntity captchaEntity = new SysCaptchaEntity();
     captchaEntity.setUuid(uuid);
@@ -47,7 +53,8 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
     captchaEntity.setExpireTime(DateUtils.addDateMinutes(new Date(), 5));
     this.save(captchaEntity);
 
-    return producer.createImage(code);
+    log.debug("getCaptcha(): " + captcha.getCode());
+    return captcha.getImage();
   }
 
   @Override

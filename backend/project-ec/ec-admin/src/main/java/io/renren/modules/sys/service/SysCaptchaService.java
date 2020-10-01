@@ -10,7 +10,9 @@ package io.renren.modules.sys.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.modules.sys.entity.SysCaptchaEntity;
 
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * 验证码
