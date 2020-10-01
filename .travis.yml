@@ -40,12 +40,12 @@ jobs:
     ############################################################## backend #############################################################################################
     - stage: build-$project_name-ec-admin-front
       script:
-        - wget -qO- https://deb.nodesource.com/setup_10.15.4 | sudo -E bash -
+        - wget -qO- https://deb.nodesource.com/setup_$node_version | sudo -E bash -
         - sudo apt-get install -y nodejs
         - export module_name=ec-admin
         # build project
         - cd $project_home/frontend/$module_name
-        - travis_wait $travis_wait nmp run build
+        - travis_wait $travis_wait npm run build
         # push image
         - image_tag=project-front-$module_name:`date +%Y%m%d`.${TRAVIS_COMMIT:0:7}
         - cd $project_home/frontend/$module_name
@@ -66,3 +66,4 @@ env:
   project_home: $PWD
   commit_id: 000
   image_tag: 000
+  node_version: 10.15.4
