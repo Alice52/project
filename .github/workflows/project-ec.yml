@@ -74,3 +74,9 @@ jobs:
         with:
           name: ec-thirdparty-1.0-SNAPSHOT.jar
           path: backend/project-ec/ec-thirdparty/build/libs
+
+      - name: Upload Gradle ec-admin Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-thirdparty-1.0-SNAPSHOT.jar
+          path: backend/project-ec/ec-admin/build/libs

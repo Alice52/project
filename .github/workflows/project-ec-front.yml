@@ -1,0 +1,30 @@
+name: Java CI Project EC
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.15.3]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build ec-admin With Node
+        run: |
+          cd frontend/ec-admin
+          npm install
+          npm run build
+
+      - name: Upload Gradle ec-admin Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-admin
+          path: frontend/ec-admin/dist
