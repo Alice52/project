@@ -22,7 +22,7 @@
                   </el-input>
                 </el-col>
                 <el-col :span="10" class="login-captcha">
-                  <img :src="captchaPath" @click="getCaptcha()" alt="">
+                  <el-button @click="getCaptcha()" :disabled = "isDisabled" name="@3424">获取验证码{{countDown ? countDown : '' }}</el-button>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -58,11 +58,13 @@
             { required: true, message: '验证码不能为空', trigger: 'blur' }
           ]
         },
-        captchaPath: ''
+        captchaPath: '',
+        countDown: 0,
+        isDisabled: false
       }
     },
     created () {
-      this.getCaptcha()
+      // this.getCaptcha()
     },
     methods: {
       // 提交表单
@@ -83,7 +85,7 @@
                 this.$cookie.set('token', data.token)
                 this.$router.replace({ name: 'home' })
               } else {
-                this.getCaptcha()
+                // this.getCaptcha()
                 this.$message.error(data.msg)
               }
             })
@@ -92,8 +94,33 @@
       },
       // 获取验证码
       getCaptcha () {
+        if (this.countDown > 0) {
+          return
+        }
         this.dataForm.uuid = getUUID()
-        this.captchaPath = this.$http.adornUrl(`/captcha.jpg?uuid=${this.dataForm.uuid}`)
+        this.$http({
+          url: this.$http.adornUrl(`/captcha?username=${this.dataForm.userName}&uuid=${this.dataForm.uuid}`),
+          method: 'get',
+          data: this.$http.adornData({
+            'username': this.dataForm.userName,
+            'uuid': this.dataForm.uuid
+          })
+        }).then(({data}) => {
+          console.log(data)
+        })
+
+        this.isDisabled = true
+        this.trigger(60, this)
+      },
+      trigger (countDown, that) {
+        that.countDown = countDown
+        let timeHandler = setInterval(() => {
+          that.countDown = that.countDown - 1
+          if (!that.countDown) {
+            clearInterval(timeHandler)
+            this.isDisabled = false
+          }
+        }, 1000)
       }
     }
   }

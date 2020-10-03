@@ -7,12 +7,15 @@
  */
 package io.renren.common.validator;
 
+import cn.hutool.core.util.StrUtil;
 import io.renren.common.exception.RRException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * hibernate-validator校验工具类
@@ -22,12 +25,33 @@ import java.util.Set;
  * @author Mark sunlightcs@gmail.com
  */
 public class ValidatorUtils {
+
+  private static final Pattern MOBILE_PATTERN = Pattern.compile("^[1]\\d{10}$");
+  private static final Pattern EMAIL_PATTERN =
+      Pattern.compile("^[_A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
+
   private static Validator validator;
 
   static {
     validator = Validation.buildDefaultValidatorFactory().getValidator();
   }
 
+  public static boolean validateMobile(String phoneNumber) {
+    if (StrUtil.isEmpty(phoneNumber)) {
+      return false;
+    }
+    Matcher m = MOBILE_PATTERN.matcher(phoneNumber);
+    return m.matches();
+  }
+
+  public static boolean validateEmail(String email) {
+
+    if (StrUtil.isEmpty(email)) {
+      return false;
+    }
+    Matcher m = EMAIL_PATTERN.matcher(email);
+    return m.matches();
+  }
   /**
    * 校验对象
    *

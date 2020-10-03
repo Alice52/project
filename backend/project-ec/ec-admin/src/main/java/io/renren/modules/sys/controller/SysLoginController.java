@@ -41,18 +41,12 @@ public class SysLoginController extends AbstractController {
   @Autowired private SysUserTokenService sysUserTokenService;
   @Autowired private SysCaptchaService sysCaptchaService;
 
-  /** 验证码 */
-  @GetMapping("captcha.jpg")
-  public void captcha(HttpServletResponse response, String uuid) throws IOException {
-    response.setHeader("Cache-Control", "no-store, no-cache");
-    response.setContentType("image/jpeg");
+  /** 发送邮箱验证码 */
+  @GetMapping("captcha")
+  public void captcha(HttpServletResponse response, String uuid, String username) throws Exception {
+    // response.setHeader("Cache-Control", "no-store, no-cache");
 
-    // 获取图片验证码
-    BufferedImage image = sysCaptchaService.getCaptcha(uuid);
-
-    ServletOutputStream out = response.getOutputStream();
-    ImageIO.write(image, "jpg", out);
-    IOUtils.closeQuietly(out);
+    sysCaptchaService.sendCaptcha(uuid, username);
   }
 
   /** 登录 */

@@ -2,6 +2,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework:spring-context-support'
     compile 'org.springframework.boot:spring-boot-starter-data-redis'
+    compile 'org.springframework.boot:spring-boot-starter-mail'
     compile 'org.springframework.boot:spring-boot-configuration-processor'
     compile('com.baomidou:mybatis-plus-boot-starter') {
         exclude group: 'com.baomidou', module: 'mybatis-plus-generator'

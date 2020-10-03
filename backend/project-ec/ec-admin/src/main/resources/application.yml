@@ -35,6 +35,27 @@ spring:
 #  resources:
 #    add-mappings: false
 
+  mail:
+    protocol: smtp
+    host: ENC(KwgyFVRJzE76uUF+B2EOyjJgijQDrxhRWzrUBa6eUfmduClTbtpaCVxXRWWctYSi)
+    port: ENC(nvvb0wOLlW+Kl+2CLMay0AyhVmWzXr5Ma2Tn4hTWSyMb95lPCjaIXpHm2Oms/9rB)
+    default-encoding: ENC(qB9K/XFkIcJGH80lNU2gJ2DVOLsFI6uuyui9MoAQA+ZI1WCLjAOjNfU7rrp3h3qo)
+    username: ENC(XtxDqyspABu9dQ0xSZ0zRV7MfVfk/7tN1rE/wkjko5vcjA0vgqmcE10FxRRYlribavOUtBGNy2PDPHWtIrrFUg==)
+    password: ENC(cVfVnGq4tQ6J3+FtW0TejImmx2ESWomD/tuGN5bJqMGM8v+Of/onqraHBd9xhH0J)
+    properties:
+      mail:
+        smtp:
+          # this is also need by qq email server
+          ssl:
+            enable: true
+            required: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          timeout: 10000
+          connectiontimeout: 10000
+          writetimeout: 10000
 
 #mybatis
 mybatis-plus:
