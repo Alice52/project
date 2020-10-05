@@ -52,7 +52,7 @@ spring:
         enabled: true
         #访问路径为/druid时，跳转到StatViewServlet  http://127.0.0.1:8080/druid
         url-pattern: "/druid/*"
-        reset-enable: false
+        reset-enable: falseEcException
         login-username: ENC(1j3TT4M6aHscVzKpeHWX5KNKRU7ui1jesPGY52W2FEl9WunVIBiVizoeQv4ocWxd)
         login-password: ENC(Jm9wTCpswKDpVkuiT0JmwMiz7H4bqiOLnEK1Hs49QPrB+RJ4Y8pUh2ON4FPOSjNV)
   cloud:

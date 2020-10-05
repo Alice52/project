@@ -1,6 +1,7 @@
 package ec.common.utils;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author zack <br>
@@ -8,6 +9,7 @@ import lombok.Data;
  * @project project-ec <br>
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class EcException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
