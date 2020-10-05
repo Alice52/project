@@ -1,6 +1,16 @@
 dependencies {
     compile 'javax.validation:validation-api'
     compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    compile('com.baomidou:mybatis-plus-boot-starter') {
+        exclude group: 'com.baomidou', module: 'mybatis-plus-generator'
+    }
+    compile 'org.apache.httpcomponents:httpcore'
+    compile 'mysql:mysql-connector-java'
+    compile 'com.alibaba:druid-spring-boot-starter'
+    compileOnly 'javax.servlet:javax.servlet-api'
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
 }
 
 bootJar {

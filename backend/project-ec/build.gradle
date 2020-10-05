@@ -80,6 +80,7 @@ subprojects {
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         }
+        implementation 'cn.hutool:hutool-all'
     }
     dependencyManagement {
         imports {
@@ -115,6 +116,14 @@ subprojects {
                 dependency "commons-codec:commons-codec:${commons_codec_version}"
                 dependency "commons-configuration:commons-configuration:${commons_configuration_version}"
                 dependency "com.github.ulisesbocchio:jasypt-spring-boot-starter:${jasypt_encrtpy_version}"
+                dependency "org.apache.velocity:velocity:${velocity_version}"
+                dependency "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelper_version}"
+                dependency "com.github.jsqlparser:jsqlparser:${jsqlparser_version}"
+                dependency "com.microsoft.sqlserver:sqljdbc4:${sqlserver_version}"
+                dependency "com.oracle:ojdbc6:${oracle_version}"
+                dependency "org.apache.httpcomponents:httpcore:${httpcore_version}"
+                dependency "javax.servlet:javax.servlet-api:${servlet_version}"
+
             }
         }
     }

@@ -1,8 +1,8 @@
 version: '2.4'
 services:
-  ec-admin:
+  ec-prodcut:
     image: xxx
     ports:
-      - "9001:8080"
+      - "9010:8010"
     environment:
-      - spring.profiles.active=prod
+      TZ: Asia/Shanghai
