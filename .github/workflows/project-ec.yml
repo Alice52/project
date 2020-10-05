@@ -27,56 +27,72 @@ jobs:
           cd backend/project-ec
           ./gradlew clean build -x test --console=plain
 
-      - name: Upload Gradle common Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-common-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-common/build/libs
+      # - name: Upload Gradle common Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-common-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-common/build/libs
 
-      - name: Upload Gradle coupon Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-coupon-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-coupon/build/libs
+      # - name: Upload Gradle coupon Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-coupon-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-coupon/build/libs
 
-      - name: Upload Gradle gateway Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-gateway-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-gateway/build/libs
+      # - name: Upload Gradle gateway Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-gateway-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-gateway/build/libs
 
-      - name: Upload Gradle member Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-member-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-member/build/libs
+      # - name: Upload Gradle member Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-member-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-member/build/libs
 
-      - name: Upload Gradle order Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-order-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-order/build/libs
+      # - name: Upload Gradle order Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-order-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-order/build/libs
 
-      - name: Upload Gradle product Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-product-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-product/build/libs
+      # - name: Upload Gradle product Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-product-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-product/build/libs
 
-      - name: Upload Gradle ware Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-ware-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-ware/build/libs
+      # - name: Upload Gradle ware Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-ware-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-ware/build/libs
 
-      - name: Upload Gradle thirdparty Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ec-thirdparty-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-thirdparty/build/libs
+      # - name: Upload Gradle thirdparty Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-thirdparty-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-thirdparty/build/libs
 
-      - name: Upload Gradle ec-admin Artifact
-        uses: actions/upload-artifact@v2
+      # - name: Upload Gradle ec-admin Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-admin-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-admin/build/libs
+
+      # - name: Upload Gradle ec-product Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ec-product-1.0-SNAPSHOT.jar
+      #     path: backend/project-ec/ec-product/build/libs
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
         with:
-          name: ec-admin-1.0-SNAPSHOT.jar
-          path: backend/project-ec/ec-admin/build/libs
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build With Gradle
+        run: |
+          mvn clean package -DskipTests=true
