@@ -1,0 +1,79 @@
+package ${package}.${moduleName}.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import io.swagger.annotations.Api;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.service.${className}Service;
+import ec.common.utils.PageUtils;
+import ec.common.utils.R;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Api
+@RestController
+@RequestMapping("${moduleName}/${pathName}")
+public class ${className}Controller {
+    @Resource
+    private ${className}Service ${classname}Service;
+
+    @GetMapping("/list")
+    // @RequiresPermissions("${moduleName}:${pathName}:list")
+    public R list(@RequestParam Map<String, Object> params) {
+        PageUtils page = ${classname}Service.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
+    @GetMapping("/info/{${pk.attrname}}")
+    // @RequiresPermissions("${moduleName}:${pathName}:info")
+    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+            ${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
+
+        return R.ok().put("${classname}", ${classname});
+    }
+
+    @PostMapping("/save")
+    // @RequiresPermissions("${moduleName}:${pathName}:save")
+    public R save(@RequestBody ${className}Entity ${classname}) {
+            ${classname}Service.save(${classname});
+
+        return R.ok();
+    }
+
+    @PutMapping("/update/{${pk.attrname}}")
+    // @RequiresPermissions("${moduleName}:${pathName}:update")
+    public R update(@PathVariable("${pk.attrname}")  ${pk.attrType} ${pk.attrname}, @RequestBody ${className}Entity ${classname}) {
+        ${classname}.set${pk.attrname}(${pk.attrname});
+            ${classname}Service.updateById(${classname});
+
+        return R.ok();
+    }
+
+    @DeleteMapping("/delete")
+    // @RequiresPermissions("${moduleName}:${pathName}:delete")
+    public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s) {
+            ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+
+        return R.ok();
+    }
+
+    @DeleteMapping("/delete/{${pk.attrname}}")
+    // @RequiresPermissions("${moduleName}:${pathName}:delete")
+    public R deleteById(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+            ${classname}Service.removeById(${pk.attrname});
+
+        return R.ok();
+    }
+}
