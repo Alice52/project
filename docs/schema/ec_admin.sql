@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50731
 File Encoding         : 65001
 
-Date: 2020-10-04 23:25:04
+Date: 2020-10-06 13:02:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -168,8 +168,7 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
 -- ----------------------------
 -- Records of QRTZ_SCHEDULER_STATE
 -- ----------------------------
-INSERT INTO `QRTZ_SCHEDULER_STATE` VALUES ('RenrenScheduler', '096501e46e101601823412742', '1601825105326', '15000');
-INSERT INTO `QRTZ_SCHEDULER_STATE` VALUES ('RenrenScheduler', 'DESKTOP-P8KK5OQ1601824093456', '1601825104177', '15000');
+INSERT INTO `QRTZ_SCHEDULER_STATE` VALUES ('RenrenScheduler', 'fc82979fcd701601877165677', '1601960547414', '15000');
 
 -- ----------------------------
 -- Table structure for QRTZ_SIMPLE_TRIGGERS
@@ -315,7 +314,9 @@ CREATE TABLE `sys_captcha` (
 -- ----------------------------
 -- Records of sys_captcha
 -- ----------------------------
+INSERT INTO `sys_captcha` VALUES ('80586471-00dd-46ef-850d-c154f0bb3f61', '5yp4m', '2020-10-04 23:38:46');
 INSERT INTO `sys_captcha` VALUES ('b442268d-7e26-4ce9-8e90-8c95b63d9a87', 'ned8c', '2020-10-03 23:28:44');
+INSERT INTO `sys_captcha` VALUES ('c548fa05-e3db-461b-864a-a68cdcde1a0b', 'mwfpn', '2020-10-04 23:36:35');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -352,6 +353,19 @@ CREATE TABLE `sys_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
 
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
+INSERT INTO `sys_log` VALUES ('1', 'admin', '暂停定时任务', 'io.renren.modules.job.controller.ScheduleJobController.pause()', '[[1]]', '154', '0:0:0:0:0:0:0:1', '2020-10-01 12:43:16');
+INSERT INTO `sys_log` VALUES ('2', 'admin', '恢复定时任务', 'io.renren.modules.job.controller.ScheduleJobController.resume()', '[[1]]', '228', '0:0:0:0:0:0:0:1', '2020-10-01 12:56:27');
+INSERT INTO `sys_log` VALUES ('3', 'admin', '立即执行任务', 'io.renren.modules.job.controller.ScheduleJobController.run()', '[[1]]', '106', '0:0:0:0:0:0:0:1', '2020-10-01 12:56:33');
+INSERT INTO `sys_log` VALUES ('4', 'admin', '暂停定时任务', 'io.renren.modules.job.controller.ScheduleJobController.pause()', '[[1]]', '162', '0:0:0:0:0:0:0:1', '2020-10-01 16:09:37');
+INSERT INTO `sys_log` VALUES ('5', 'admin', '恢复定时任务', 'io.renren.modules.job.controller.ScheduleJobController.resume()', '[[1]]', '121', '0:0:0:0:0:0:0:1', '2020-10-01 16:10:29');
+INSERT INTO `sys_log` VALUES ('6', 'admin', '立即执行任务', 'io.renren.modules.job.controller.ScheduleJobController.run()', '[[1]]', '111', '0:0:0:0:0:0:0:1', '2020-10-01 16:10:48');
+INSERT INTO `sys_log` VALUES ('7', 'admin', '修改定时任务', 'io.renren.modules.job.controller.ScheduleJobController.update()', '[{\"jobId\":1,\"beanName\":\"testTask\",\"params\":\"renren\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"参数测试\"}]', '330', '0:0:0:0:0:0:0:1', '2020-10-01 16:17:03');
+INSERT INTO `sys_log` VALUES ('8', 'admin', '暂停定时任务', 'io.renren.modules.job.controller.ScheduleJobController.pause()', '[[1]]', '181', '0:0:0:0:0:0:0:1', '2020-10-01 16:22:37');
+INSERT INTO `sys_log` VALUES ('9', 'admin', '恢复定时任务', 'io.renren.modules.job.controller.ScheduleJobController.resume()', '[[1]]', '157', '0:0:0:0:0:0:0:1', '2020-10-01 16:24:32');
+INSERT INTO `sys_log` VALUES ('10', 'admin', '暂停定时任务', 'io.renren.modules.job.controller.ScheduleJobController.pause()', '[[1]]', '106', '0:0:0:0:0:0:0:1', '2020-10-01 16:25:06');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -367,7 +381,7 @@ CREATE TABLE `sys_menu` (
   `icon` varchar(50) DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COMMENT='菜单管理';
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COMMENT='菜单管理';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -376,7 +390,7 @@ INSERT INTO `sys_menu` VALUES ('1', '0', '系统管理', null, null, '0', 'syste
 INSERT INTO `sys_menu` VALUES ('2', '1', '管理员列表', 'sys/user', null, '1', 'admin', '1');
 INSERT INTO `sys_menu` VALUES ('3', '1', '角色管理', 'sys/role', null, '1', 'role', '2');
 INSERT INTO `sys_menu` VALUES ('4', '1', '菜单管理', 'sys/menu', null, '1', 'menu', '3');
-INSERT INTO `sys_menu` VALUES ('5', '1', 'SQL监控', 'http://localhost:9001/ec-admin/druid/sql.html', null, '1', 'sql', '4');
+INSERT INTO `sys_menu` VALUES ('5', '1', 'SQL监控', 'http://101.37.174.197:9001/ec-admin/druid/sql.html', null, '1', 'sql', '4');
 INSERT INTO `sys_menu` VALUES ('6', '1', '定时任务', 'job/schedule', null, '1', 'job', '5');
 INSERT INTO `sys_menu` VALUES ('7', '6', '查看', null, 'sys:schedule:list,sys:schedule:info', '2', null, '0');
 INSERT INTO `sys_menu` VALUES ('8', '6', '新增', null, 'sys:schedule:save', '2', null, '0');
@@ -401,6 +415,48 @@ INSERT INTO `sys_menu` VALUES ('26', '4', '删除', null, 'sys:menu:delete', '2'
 INSERT INTO `sys_menu` VALUES ('27', '1', '参数管理', 'sys/config', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', '1', 'config', '6');
 INSERT INTO `sys_menu` VALUES ('29', '1', '系统日志', 'sys/log', 'sys:log:list', '1', 'log', '7');
 INSERT INTO `sys_menu` VALUES ('30', '1', '文件上传', 'oss/oss', 'sys:oss:all', '1', 'oss', '6');
+INSERT INTO `sys_menu` VALUES ('31', '0', '商品系统', '', '', '0', 'editor', '0');
+INSERT INTO `sys_menu` VALUES ('32', '31', '分类维护', 'product/category', '', '1', 'menu', '0');
+INSERT INTO `sys_menu` VALUES ('34', '31', '品牌管理', 'product/brand', '', '1', 'editor', '0');
+INSERT INTO `sys_menu` VALUES ('37', '31', '平台属性', '', '', '0', 'system', '0');
+INSERT INTO `sys_menu` VALUES ('38', '37', '属性分组', 'product/attrgroup', '', '1', 'tubiao', '0');
+INSERT INTO `sys_menu` VALUES ('39', '37', '规格参数', 'product/baseattr', '', '1', 'log', '0');
+INSERT INTO `sys_menu` VALUES ('40', '37', '销售属性', 'product/saleattr', '', '1', 'zonghe', '0');
+INSERT INTO `sys_menu` VALUES ('41', '31', '商品维护', 'product/spu', '', '0', 'zonghe', '0');
+INSERT INTO `sys_menu` VALUES ('42', '0', '优惠营销', '', '', '0', 'mudedi', '0');
+INSERT INTO `sys_menu` VALUES ('43', '0', '库存系统', '', '', '0', 'shouye', '0');
+INSERT INTO `sys_menu` VALUES ('44', '0', '订单系统', '', '', '0', 'config', '0');
+INSERT INTO `sys_menu` VALUES ('45', '0', '用户系统', '', '', '0', 'admin', '0');
+INSERT INTO `sys_menu` VALUES ('46', '0', '内容管理', '', '', '0', 'sousuo', '0');
+INSERT INTO `sys_menu` VALUES ('47', '42', '优惠券管理', 'coupon/coupon', '', '1', 'zhedie', '0');
+INSERT INTO `sys_menu` VALUES ('48', '42', '发放记录', 'coupon/history', '', '1', 'sql', '0');
+INSERT INTO `sys_menu` VALUES ('49', '42', '专题活动', 'coupon/subject', '', '1', 'tixing', '0');
+INSERT INTO `sys_menu` VALUES ('50', '42', '秒杀活动', 'coupon/seckill', '', '1', 'daohang', '0');
+INSERT INTO `sys_menu` VALUES ('51', '42', '积分维护', 'coupon/bounds', '', '1', 'geren', '0');
+INSERT INTO `sys_menu` VALUES ('52', '42', '满减折扣', 'coupon/full', '', '1', 'shoucang', '0');
+INSERT INTO `sys_menu` VALUES ('53', '43', '仓库维护', 'ware/wareinfo', '', '1', 'shouye', '0');
+INSERT INTO `sys_menu` VALUES ('54', '43', '库存工作单', 'ware/task', '', '1', 'log', '0');
+INSERT INTO `sys_menu` VALUES ('55', '43', '商品库存', 'ware/sku', '', '1', 'jiesuo', '0');
+INSERT INTO `sys_menu` VALUES ('56', '44', '订单查询', 'order/order', '', '1', 'zhedie', '0');
+INSERT INTO `sys_menu` VALUES ('57', '44', '退货单处理', 'order/return', '', '1', 'shanchu', '0');
+INSERT INTO `sys_menu` VALUES ('58', '44', '等级规则', 'order/settings', '', '1', 'system', '0');
+INSERT INTO `sys_menu` VALUES ('59', '44', '支付流水查询', 'order/payment', '', '1', 'job', '0');
+INSERT INTO `sys_menu` VALUES ('60', '44', '退款流水查询', 'order/refund', '', '1', 'mudedi', '0');
+INSERT INTO `sys_menu` VALUES ('61', '45', '会员列表', 'member/member', '', '1', 'geren', '0');
+INSERT INTO `sys_menu` VALUES ('62', '45', '会员等级', 'member/level', '', '1', 'tubiao', '0');
+INSERT INTO `sys_menu` VALUES ('63', '45', '积分变化', 'member/growth', '', '1', 'bianji', '0');
+INSERT INTO `sys_menu` VALUES ('64', '45', '统计信息', 'member/statistics', '', '1', 'sql', '0');
+INSERT INTO `sys_menu` VALUES ('65', '46', '首页推荐', 'content/index', '', '1', 'shouye', '0');
+INSERT INTO `sys_menu` VALUES ('66', '46', '分类热门', 'content/category', '', '1', 'zhedie', '0');
+INSERT INTO `sys_menu` VALUES ('67', '46', '评论管理', 'content/comments', '', '1', 'pinglun', '0');
+INSERT INTO `sys_menu` VALUES ('68', '41', 'spu管理', 'product/spu', '', '1', 'config', '0');
+INSERT INTO `sys_menu` VALUES ('69', '41', '发布商品', 'product/spuadd', '', '1', 'bianji', '0');
+INSERT INTO `sys_menu` VALUES ('70', '43', '采购单维护', '', '', '0', 'tubiao', '0');
+INSERT INTO `sys_menu` VALUES ('71', '70', '采购需求', 'ware/purchaseitem', '', '1', 'editor', '0');
+INSERT INTO `sys_menu` VALUES ('72', '70', '采购单', 'ware/purchase', '', '1', 'menu', '0');
+INSERT INTO `sys_menu` VALUES ('73', '41', '商品管理', 'product/manager', '', '1', 'zonghe', '0');
+INSERT INTO `sys_menu` VALUES ('74', '42', '会员价格', 'coupon/memberprice', '', '1', 'admin', '0');
+INSERT INTO `sys_menu` VALUES ('75', '42', '每日秒杀', 'coupon/seckillsession', '', '1', 'job', '0');
 
 -- ----------------------------
 -- Table structure for sys_oss
@@ -458,7 +514,7 @@ CREATE TABLE `sys_user` (
   `username` varchar(50) NOT NULL COMMENT '用户名',
   `password` varchar(100) DEFAULT NULL COMMENT '密码',
   `salt` varchar(20) DEFAULT NULL COMMENT '盐',
-  `email` varchar(100) NOT NULL COMMENT '邮箱',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
   `mobile` varchar(100) DEFAULT NULL COMMENT '手机号',
   `status` tinyint(4) DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
@@ -499,6 +555,11 @@ CREATE TABLE `sys_user_token` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `token` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户Token';
+
+-- ----------------------------
+-- Records of sys_user_token
+-- ----------------------------
+INSERT INTO `sys_user_token` VALUES ('1', '23fb9a2673cf799e6e20612c3e53f7dc', '2020-10-06 01:54:17', '2020-10-05 13:54:17');
 
 -- ----------------------------
 -- Table structure for tb_user
