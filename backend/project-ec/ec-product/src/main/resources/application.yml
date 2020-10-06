@@ -72,5 +72,5 @@ mybatis-plus:
 
 logging:
   level:
-    com.atguigu.gulimall: debug
+    ec.*: debug
 

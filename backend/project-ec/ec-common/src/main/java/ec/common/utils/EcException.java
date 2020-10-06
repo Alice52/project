@@ -16,6 +16,8 @@ public class EcException extends RuntimeException {
   private String msg;
   private int code = 500;
 
+  public EcException() {}
+
   public EcException(String msg) {
     super(msg);
     this.msg = msg;

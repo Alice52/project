@@ -11,6 +11,8 @@ dependencies {
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
+    compile 'io.springfox:springfox-swagger2'
+    compile 'io.springfox:springfox-swagger-ui'
 }
 
 bootJar {

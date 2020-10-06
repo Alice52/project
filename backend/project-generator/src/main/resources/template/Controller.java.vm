@@ -55,7 +55,7 @@ public class ${className}Controller {
     @PutMapping("/update/{${pk.attrname}}")
     // @RequiresPermissions("${moduleName}:${pathName}:update")
     public R update(@PathVariable("${pk.attrname}")  ${pk.attrType} ${pk.attrname}, @RequestBody ${className}Entity ${classname}) {
-        ${classname}.set${pk.attrname}(${pk.attrname});
+        ${classname}.set${pk.attrName}(${pk.attrname});
             ${classname}Service.updateById(${classname});
 
         return R.ok();

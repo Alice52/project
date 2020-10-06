@@ -11,7 +11,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: ENC(onvT1m5Xiwv7JTqBiMYZ+gW4LxwShCTPVk06Iuq5MhWZGhYGuEYqdg8Q1I/LfqZ5Xc7bw1XaYp9gD3Kuug9JvG5WtfmKAeSCIpXghnnG9dzhopbQbGPETsp6XqzGoTIE8ELrlIXDUbIFOAwW24Lj7lAXUd0xF70AmxX1TCqE8jL6S0cYSHXbq+3y7BykEf30)
+    url: ENC(bEMsScab1qT0vZ29pken+75U0d39UMnCGbOjrMm6swFDZO2dqc3Eqaphv6jtVguJPPZaaNZcMefTa39uxOrRu18A4g+1vI3a7uNPDRZdnw1NVRZXEWHec6MPD7wu15W0HmJ34B5rQGRyDa5dkilSU7rSgMx3ulOVCYrjmjyCzAwWpTMrUE+FX1+A5R5KfFZG)
     username: ENC(uVs7DP260FXOKYBacQjLo7Fonyyiq2qwnSjOGt9Q2weCl3ceVf6c6VAAQ6WkTsUt)
     password: ENC(IkxnRsO4O+J/8pOvHoL7/9sSyvhq3Zv9AYObJx9ldt636qyRiBTGrwndtSISEY4F)
     #oracle配置
