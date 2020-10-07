@@ -1,5 +1,10 @@
 dependencies {
-    compile project(':ec-common')
+    compile(project(':ec-common')) {
+        exclude group: 'com.baomidou', module: 'mybatis-plus-boot-starter'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-actuator'
+    }
+    compile 'org.springframework.cloud:spring-cloud-starter-gateway'
 }
 
 bootJar {

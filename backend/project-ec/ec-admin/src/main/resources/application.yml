@@ -15,8 +15,9 @@ jasypt:
 
 swagger2:
   enable: true
-
 spring:
+  application:
+    name: EC_ADMIN
   # 环境 dev|test|prod
   profiles:
     active: prod
@@ -56,6 +57,7 @@ spring:
           timeout: 10000
           connectiontimeout: 10000
           writetimeout: 10000
+
 
 #mybatis
 mybatis-plus:

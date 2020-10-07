@@ -72,22 +72,16 @@ subprojects {
     test.enabled = false
     dependencies {
         compileOnly 'org.projectlombok:lombok'
+        compileOnly 'javax.servlet:javax.servlet-api'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
         annotationProcessor 'org.projectlombok:lombok'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        testImplementation('org.springframework.boot:spring-boot-starter-test') {
-            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-        }
-        implementation 'cn.hutool:hutool-all'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     }
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}"
             mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${ali_spring_cloud_version}"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${spring_cloud_version}"
-
             mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
         }
         dependencies {

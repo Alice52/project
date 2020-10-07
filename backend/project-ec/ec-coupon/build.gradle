@@ -1,5 +1,9 @@
 dependencies {
     compile project(':ec-common')
+    compile 'mysql:mysql-connector-java'
+    compile 'com.alibaba:druid-spring-boot-starter'
+    compile 'io.springfox:springfox-swagger2'
+    compile 'io.springfox:springfox-swagger-ui'
 }
 
 bootJar {

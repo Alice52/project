@@ -1,14 +1,21 @@
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework:spring-context-support'
-    compile 'org.springframework.boot:spring-boot-starter-data-redis'
-    compile 'org.springframework.boot:spring-boot-starter-mail'
-    compile 'org.springframework.boot:spring-boot-configuration-processor'
     compile('com.baomidou:mybatis-plus-boot-starter') {
         exclude group: 'com.baomidou', module: 'mybatis-plus-generator'
     }
     compile 'mysql:mysql-connector-java'
     compile 'com.alibaba:druid-spring-boot-starter'
+
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework:spring-context-support'
+    compile 'org.springframework.boot:spring-boot-starter-data-redis'
+    compile 'org.springframework.boot:spring-boot-starter-mail'
+    compile 'org.springframework.boot:spring-boot-configuration-processor'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
     compile('org.quartz-scheduler:quartz') {
         exclude group: 'com.mchange', module: 'c3p0'
     }
