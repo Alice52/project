@@ -15,13 +15,12 @@ custom-config:
 
 spring:
   application:
-    name: EC_MEMBER_SERVICE
+    name: EC-MEMBER-SERVICE
   cloud:
     nacos:
       discovery:
         server-addr: ${custom-config.server-addr}
         namespace: ${custom-config.namespace}
-        group: ${custom-config.group}
       config:
         server-addr: ${custom-config.server-addr}
         namespace: ${custom-config.namespace}

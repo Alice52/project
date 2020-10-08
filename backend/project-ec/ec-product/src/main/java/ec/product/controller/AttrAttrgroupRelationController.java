@@ -20,36 +20,32 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("product/attrattrgrouprelation")
+@RequestMapping("product")
 public class AttrAttrgroupRelationController {
   @Resource private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
-  @GetMapping("/list")
-  // @RequiresPermissions("product:attrattrgrouprelation:list")
+  @GetMapping("/attr-attrgroup-relations")
   public R list(@RequestParam Map<String, Object> params) {
     PageUtils page = attrAttrgroupRelationService.queryPage(params);
 
     return R.ok().put("page", page);
   }
 
-  @GetMapping("/info/{id}")
-  // @RequiresPermissions("product:attrattrgrouprelation:info")
+  @GetMapping("/attr-attrgroup-relation/{id}")
   public R info(@PathVariable("id") Long id) {
     AttrAttrgroupRelationEntity attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
 
     return R.ok().put("attrAttrgroupRelation", attrAttrgroupRelation);
   }
 
-  @PostMapping("/save")
-  // @RequiresPermissions("product:attrattrgrouprelation:save")
+  @PostMapping(value = {"/attr-attrgroup-relation", "/attr-attrgroup-relations"})
   public R save(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation) {
     attrAttrgroupRelationService.save(attrAttrgroupRelation);
 
     return R.ok();
   }
 
-  @PutMapping("/update/{id}")
-  // @RequiresPermissions("product:attrattrgrouprelation:update")
+  @PutMapping("/attr-attrgroup-relation/{id}")
   public R update(
       @PathVariable("id") Long id, @RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation) {
     attrAttrgroupRelation.setId(id);
@@ -58,16 +54,14 @@ public class AttrAttrgroupRelationController {
     return R.ok();
   }
 
-  @DeleteMapping("/delete")
-  // @RequiresPermissions("product:attrattrgrouprelation:delete")
+  @DeleteMapping("/attr-attrgroup-relations")
   public R delete(@RequestBody Long[] ids) {
     attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
 
     return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("product:attrattrgrouprelation:delete")
+  @DeleteMapping("/attr-attrgroup-relation")
   public R deleteById(@PathVariable("id") Long id) {
     attrAttrgroupRelationService.removeById(id);
 

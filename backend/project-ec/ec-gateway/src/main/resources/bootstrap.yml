@@ -7,20 +7,21 @@ custom-config:
   server-addr: ENC(cNeNQ2aZrxpTNiCi3S6Q91aZd32na9V8jLizHKlnhHlTwXJ4gq9WAMYJgK+9gRuzuZpRqnbYcLowywVvyXADDg==)
   namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
   file-extension: yaml
-  datasource: gateway.yaml
+  gateway: gateway.yaml
   server: server.yaml
   ec-group: EC_GROUP
   log: logging.yaml
 
 spring:
   application:
-    name: EC_GATEWAY_SERVICE
+    name: EC-GATEWAY-SERVICE
   cloud:
     nacos:
       discovery:
         server-addr: ${custom-config.server-addr}
         namespace: ${custom-config.namespace}
-        group: ${custom-config.group}
+        # nacos can only find service in the same group
+        # group: ${custom-config.group}
       config:
         server-addr: ${custom-config.server-addr}
         namespace: ${custom-config.namespace}

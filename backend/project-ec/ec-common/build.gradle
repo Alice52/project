@@ -3,10 +3,10 @@ dependencies {
     compile 'org.apache.httpcomponents:httpcore'
     compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
     compile 'cn.hutool:hutool-all'
+    compile 'org.mapstruct:mapstruct'
     compile('com.baomidou:mybatis-plus-boot-starter') {
         exclude group: 'com.baomidou', module: 'mybatis-plus-generator'
     }
-
     compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
@@ -15,6 +15,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testCompile 'junit:junit'
 }
 
 bootJar {

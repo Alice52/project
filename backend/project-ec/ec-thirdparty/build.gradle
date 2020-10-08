@@ -1,5 +1,10 @@
 dependencies {
-    compile project(':ec-common')
+    compile 'com.alibaba.cloud:spring-cloud-starter-alicloud-oss'
+    compile(project(':ec-common')) {
+        exclude group: 'com.baomidou', module: 'mybatis-plus-boot-starter'
+    }
+    compile 'io.springfox:springfox-swagger2'
+    compile 'io.springfox:springfox-swagger-ui'
 }
 
 bootJar {

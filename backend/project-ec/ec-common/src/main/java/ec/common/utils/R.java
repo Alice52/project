@@ -1,5 +1,7 @@
 package ec.common.utils;
 
+import ec.common.error.ErrorMessageEnum;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,21 @@ public class R extends HashMap<String, Object> {
 
   public R() {
     put("code", 0);
+    put("msg", "success");
+  }
+
+  public static R error(ErrorMessageEnum errorMessageEnum) {
+    R r = new R();
+    r.put("code", errorMessageEnum.getCode());
+    r.put("msg", errorMessageEnum.getMsg());
+    return r;
+  }
+
+  public static R error(int code, String msg) {
+    R r = new R();
+    r.put("code", code);
+    r.put("msg", msg);
+    return r;
   }
 
   public static R error() {
@@ -23,11 +40,8 @@ public class R extends HashMap<String, Object> {
     return error(500, msg);
   }
 
-  public static R error(int code, String msg) {
-    R r = new R();
-    r.put("code", code);
-    r.put("msg", msg);
-    return r;
+  public static R ok() {
+    return new R();
   }
 
   public static R ok(String msg) {
@@ -40,10 +54,6 @@ public class R extends HashMap<String, Object> {
     R r = new R();
     r.putAll(map);
     return r;
-  }
-
-  public static R ok() {
-    return new R();
   }
 
   @Override

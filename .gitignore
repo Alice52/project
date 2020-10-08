@@ -182,6 +182,7 @@ venv.bak/
 .pydevproject
 *.egg
 *.txt
+!**/banner.txt
 
 ## csharp
 # Prerequisites

@@ -3,7 +3,9 @@ package ec.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ec.common.utils.PageUtils;
 import ec.product.entity.CategoryBrandRelationEntity;
+import ec.product.model.CategoryBrandRelationVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +17,10 @@ import java.util.Map;
  */
 public interface CategoryBrandRelationService extends IService<CategoryBrandRelationEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
-}
+  PageUtils queryPage(Map<String, Object> params);
 
+  List<CategoryBrandRelationVO> getbyBrandId(Long brandId);
+
+  @Override
+  boolean save(CategoryBrandRelationEntity entity);
+}

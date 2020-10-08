@@ -5,6 +5,8 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compile 'com.alibaba:druid-spring-boot-starter'
 
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework:spring-context-support'
     compile 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -40,6 +42,12 @@ dependencies {
     compile 'com.alibaba:fastjson'
     compile 'cn.hutool:hutool-all:4.1.1'
     compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
+}
+
+compileJava {
+    options.compilerArgs = [
+            '-parameters'
+    ]
 }
 
 bootJar {

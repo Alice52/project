@@ -23,8 +23,8 @@ jobs:
           npm install
           npm run build
 
-      # - name: Upload Gradle ec-admin Artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ec-admin
-      #     path: frontend/ec-admin/dist
+      - name: Upload Gradle ec-admin Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ec-admin
+          path: frontend/ec-admin/dist

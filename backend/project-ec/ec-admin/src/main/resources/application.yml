@@ -9,15 +9,9 @@ server:
   servlet:
     context-path: /ec-admin
 
-jasypt:
-  encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD}
-
 swagger2:
   enable: true
 spring:
-  application:
-    name: EC_ADMIN
   # 环境 dev|test|prod
   profiles:
     active: prod
@@ -30,7 +24,6 @@ spring:
       max-file-size: 100MB
       max-request-size: 45MB
       enabled: true
-
   mvc:
     throw-exception-if-no-handler-found: true
 #  resources:

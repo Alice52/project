@@ -30,6 +30,7 @@ allprojects {
     targetCompatibility = this.jdk_version
 
     configurations {
+        compile
         developmentOnly
         runtimeClasspath {
             extendsFrom developmentOnly
@@ -38,6 +39,7 @@ allprojects {
             extendsFrom annotationProcessor
         }
     }
+
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
@@ -60,6 +62,7 @@ subprojects {
         mavenCentral()
         jcenter()
     }
+
     jar {
         enabled = true
     }
@@ -75,8 +78,18 @@ subprojects {
         compileOnly 'javax.servlet:javax.servlet-api'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
         annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     }
+
+    compileJava {
+        options.compilerArgs = [
+                '-Amapstruct.suppressGeneratorTimestamp=true',
+                '-Amapstruct.suppressGeneratorVersionInfoComment=true',
+                '-parameters'
+        ]
+    }
+
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}"
@@ -86,6 +99,7 @@ subprojects {
         }
         dependencies {
             dependencies {
+                dependency "com.alibaba.cloud:spring-cloud-starter-alicloud-oss:${ali_spring_cloud_oss_version}"
                 dependency group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
                 dependency "com.baomidou:mybatis-plus-boot-starter:${mybatisplus_version}"
                 dependency "mysql:mysql-connector-java:${mysql_version}"
@@ -117,7 +131,8 @@ subprojects {
                 dependency "com.oracle:ojdbc6:${oracle_version}"
                 dependency "org.apache.httpcomponents:httpcore:${httpcore_version}"
                 dependency "javax.servlet:javax.servlet-api:${servlet_version}"
-
+                dependency "org.mapstruct:mapstruct:${mapstruct_version}"
+                dependency "junit:junit:${junit_version}"
             }
         }
     }

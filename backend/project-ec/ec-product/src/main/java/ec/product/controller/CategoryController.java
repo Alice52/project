@@ -1,18 +1,22 @@
 package ec.product.controller;
 
-import ec.common.utils.PageUtils;
+import ec.common.annotation.AddGroup;
+import ec.common.annotation.UpdateGroup;
 import ec.common.utils.R;
-import ec.product.entity.CategoryEntity;
+import ec.product.model.CategoryEntityVO;
 import ec.product.service.CategoryService;
 import io.swagger.annotations.Api;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Map;
+import javax.validation.groups.Default;
+import java.util.List;
+
+import static ec.product.converter.CategoryEntityConverter.INSTANCE;
 
 /**
- * 商品三级分类
+ * Goods category
  *
  * @author zack.zhang
  * @email zzhang_xz@163.com
@@ -24,44 +28,51 @@ import java.util.Map;
 public class CategoryController {
   @Resource private CategoryService categoryService;
 
-  @GetMapping("/list")
-  // @RequiresPermissions("product:category:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = categoryService.queryPage(params);
+  /**
+   * Query all category organized by tree model.
+   *
+   * @return
+   */
+  @GetMapping("/list/tree")
+  public R list() {
 
-    return R.ok().put("page", page);
+    return R.ok().put("data", categoryService.listWithTree());
   }
 
   @GetMapping("/info/{catId}")
   // @RequiresPermissions("product:category:info")
   public R info(@PathVariable("catId") Long catId) {
-    CategoryEntity category = categoryService.getById(catId);
 
-    return R.ok().put("category", category);
+    return R.ok().put("category", INSTANCE.po2vo(categoryService.getById(catId)));
   }
 
   @PostMapping("/save")
   // @RequiresPermissions("product:category:save")
-  public R save(@RequestBody CategoryEntity category) {
-    categoryService.save(category);
+  public R save(
+      @RequestBody @Validated({Default.class, AddGroup.class}) CategoryEntityVO categoryEntityVO) {
+    categoryService.save(INSTANCE.vo2po(categoryEntityVO));
 
     return R.ok();
   }
 
   @PutMapping("/update/{catId}")
   // @RequiresPermissions("product:category:update")
-  public R update(@PathVariable("catId") Long catId, @RequestBody CategoryEntity category) {
-    category.setCatId(catId);
-    categoryService.updateById(category);
+  public R update(
+      @PathVariable("catId") Long catId,
+      @RequestBody @Validated({Default.class, UpdateGroup.class})
+          CategoryEntityVO categoryEntityVO) {
+
+    categoryEntityVO.setCatId(catId);
+    categoryService.updateById(INSTANCE.vo2po(categoryEntityVO));
 
     return R.ok();
   }
 
   @DeleteMapping("/delete")
   // @RequiresPermissions("product:category:delete")
-  public R delete(@RequestBody Long[] catIds) {
-    categoryService.removeByIds(Arrays.asList(catIds));
-
+  public R delete(@RequestBody List<Long> catIds) {
+    // categoryService.removeByIds(catIds);
+    categoryService.removeMenuByIds(catIds);
     return R.ok();
   }
 

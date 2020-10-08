@@ -75,8 +75,8 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
     SysUserEntity entity = sysUserService.queryByUserName(username);
 
     boolean success =
-        mailSenderService.sendSimpleMailMessage(
-            entity.getEmail(), "EC-ADMIN Login Validation Code", code);
+        mailSenderService.sendMimeMessage(
+            entity.getEmail(), "EC-ADMIN Login Validation Code", "<h4>" + code + "</h4>");
     log.debug("sendCaptcha(): " + code);
   }
 }
