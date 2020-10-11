@@ -30,8 +30,8 @@
 //  @Test
 //  public void testUpload() throws FileNotFoundException {
 //    String endpoint = "oss-cn-hangzhou.aliyuncs.com";
-//    String accessKeyId = "LTAI4G7k8a2XA1QuaSytqrEB";
-//    String accessKeySecret = "ifJF7Yi4dd78Q0AGOlxgSN7Gu4Na83";
+//    String accessKeyId = "xx";
+//    String accessKeySecret = "xx";
 //    String bucketName = "project-ec";
 //    String objectName = "谷粒商城-微服务架构图.jpg";
 //

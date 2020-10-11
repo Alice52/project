@@ -1,0 +1,26 @@
+version: '2.4'
+services:
+  mysql:
+    image: registry.cn-shanghai.aliyuncs.com/alice52/dev-mysql:20200930.9da9260
+    restart: 'on-failure:3'
+    container_name: dev-mysql
+    ports:
+      - 3306:3306
+    volumes:
+      #- /root/mysql/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - /root/mysql/logs:/var/log/mysql
+      - /root/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: Asia/Shanghai
+
+  redis:
+    image: registry.cn-shanghai.aliyuncs.com/alice52/dev-standalone-redis:20200930.4e34876
+    restart: 'on-failure:3'
+    container_name: dev-redis-standalone
+    ports:
+      - 6379:6379
+    volumes:
+      - /root/redis/standalone/data:/data
+    environment:
+      TZ: Asia/Shanghai
