@@ -21,7 +21,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driverClassName: com.mysql.cj.jdbc.Driver
-      url: ENC(bEMsScab1qT0vZ29pken+75U0d39UMnCGbOjrMm6swFDZO2dqc3Eqaphv6jtVguJPPZaaNZcMefTa39uxOrRu18A4g+1vI3a7uNPDRZdnw1NVRZXEWHec6MPD7wu15W0HmJ34B5rQGRyDa5dkilSU7rSgMx3ulOVCYrjmjyCzAwWpTMrUE+FX1+A5R5KfFZG)
+      url: ENC(RYmW9K3TbjvcBX4rBztHO2w+2haVwquhFJCNcQEJbj324mmM8LwhVcftE3rSWZh5cCVKrww242EXNTcCPu1jLgli61PGrW6IBaApv18D0+i4wPpnHHULXoW90FSZJXRjem3Sx9W9YnsMCSullM2V7yHeMJwTFcStBan129UnJFyqhrsllV//YPPRbBQtsqpt)
       username: ENC(uVs7DP260FXOKYBacQjLo7Fonyyiq2qwnSjOGt9Q2weCl3ceVf6c6VAAQ6WkTsUt)
       password: ENC(IkxnRsO4O+J/8pOvHoL7/9sSyvhq3Zv9AYObJx9ldt636qyRiBTGrwndtSISEY4F)
       initial-size: 10

@@ -2,7 +2,7 @@ spring:
     redis:
         open: true  # 是否开启redis缓存  true开启   false关闭
         database: 1
-        host: ENC(dP9zCBczsdGY9cww2XLWmkwldNKpoOhQMuY6S4QPShF7LMUP8jvwe7odYdEu0DWy)
+        host: ENC(KQzGjqgm3B6e8BR7m0Pu+Oj6hV7gqDMFowJecuuWdKhuvp3uTBxq9E5ymIqzgPqA)
         port: ENC(NrgfpbV04Cvy6jduJNfEPau7JpDhlwQAKUpt8+R6Ce5VVRfA5GUNKsDoWfKtMUtB)
         password: ENC(8rW94wNhNhM4sX7jdlLHnmdljhyKVof+Ozo7TEs/CvYPt0gNwAT/TWMYeQv9p0QI)    # 密码（默认为空）
         timeout: 5000ms  # 连接超时时长（毫秒）
@@ -16,7 +16,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.cj.jdbc.Driver
-            url: ENC(Ck+JmWp+/abg4spVDu/RsM3/tEcDbikihmOapZzAm2FR6wnl34DrCznQjaD6tyPnpp2e7vzkx6276qoYM96KFI/c4z9CiDUP0miKRnDU7nVPFF0g0CohMwsW1NPlN+DHVmedE4y+myJQs0GFJ6ALqYZiG21UmF49rzKjF6+oC7ViOpZorh7tf6xnKx8YhETU)
+            url: ENC(orh90rQdf9dTKBSExjwhCi56BXpGJSmOV3zzViVYnYqGQ7D9scdhVNfI6BVEly9FE9DfJbRwmz3vFTQuRqDuRke5kevxomRRg0s32c9jntJYbCDBAUyrlqwQVYnExhBZNF1qHviX37I5A0oDMmsSA8lkjiIHOgASwadQpewOcBa0BOFGg+raCO7zdAdoCeru)
             username: ENC(9tuul1AulECu58yn5RhB/v4plYTCLrFEnr5vjIRVry0nDbifrZpVDcOtZbHca5XT)
             password: ENC(EcFbavNOvMk8O/PCWA5fFolSq/ZpJR5GefOpP6gKIPyOFHB2QWYZnuVETnRhf/cA)
             initial-size: 10
