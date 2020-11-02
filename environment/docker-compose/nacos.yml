@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   nacos:
-    image: registry.cn-shanghai.aliyuncs.com/alice52/dev-nacos:20201009.57e1d47
+    image: registry.cn-shanghai.aliyuncs.com/alice52/dev-nacos:20201031.0c79aa9
     container_name: dev-nacos-standalone
     environment:
       - PREFER_HOST_MODE=hostname

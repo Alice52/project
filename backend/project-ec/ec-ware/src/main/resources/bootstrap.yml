@@ -4,7 +4,7 @@ jasypt:
 
 custom-config:
   group: EC_WARE
-  server-addr: ENC(cNeNQ2aZrxpTNiCi3S6Q91aZd32na9V8jLizHKlnhHlTwXJ4gq9WAMYJgK+9gRuzuZpRqnbYcLowywVvyXADDg==)
+  server-addr: ENC(99s99qyEdcGVqNvlV5pPJ19f85lDHB8LypaDazV2WniVelXWUT26DdzF0hWdXoupt20uIqwrZxe6oAEeHxIN+g==)
   namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
   file-extension: yaml
   datasource: datasource.yaml
