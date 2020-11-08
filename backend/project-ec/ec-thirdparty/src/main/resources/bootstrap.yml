@@ -4,7 +4,7 @@ jasypt:
 
 custom-config:
   group: EC_THIRDPARTY
-  server-addr: ENC(99s99qyEdcGVqNvlV5pPJ19f85lDHB8LypaDazV2WniVelXWUT26DdzF0hWdXoupt20uIqwrZxe6oAEeHxIN+g==)
+  server-addr: ENC(xtrTzLo6BCn9c+RVe7sbhOE+hiLTYbeqg6/IVTY72RezzASal7tmVksSsdN6rLoja/P5M8Svgfa3AkNnO+cToQ==)
   namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
   file-extension: yaml
   oss: oss.yaml
