@@ -15,6 +15,8 @@
           </el-form-item>
           <el-form-item>
             <el-button @click="getDataList()">查询</el-button>
+            <el-button type="success"
+                       @click="getAllDataList()">查询全部</el-button>
             <el-button v-if="isAuth('product:attrgroup:save')"
                        type="primary"
                        @click="addOrUpdateHandle()">新增</el-button>
@@ -76,6 +78,9 @@
             <template slot-scope="scope">
               <el-button type="text"
                          size="small"
+                         @click="relationHandle(scope.row.attrGroupId)">关联</el-button>
+              <el-button type="text"
+                         size="small"
                          @click="addOrUpdateHandle(scope.row.attrGroupId)">修改</el-button>
               <el-button type="text"
                          size="small"
@@ -95,6 +100,10 @@
         <add-or-update v-if="addOrUpdateVisible"
                        ref="addOrUpdate"
                        @refreshDataList="getDataList"></add-or-update>
+        <relation-update v-if="relationVisible"
+                         ref="relationUpdate"
+                         @refreshData="getDataList"></relation-update>
+
       </div>
     </el-col>
   </el-row>
@@ -104,6 +113,7 @@
 <script>
 import Category from '../common/category'
 import AddOrUpdate from './attrgroup-add-or-update'
+import RelationUpdate from './attr-group-relation'
 
 export default {
   data () {
@@ -118,7 +128,8 @@ export default {
       totalPage: 0,
       dataListLoading: false,
       dataListSelections: [],
-      addOrUpdateVisible: false
+      addOrUpdateVisible: false,
+      relationVisible: false
     }
   },
   props: {
@@ -129,13 +140,25 @@ export default {
   },
   components: {
     Category,
-    AddOrUpdate
+    AddOrUpdate,
+    RelationUpdate
   },
   computed: {},
   watch: {},
   methods: {
+    relationHandle (groupId) {
+      this.relationVisible = true
+      this.$nextTick(() => {
+        this.$refs.relationUpdate.init(groupId)
+      })
+    },
+    getAllDataList () {
+      this.getGroupData()
+    },
     treeNodeClick (data, node, component) {
-      console.log(data, node, component)
+      this.dataForm.key = ''
+      this.pageIndex = 1
+      this.pageSize = 10
       if (data.catLevel === 3) {
         this.catId = data.catId
         this.getDataList()
@@ -143,9 +166,14 @@ export default {
     },
     // 获取数据列表
     getDataList () {
+      console.log(this.catId)
+      this.getGroupData(this.catId)
+    },
+    getGroupData (catId = 0) {
+      console.log(this.catId)
       this.dataListLoading = true
       this.$http({
-        url: this.$http.adornUrl(`/product/attr-groups/${this.catId}`),
+        url: this.$http.adornUrl(`/product/attr-groups/${catId}`),
         method: 'get',
         params: this.$http.adornParams({
           'page': this.pageIndex,
@@ -163,6 +191,7 @@ export default {
         this.dataListLoading = false
       })
     },
+
     // 每页数
     sizeChangeHandle (val) {
       this.pageSize = val
