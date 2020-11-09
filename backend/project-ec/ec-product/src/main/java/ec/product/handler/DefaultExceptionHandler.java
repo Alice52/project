@@ -20,6 +20,18 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class DefaultExceptionHandler {
 
+  /**
+   * This exception handler is handle <code>Assert.xx</code> methods.
+   *
+   * @param e
+   * @param request
+   * @return R
+   */
+  @ExceptionHandler({IllegalArgumentException.class})
+  public R handleException(IllegalArgumentException e, HttpServletRequest request) {
+    return R.error(400, e.getMessage());
+  }
+
   @ExceptionHandler({Exception.class})
   public R handleException(Exception e, HttpServletRequest request) {
 

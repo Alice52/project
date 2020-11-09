@@ -1,7 +1,7 @@
 package ec.product.converter;
 
 import ec.product.entity.CategoryBrandRelationEntity;
-import ec.product.model.CategoryBrandRelationVO;
+import ec.product.model.vo.CategoryBrandRelationVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

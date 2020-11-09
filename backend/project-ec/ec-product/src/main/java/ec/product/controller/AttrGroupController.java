@@ -4,7 +4,7 @@ import ec.common.annotation.AddGroup;
 import ec.common.annotation.UpdateGroup;
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
-import ec.product.model.AttrGroupVO;
+import ec.product.model.vo.AttrGroupVO;
 import ec.product.service.AttrGroupService;
 import ec.product.service.CategoryService;
 import io.swagger.annotations.Api;

@@ -1,4 +1,4 @@
-package ec.product.model;
+package ec.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,48 +1,50 @@
-package ec.product.model;
+package ec.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ec.common.annotation.AddGroup;
-import ec.common.annotation.SpecifiedValue;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 品牌
+ * 属性分组
  *
  * @author zack.zhang
  * @email zzhang_xz@163.com
  * @date 2020-10-05 22:36:26
  */
 @Data
-public class BrandVO {
+public class AttrGroupVO {
 
   @ApiModelProperty(hidden = true)
   @Null(groups = AddGroup.class)
-  private Long brandId;
+  private Long attrGroupId;
 
   @NotBlank(groups = AddGroup.class)
-  private String name;
+  private String attrGroupName;
 
+  @PositiveOrZero
   @NotNull(groups = AddGroup.class)
-  @URL
-  private String logo;
+  private Integer sort;
 
+  @NotBlank(groups = AddGroup.class)
   private String descript;
 
-  @SpecifiedValue(expectedInts = {0, 1})
-  private Integer showStatus;
+  @URL
+  @NotBlank(groups = AddGroup.class)
+  private String icon;
 
-  @Length(min = 1, max = 1)
-  @Pattern(regexp = "^[a-zA-Z]$")
-  private String firstLetter;
-
-  @PositiveOrZero private Integer sort;
+  @PositiveOrZero
+  @NotNull(groups = AddGroup.class)
+  private Long catelogId;
 
   @ApiModelProperty(hidden = true)
   private LocalDateTime createdDate;
@@ -52,6 +54,9 @@ public class BrandVO {
 
   @ApiModelProperty(hidden = true)
   private Integer isDeleted;
+
+  @ApiModelProperty(hidden = true)
+  private List<Long> catelogPath;
 
   @JsonProperty
   public LocalDateTime getCreatedDate() {

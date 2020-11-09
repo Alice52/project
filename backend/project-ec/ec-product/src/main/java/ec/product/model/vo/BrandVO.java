@@ -1,59 +1,48 @@
-package ec.product.model;
+package ec.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ec.common.annotation.AddGroup;
 import ec.common.annotation.SpecifiedValue;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * @author zack <br>
- * @create 2020-10-08 17:14 <br>
- * @project project-ec <br>
+ * 品牌
+ *
+ * @author zack.zhang
+ * @email zzhang_xz@163.com
+ * @date 2020-10-05 22:36:26
  */
 @Data
-@ToString
-@EqualsAndHashCode
-public class CategoryEntityVO {
+public class BrandVO {
 
   @ApiModelProperty(hidden = true)
   @Null(groups = AddGroup.class)
-  private Long catId;
+  private Long brandId;
 
-  @NotBlank(groups = {AddGroup.class})
+  @NotBlank(groups = AddGroup.class)
   private String name;
 
-  @NotBlank(groups = {AddGroup.class})
-  private Long parentCid;
+  @NotNull(groups = AddGroup.class)
+  @URL
+  private String logo;
 
-  @NotBlank(groups = {AddGroup.class})
-  private Integer catLevel;
+  private String descript;
 
   @SpecifiedValue(expectedInts = {0, 1})
-  @NotBlank(groups = {AddGroup.class})
   private Integer showStatus;
 
+  @Length(min = 1, max = 1)
+  @Pattern(regexp = "^[a-zA-Z]$")
+  private String firstLetter;
+
   @PositiveOrZero private Integer sort;
-
-  @NotBlank(groups = AddGroup.class)
-  @URL
-  private String icon;
-
-  @NotBlank(groups = AddGroup.class)
-  private String productUnit;
-
-  private Integer productCount;
 
   @ApiModelProperty(hidden = true)
   private LocalDateTime createdDate;
@@ -63,10 +52,6 @@ public class CategoryEntityVO {
 
   @ApiModelProperty(hidden = true)
   private Integer isDeleted;
-
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  @ApiModelProperty(hidden = true)
-  private List<CategoryEntityVO> children;
 
   @JsonProperty
   public LocalDateTime getCreatedDate() {

@@ -5,7 +5,7 @@ import ec.common.annotation.UpdateGroup;
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
 import ec.product.entity.BrandEntity;
-import ec.product.model.BrandVO;
+import ec.product.model.vo.BrandVO;
 import ec.product.service.BrandService;
 import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;

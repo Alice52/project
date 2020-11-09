@@ -2,7 +2,7 @@ package ec.product.controller;
 
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
-import ec.product.entity.AttrEntity;
+import ec.product.model.vo.AttrEntityVO;
 import ec.product.service.AttrService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -20,53 +20,50 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("product/attr")
+@RequestMapping("/product")
 public class AttrController {
   @Resource private AttrService attrService;
 
-  @GetMapping("/list")
-  // @RequiresPermissions("product:attr:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = attrService.queryPage(params);
+  @GetMapping(value = "/attrs/{attrtype}/{catId}")
+  public R list(
+      @PathVariable("attrtype") boolean attrtype,
+      @PathVariable("catId") long catId,
+      @RequestParam Map<String, Object> params) {
+
+    PageUtils page = attrService.queryPage(params, attrtype, catId);
 
     return R.ok().put("page", page);
   }
 
-  @GetMapping("/info/{attrId}")
-  // @RequiresPermissions("product:attr:info")
+  @GetMapping("/attr/{attrId}")
   public R info(@PathVariable("attrId") Long attrId) {
-    AttrEntity attr = attrService.getById(attrId);
+
+    AttrEntityVO attr = attrService.getAttrInfo(attrId);
 
     return R.ok().put("attr", attr);
   }
 
-  @PostMapping("/save")
-  // @RequiresPermissions("product:attr:save")
-  public R save(@RequestBody AttrEntity attr) {
-    attrService.save(attr);
+  @PostMapping(value = {"/attr", "/attrs"})
+  public R save(@RequestBody AttrEntityVO vo) {
 
-    return R.ok();
+    return R.ok().put("success", attrService.saveAttr(vo));
   }
 
-  @PutMapping("/update/{attrId}")
-  // @RequiresPermissions("product:attr:update")
-  public R update(@PathVariable("attrId") Long attrId, @RequestBody AttrEntity attr) {
-    attr.setAttrId(attrId);
-    attrService.updateById(attr);
+  @PutMapping("/attr/{attrId}")
+  public R update(@PathVariable("attrId") Long attrId, @RequestBody AttrEntityVO vo) {
+    vo.setAttrId(attrId);
 
-    return R.ok();
+    return R.ok().put("success", attrService.updateAttr(vo));
   }
 
-  @DeleteMapping("/delete")
-  // @RequiresPermissions("product:attr:delete")
+  @DeleteMapping("/attrs")
   public R delete(@RequestBody Long[] attrIds) {
     attrService.removeByIds(Arrays.asList(attrIds));
 
     return R.ok();
   }
 
-  @DeleteMapping("/delete/{attrId}")
-  // @RequiresPermissions("product:attr:delete")
+  @DeleteMapping("/attr/{attrId}")
   public R deleteById(@PathVariable("attrId") Long attrId) {
     attrService.removeById(attrId);
 

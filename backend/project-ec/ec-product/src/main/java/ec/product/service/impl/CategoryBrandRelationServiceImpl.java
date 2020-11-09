@@ -8,7 +8,7 @@ import ec.common.utils.PageUtils;
 import ec.product.entity.BrandEntity;
 import ec.product.entity.CategoryBrandRelationEntity;
 import ec.product.entity.CategoryEntity;
-import ec.product.model.CategoryBrandRelationVO;
+import ec.product.model.vo.CategoryBrandRelationVO;
 import ec.product.repository.CategoryBrandRelationRepository;
 import ec.product.service.BrandService;
 import ec.product.service.CategoryBrandRelationService;

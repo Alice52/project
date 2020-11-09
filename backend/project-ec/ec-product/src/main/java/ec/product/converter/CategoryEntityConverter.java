@@ -1,7 +1,7 @@
 package ec.product.converter;
 
 import ec.product.entity.CategoryEntity;
-import ec.product.model.CategoryEntityVO;
+import ec.product.model.vo.CategoryEntityVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

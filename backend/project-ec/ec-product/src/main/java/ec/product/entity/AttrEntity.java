@@ -28,6 +28,7 @@ public class AttrEntity implements Serializable {
   private String icon;
   private String valueSelect;
   private Integer attrType;
+  private Integer valueType;
   private Long enable;
   private Long catelogId;
   private Integer showDesc;

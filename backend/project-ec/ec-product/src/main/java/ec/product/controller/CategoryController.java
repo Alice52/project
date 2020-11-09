@@ -3,7 +3,7 @@ package ec.product.controller;
 import ec.common.annotation.AddGroup;
 import ec.common.annotation.UpdateGroup;
 import ec.common.utils.R;
-import ec.product.model.CategoryEntityVO;
+import ec.product.model.vo.CategoryEntityVO;
 import ec.product.service.CategoryService;
 import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;

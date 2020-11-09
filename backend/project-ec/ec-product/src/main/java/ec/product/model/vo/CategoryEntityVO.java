@@ -1,37 +1,59 @@
-package ec.product.model;
+package ec.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ec.common.annotation.AddGroup;
+import ec.common.annotation.SpecifiedValue;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 属性&属性分组关联
- *
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-05 22:36:26
+ * @author zack <br>
+ * @create 2020-10-08 17:14 <br>
+ * @project project-ec <br>
  */
 @Data
-public class AttrAttrgroupRelationVO {
+@ToString
+@EqualsAndHashCode
+public class CategoryEntityVO {
 
   @ApiModelProperty(hidden = true)
   @Null(groups = AddGroup.class)
-  private Long id;
+  private Long catId;
 
-  @NotNull(groups = AddGroup.class)
-  private Long attrId;
+  @NotBlank(groups = {AddGroup.class})
+  private String name;
 
-  @NotNull(groups = AddGroup.class)
-  private Long attrGroupId;
+  @NotBlank(groups = {AddGroup.class})
+  private Long parentCid;
 
-  @NotNull(groups = AddGroup.class)
-  private Integer attrSort;
+  @NotBlank(groups = {AddGroup.class})
+  private Integer catLevel;
+
+  @SpecifiedValue(expectedInts = {0, 1})
+  @NotBlank(groups = {AddGroup.class})
+  private Integer showStatus;
+
+  @PositiveOrZero private Integer sort;
+
+  @NotBlank(groups = AddGroup.class)
+  @URL
+  private String icon;
+
+  @NotBlank(groups = AddGroup.class)
+  private String productUnit;
+
+  private Integer productCount;
 
   @ApiModelProperty(hidden = true)
   private LocalDateTime createdDate;
@@ -41,6 +63,10 @@ public class AttrAttrgroupRelationVO {
 
   @ApiModelProperty(hidden = true)
   private Integer isDeleted;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @ApiModelProperty(hidden = true)
+  private List<CategoryEntityVO> children;
 
   @JsonProperty
   public LocalDateTime getCreatedDate() {

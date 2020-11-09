@@ -3,7 +3,7 @@ package ec.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ec.common.utils.PageUtils;
 import ec.product.entity.CategoryEntity;
-import ec.product.model.CategoryEntityVO;
+import ec.product.model.vo.CategoryEntityVO;
 
 import java.util.List;
 import java.util.Map;

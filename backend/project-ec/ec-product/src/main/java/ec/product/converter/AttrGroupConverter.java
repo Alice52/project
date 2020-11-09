@@ -1,7 +1,7 @@
 package ec.product.converter;
 
 import ec.product.entity.AttrGroupEntity;
-import ec.product.model.AttrGroupVO;
+import ec.product.model.vo.AttrGroupVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
