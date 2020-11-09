@@ -31,6 +31,7 @@ CREATE TABLE `pms_attr` (
   `show_desc` tinyint(4) DEFAULT NULL COMMENT '快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `value_type` tinyint(1) DEFAULT '0',
   `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`attr_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品属性';
