@@ -210,7 +210,7 @@ export default {
     },
     getCateRelation () {
       this.$http({
-        url: this.$http.adornUrl(`/product/attr-attrgroup-relations/${this.brandId}`),
+        url: this.$http.adornUrl(`/product/brand-categories/${this.brandId}`),
         method: 'get'
       }).then(({ data }) => {
         this.cateRelationTableData = data.relations

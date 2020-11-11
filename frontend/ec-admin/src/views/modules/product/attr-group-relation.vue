@@ -207,11 +207,11 @@ export default {
       this.attrGroupId = id || 0
       this.visible = true
       this.$http({
-        url: this.$http.adornUrl(`/product/attrgroup/${this.attrGroupId}/attr/relation`),
+        url: this.$http.adornUrl(`/product/attrgroup-attrs/${this.attrGroupId}`),
         method: 'get',
         params: this.$http.adornParams({})
       }).then(({ data }) => {
-        this.relationAttrs = data.data
+        this.relationAttrs = data.attrs
       })
     },
     dialogClose () { },
