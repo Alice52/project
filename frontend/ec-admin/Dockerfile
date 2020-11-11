@@ -1,5 +1,11 @@
 FROM nginx:1.17.9
 
+ARG MONGO_PASSWORD
+ARG REDIS_PASSWORD
+
+RUN echo $MONGO_PASSWORD
+RUN echo $REDIS_PASSWORD
+
 WORKDIR /app
 COPY /dist/ /usr/share/nginx/html
 EXPOSE 80

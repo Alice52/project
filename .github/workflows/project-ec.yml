@@ -1,4 +1,4 @@
-name: Java CI Project EC
+name: Build EC Project Backend
 
 on: [push]
 
