@@ -1,4 +1,4 @@
-name: Build Docker Image Of EC Project Frontend
+name: Build Image Ec-Frontend
 
 on:
   push:
