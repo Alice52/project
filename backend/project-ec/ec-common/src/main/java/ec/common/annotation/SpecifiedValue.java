@@ -1,6 +1,8 @@
 package ec.common.annotation;
 
+import ec.common.annotation.discriptor.SpecifiedDoublesDescriptor;
 import ec.common.annotation.discriptor.SpecifiedIntsDescriptor;
+import ec.common.annotation.discriptor.SpecifiedLongsDescriptor;
 import ec.common.annotation.discriptor.SpecifiedStrsDescriptor;
 
 import javax.validation.Constraint;
@@ -21,7 +23,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target({FIELD, PARAMETER})
-@Constraint(validatedBy = {SpecifiedIntsDescriptor.class, SpecifiedStrsDescriptor.class})
+@Constraint(
+    validatedBy = {
+      SpecifiedIntsDescriptor.class,
+      SpecifiedStrsDescriptor.class,
+      SpecifiedLongsDescriptor.class,
+      SpecifiedDoublesDescriptor.class
+    })
 public @interface SpecifiedValue {
   String message() default "参数值不在预期范围内";
 
@@ -30,6 +38,10 @@ public @interface SpecifiedValue {
   Class<? extends Payload>[] payload() default {};
 
   int[] expectedInts() default {};
+
+  long[] expectedLongs() default {};
+
+  double[] expectedDoubles() default {};
 
   String[] expectedStrs() default {};
 }

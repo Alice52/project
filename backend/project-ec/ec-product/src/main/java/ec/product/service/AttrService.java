@@ -3,8 +3,9 @@ package ec.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ec.common.utils.PageUtils;
 import ec.product.entity.AttrEntity;
-import ec.product.model.vo.AttrEntityVO;
+import ec.product.model.vo.AttrVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,11 +19,23 @@ public interface AttrService extends IService<AttrEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
 
-  boolean saveAttr(AttrEntityVO vo);
+  boolean saveAttr(AttrVO vo);
 
   PageUtils queryPage(Map<String, Object> params, boolean attrtype, long catId);
 
-  AttrEntityVO getAttrInfo(Long attrId);
+  AttrVO getAttrInfo(Long attrId);
 
-  boolean updateAttr(AttrEntityVO vo);
+  boolean updateAttr(AttrVO vo);
+
+  boolean removeAttrByIds(List<Long> attrIds);
+
+  boolean removeAttrById(Long attrId);
+
+  /**
+   * Get all attrs according to the groupId.
+   *
+   * @param groupId
+   * @return
+   */
+  List<AttrVO> getByGroupId(Long groupId);
 }

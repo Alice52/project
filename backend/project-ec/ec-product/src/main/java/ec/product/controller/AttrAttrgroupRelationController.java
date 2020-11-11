@@ -3,12 +3,15 @@ package ec.product.controller;
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
 import ec.product.entity.AttrAttrgroupRelationEntity;
+import ec.product.model.vo.AttrVO;
 import ec.product.service.AttrAttrgroupRelationService;
+import ec.product.service.AttrService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,12 +26,21 @@ import java.util.Map;
 @RequestMapping("product")
 public class AttrAttrgroupRelationController {
   @Resource private AttrAttrgroupRelationService attrAttrgroupRelationService;
+  @Resource private AttrService attrService;
 
   @GetMapping("/attr-attrgroup-relations")
   public R list(@RequestParam Map<String, Object> params) {
     PageUtils page = attrAttrgroupRelationService.queryPage(params);
 
     return R.ok().put("page", page);
+  }
+
+  @GetMapping("/attrgroup-attrs/{groupId}")
+  public R listAttrs(@PathVariable("groupId") Long groupId) {
+
+    List<AttrVO> vos = attrService.getByGroupId(groupId);
+
+    return R.ok().put("data", vos);
   }
 
   @GetMapping("/attr-attrgroup-relation/{id}")
@@ -56,6 +68,7 @@ public class AttrAttrgroupRelationController {
 
   @DeleteMapping("/attr-attrgroup-relations")
   public R delete(@RequestBody Long[] ids) {
+    // TODO: remove relative data
     attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
 
     return R.ok();
@@ -63,6 +76,7 @@ public class AttrAttrgroupRelationController {
 
   @DeleteMapping("/attr-attrgroup-relation")
   public R deleteById(@PathVariable("id") Long id) {
+    // TODO: remove relative data
     attrAttrgroupRelationService.removeById(id);
 
     return R.ok();

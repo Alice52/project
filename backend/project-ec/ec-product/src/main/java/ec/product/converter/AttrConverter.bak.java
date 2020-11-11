@@ -14,7 +14,6 @@
 // * @project project-ec <br>
 // */
 //@Mapper(
-//    // TODO: error, cannot get bean instance of AttrConverterUtils
 //    uses = {AttrConverterUtils.class})
 //public interface AttrConverter {
 //
@@ -29,7 +28,6 @@
 //  AttrEntity vo2po(AttrEntityVO vo);
 //
 //  /**
-//   * // TODO: get bean instance from ioc factory bu utils<br>
 //   * Convert po to vo.
 //   *
 //   * @param po

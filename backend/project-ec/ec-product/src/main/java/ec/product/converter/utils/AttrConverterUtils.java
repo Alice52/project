@@ -8,7 +8,7 @@ import ec.product.entity.AttrAttrgroupRelationEntity;
 import ec.product.entity.AttrEntity;
 import ec.product.entity.AttrGroupEntity;
 import ec.product.entity.CategoryEntity;
-import ec.product.model.vo.AttrEntityVO;
+import ec.product.model.vo.AttrVO;
 import ec.product.service.AttrAttrgroupRelationService;
 import ec.product.service.AttrGroupService;
 import ec.product.service.CategoryService;
@@ -34,17 +34,19 @@ public class AttrConverterUtils {
    * @param po
    * @return
    */
-  public AttrEntityVO convertToVO(AttrEntity po) {
+  public AttrVO convertToVO(AttrEntity po) {
 
     if (ObjectUtil.isNull(po)) {
       return null;
     }
 
-    AttrEntityVO entityVO = AttrConverter.INSTANCE.po2vo(po);
-    entityVO.setCatelogName(getCateName(entityVO.getCatelogId()));
-    final AttrGroupEntity attrGroup = getAttrGroup(po.getAttrId());
-    entityVO.setAttrGroupName(attrGroup.getAttrGroupName());
-    entityVO.setAttrGroupId(attrGroup.getAttrGroupId());
+    AttrVO entityVO = AttrConverter.INSTANCE.po2vo(po);
+    entityVO.setCatelogName(this.getCateName(entityVO.getCatelogId()));
+    final AttrGroupEntity attrGroup = this.getAttrGroup(po.getAttrId());
+    if (ObjectUtil.isNotNull(attrGroup)) {
+      entityVO.setAttrGroupName(attrGroup.getAttrGroupName());
+      entityVO.setAttrGroupId(attrGroup.getAttrGroupId());
+    }
 
     return entityVO;
   }
@@ -62,8 +64,6 @@ public class AttrConverterUtils {
   }
 
   /**
-   * // TODO: error, this is error, attr and group is n : n
-   *
    * @param attrId
    * @return
    */
@@ -72,9 +72,17 @@ public class AttrConverterUtils {
     final AttrAttrgroupRelationEntity relationEntity =
         relationService.getOne(
             new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
-    Assert.notNull(relationEntity, "Has no group which id is {}.", attrId);
+
+    if (ObjectUtil.isNull(relationEntity)) {
+      return null;
+    }
+
+    // Assert.notNull(relationEntity, "Has no group which id is {}.", attrId);
     final AttrGroupEntity groupEntity = attrGroupService.getById(relationEntity.getAttrGroupId());
-    Assert.notNull(groupEntity, "Has no group which id is {}.", attrId);
+    // Assert.notNull(groupEntity, "Has no group which id is {}.", attrId);
+    if (ObjectUtil.isNull(groupEntity)) {
+      return null;
+    }
 
     return groupEntity;
   }

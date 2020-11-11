@@ -38,7 +38,7 @@ public class CategoryBrandRelationController {
     return R.ok().put("page", page);
   }
 
-  @GetMapping("/attr-attrgroup-relations/{brandId}")
+  @GetMapping("/brand-categories/{brandId}")
   public R listByBrandId(@PathVariable("brandId") Long brandId) {
 
     List<CategoryBrandRelationVO> relationVOS = categoryBrandRelationService.getbyBrandId(brandId);

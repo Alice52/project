@@ -3,12 +3,18 @@ package ec.product.model.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ec.common.annotation.AddGroup;
+import ec.common.annotation.SpecifiedValue;
+import ec.product.provider.AttrVOProvider;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.group.GroupSequenceProvider;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,17 +27,32 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttrEntityVO {
+@GroupSequenceProvider(AttrVOProvider.class)
+public class AttrVO {
 
+  @SpecifiedValue(expectedLongs = {0, 1})
   private Long enable;
+
+  @NotNull(groups = {BaseAttrType.class})
   private Long attrGroupId;
+
   private String attrName;
+
+  @SpecifiedValue(expectedInts = {0, 1})
   private Integer searchType;
+
   private String icon;
-  private String valueSelect;
+  @NotNull private String valueSelect;
+
+  @SpecifiedValue(expectedInts = {0, 1})
   private Integer attrType;
+
+  @SpecifiedValue(expectedInts = {0, 1})
   private Integer valueType;
-  private Long catelogId;
+
+  @NotNull private Long catelogId;
+
+  @SpecifiedValue(expectedInts = {0, 1})
   private Integer showDesc;
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -39,6 +60,7 @@ public class AttrEntityVO {
   private List<Long> catelogPath;
 
   @ApiModelProperty(hidden = true)
+  @Null(groups = AddGroup.class)
   private Long attrId;
 
   @ApiModelProperty(hidden = true)
@@ -48,12 +70,15 @@ public class AttrEntityVO {
   private String catelogName;
 
   @ApiModelProperty(hidden = true)
+  @Null
   private LocalDateTime createdDate;
 
   @ApiModelProperty(hidden = true)
+  @Null
   private LocalDateTime updatedDate;
 
   @ApiModelProperty(hidden = true)
+  @Null
   private Integer isDeleted;
 
   @JsonProperty
@@ -105,4 +130,8 @@ public class AttrEntityVO {
   public void setCatelogPath(List<Long> catelogPath) {
     this.catelogPath = catelogPath;
   }
+
+  public interface SaleAttrType {};
+
+  public interface BaseAttrType {};
 }

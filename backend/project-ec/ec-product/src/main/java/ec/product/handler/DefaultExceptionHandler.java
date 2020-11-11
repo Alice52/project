@@ -35,6 +35,8 @@ public class DefaultExceptionHandler {
   @ExceptionHandler({Exception.class})
   public R handleException(Exception e, HttpServletRequest request) {
 
+    e.printStackTrace();
+
     return R.error(500, e.getMessage()).put("detail", e.getStackTrace());
   }
 }

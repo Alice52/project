@@ -1,9 +1,13 @@
 package ec.product.converter;
 
 import ec.product.entity.AttrEntity;
-import ec.product.model.vo.AttrEntityVO;
+import ec.product.model.vo.AttrVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author zack <br>
@@ -21,7 +25,7 @@ public interface AttrConverter {
    * @param vo
    * @return
    */
-  AttrEntity vo2po(AttrEntityVO vo);
+  AttrEntity vo2po(AttrVO vo);
 
   /**
    * Convert po to vo.
@@ -29,5 +33,13 @@ public interface AttrConverter {
    * @param po
    * @return AttrEntityVO
    */
-  AttrEntityVO po2vo(AttrEntity po);
+  @Mappings({
+    @Mapping(target = "catelogPath", ignore = true),
+    @Mapping(target = "attrGroupId", ignore = true),
+    @Mapping(target = "attrGroupName", ignore = true),
+    @Mapping(target = "catelogName", ignore = true)
+  })
+  AttrVO po2vo(AttrEntity po);
+
+  List<AttrVO> pos2vos(List<AttrEntity> pos);
 }

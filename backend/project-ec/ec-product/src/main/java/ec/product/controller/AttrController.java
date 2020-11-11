@@ -1,13 +1,17 @@
 package ec.product.controller;
 
+import ec.common.annotation.AddGroup;
+import ec.common.annotation.UpdateGroup;
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
-import ec.product.model.vo.AttrEntityVO;
+import ec.product.model.vo.AttrVO;
 import ec.product.service.AttrService;
 import io.swagger.annotations.Api;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -38,19 +42,21 @@ public class AttrController {
   @GetMapping("/attr/{attrId}")
   public R info(@PathVariable("attrId") Long attrId) {
 
-    AttrEntityVO attr = attrService.getAttrInfo(attrId);
+    AttrVO attr = attrService.getAttrInfo(attrId);
 
     return R.ok().put("attr", attr);
   }
 
   @PostMapping(value = {"/attr", "/attrs"})
-  public R save(@RequestBody AttrEntityVO vo) {
+  public R save(@RequestBody @Validated({AddGroup.class, Default.class}) AttrVO vo) {
 
     return R.ok().put("success", attrService.saveAttr(vo));
   }
 
   @PutMapping("/attr/{attrId}")
-  public R update(@PathVariable("attrId") Long attrId, @RequestBody AttrEntityVO vo) {
+  public R update(
+      @PathVariable("attrId") Long attrId,
+      @RequestBody @Validated({UpdateGroup.class, Default.class}) AttrVO vo) {
     vo.setAttrId(attrId);
 
     return R.ok().put("success", attrService.updateAttr(vo));
@@ -58,15 +64,13 @@ public class AttrController {
 
   @DeleteMapping("/attrs")
   public R delete(@RequestBody Long[] attrIds) {
-    attrService.removeByIds(Arrays.asList(attrIds));
 
-    return R.ok();
+    return R.ok().put("success", attrService.removeAttrByIds(Arrays.asList(attrIds)));
   }
 
   @DeleteMapping("/attr/{attrId}")
   public R deleteById(@PathVariable("attrId") Long attrId) {
-    attrService.removeById(attrId);
 
-    return R.ok();
+    return R.ok().put("success", attrService.removeAttrById(attrId));
   }
 }
