@@ -11,7 +11,7 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    # if: "!contains(github.event.head_commit.message, 'ci skip')"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     env: # define constant
       PROJECT_NAME: project-ec
       IMAGE_PREFIX: project-front
@@ -31,7 +31,6 @@ jobs:
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> $GITHUB_ENV
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> $GITHUB_ENV
           echo "PROJECT_HOME=$PWD" >> $GITHUB_ENV
-          echo "DATE=`date +%Y%m%d`" >> $GITHUB_ENV
           echo "TAG=`echo \`date +%Y%m%d\`.${GITHUB_SHA} | cut -c1-16`" >> $GITHUB_ENV
 
       # build frontend project
