@@ -1,13 +1,11 @@
 package ec.thirdparty.controller;
 
 import ec.common.utils.R;
-import ec.thirdparty.IOssService;
+import ec.thirdparty.service.IOssService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;

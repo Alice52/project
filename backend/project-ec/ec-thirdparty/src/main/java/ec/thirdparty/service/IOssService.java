@@ -1,4 +1,4 @@
-package ec.thirdparty;
+package ec.thirdparty.service;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
