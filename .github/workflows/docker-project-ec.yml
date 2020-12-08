@@ -55,7 +55,7 @@ jobs:
           MODULE_NAME=ec-admin
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
@@ -66,7 +66,7 @@ jobs:
           MODULE_NAME=ec-product
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
@@ -77,7 +77,7 @@ jobs:
           MODULE_NAME=ec-coupon
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
@@ -88,7 +88,7 @@ jobs:
           MODULE_NAME=ec-order
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
@@ -99,7 +99,7 @@ jobs:
           MODULE_NAME=ec-ware
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
@@ -110,7 +110,7 @@ jobs:
           MODULE_NAME=ec-gateway
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
@@ -122,7 +122,7 @@ jobs:
           MODULE_NAME=ec-thirdparty
           cd $PROJECT_HOME/backend/$PROJECT_NAME/$MODULE_NAME/
           image=$IMAGE_PREFIX-$MODULE_NAME:${TAG}
-          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
+          docker build -f Dockerfile --build-arg MODULE_NAME=$MODULE_NAME --build-arg JASYPT_ENCRYPTOR_PASSWORD=$JASYPT_ENCRYPTOR_PASSWORD --build-arg REDIS_PASSWORD=$REDIS_PASSWORD --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t ${image} .
           docker login --username=$ALI_DOCKER_USERNAME --password=$ALI_DOCKER_PASSWORD $ALI_DOCKER_REGISTRY
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
