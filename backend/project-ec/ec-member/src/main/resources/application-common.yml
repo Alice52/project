@@ -1,0 +1,37 @@
+custom-config:
+  server-addr: ENC(xtrTzLo6BCn9c+RVe7sbhOE+hiLTYbeqg6/IVTY72RezzASal7tmVksSsdN6rLoja/P5M8Svgfa3AkNnO+cToQ==)
+  group: EC_MEMBER
+  file-extension: yaml
+  datasource: datasource.yaml
+  server: server.yaml
+  other: others.yaml
+  ec-group: EC_GROUP
+  log: logging.yaml
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+spring:
+  # jackson时间格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 45MB
+      enabled: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+logging:
+  level:
+    ec.*: debug

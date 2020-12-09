@@ -6,7 +6,7 @@ dependencies {
     compile 'com.alibaba:druid-spring-boot-starter'
 
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    // compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework:spring-context-support'
     compile 'org.springframework.boot:spring-boot-starter-data-redis'

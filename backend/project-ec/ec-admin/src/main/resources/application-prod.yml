@@ -1,7 +1,9 @@
-server:
-    port: 9001
+custom-config:
+    namespace: 6f549dee-b167-4be3-8dc9-691ed2ffeba8
 
 spring:
+    profiles:
+        include: common
     redis:
         open: true  # 是否开启redis缓存  true开启   false关闭
         database: 2

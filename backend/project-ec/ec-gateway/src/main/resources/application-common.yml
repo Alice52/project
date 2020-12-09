@@ -1,0 +1,52 @@
+custom-config:
+  server-addr: ENC(xtrTzLo6BCn9c+RVe7sbhOE+hiLTYbeqg6/IVTY72RezzASal7tmVksSsdN6rLoja/P5M8Svgfa3AkNnO+cToQ==)
+  group: EC_GATEWAY
+  file-extension: yaml
+  datasource: datasource.yaml
+  server: server.yaml
+  other: others.yaml
+  ec-group: EC_GROUP
+  log: logging.yaml
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+server:
+  port: 8060
+  tomcat:
+    accept-count: 500
+    max-threads: 100
+    min-spare-threads: 50
+    max-connections: 5000
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: thirdparty_route
+          uri: lb://EC-THIRDPARTY-SERVICE
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: product_route
+          uri: lb://EC-PRODUCT-SERVICE
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://EC-ADMIN-SERVICE
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/ec-admin/$\{segment}
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+logging:
+  level:
+    ec.*: debug

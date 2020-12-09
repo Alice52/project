@@ -1,0 +1,95 @@
+custom-config:
+  server-addr: ENC(dU6GePM4jD17mdATXFpgrl8Rw4yFUg02gsFnJ7L96ACnmebsFhJRJJfNTnzDfM9XYo+e47Tn/Hqwewg4sgISFw==)
+  group: EC_ADMIN
+  file-extension: yaml
+  datasource: datasource.yaml
+  other: others.yaml
+  ec-group: EC_GROUP
+  log: logging.yaml
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 9001
+  connection-timeout: 5000ms
+  servlet:
+    context-path: /ec-admin
+
+swagger2:
+  enable: true
+
+spring:
+  # jackson时间格式化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 45MB
+      enabled: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+#  resources:
+#    add-mappings: false
+  mail:
+    protocol: smtp
+    host: ENC(KwgyFVRJzE76uUF+B2EOyjJgijQDrxhRWzrUBa6eUfmduClTbtpaCVxXRWWctYSi)
+    port: ENC(nvvb0wOLlW+Kl+2CLMay0AyhVmWzXr5Ma2Tn4hTWSyMb95lPCjaIXpHm2Oms/9rB)
+    default-encoding: ENC(qB9K/XFkIcJGH80lNU2gJ2DVOLsFI6uuyui9MoAQA+ZI1WCLjAOjNfU7rrp3h3qo)
+    username: ENC(XtxDqyspABu9dQ0xSZ0zRV7MfVfk/7tN1rE/wkjko5vcjA0vgqmcE10FxRRYlribavOUtBGNy2PDPHWtIrrFUg==)
+    password: ENC(cVfVnGq4tQ6J3+FtW0TejImmx2ESWomD/tuGN5bJqMGM8v+Of/onqraHBd9xhH0J)
+    properties:
+      mail:
+        smtp:
+          # this is also need by qq email server
+          ssl:
+            enable: true
+            required: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          timeout: 10000
+          connectiontimeout: 10000
+          writetimeout: 10000
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: io.renren.modules.*.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+  #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+
+renren:
+  redis:
+    open: true
+  shiro:
+    redis: true
+  # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
+  jwt:
+    # 加密秘钥
+    secret: 9ec9750e709431dad22365cabc5c625482e574c74adaebba7dd02f1129e4ce1d
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token

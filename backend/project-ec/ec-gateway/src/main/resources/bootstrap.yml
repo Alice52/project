@@ -1,17 +1,3 @@
-jasypt:
-  encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD}
-
-custom-config:
-  group: EC_GATEWAY
-  server-addr: ENC(xtrTzLo6BCn9c+RVe7sbhOE+hiLTYbeqg6/IVTY72RezzASal7tmVksSsdN6rLoja/P5M8Svgfa3AkNnO+cToQ==)
-  namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
-  file-extension: yaml
-  gateway: gateway.yaml
-  server: server.yaml
-  ec-group: EC_GROUP
-  log: logging.yaml
-
 spring:
   application:
     name: EC-GATEWAY-SERVICE
@@ -22,16 +8,16 @@ spring:
         namespace: ${custom-config.namespace}
         # nacos can only find service in the same group
         # group: ${custom-config.group}
-      config:
-        server-addr: ${custom-config.server-addr}
-        namespace: ${custom-config.namespace}
-        file-extension: ${custom-config.file-extension}
-        group: ${custom-config.group}
-        extension-configs[0]:
-          data-id: ${custom-config.log}
-          group: ${custom-config.ec-group}
-          refresh: true
-        extension-configs[1]:
-          data-id: ${custom-config.server}
-          group: ${custom-config.group}
-          refresh: true
+#      config:
+#        server-addr: ${custom-config.server-addr}
+#        namespace: ${custom-config.namespace}
+#        file-extension: ${custom-config.file-extension}
+#        group: ${custom-config.group}
+#        extension-configs[0]:
+#          data-id: ${custom-config.log}
+#          group: ${custom-config.ec-group}
+#          refresh: true
+#        extension-configs[1]:
+#          data-id: ${custom-config.server}
+#          group: ${custom-config.group}
+#          refresh: true

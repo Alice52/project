@@ -1,8 +1,13 @@
+custom-config:
+    namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
+
 spring:
+    profiles:
+        include: common
     redis:
         open: true  # 是否开启redis缓存  true开启   false关闭
         database: 1
-        host: ENC(KQzGjqgm3B6e8BR7m0Pu+Oj6hV7gqDMFowJecuuWdKhuvp3uTBxq9E5ymIqzgPqA)
+        host: ENC(Sxr93kmRNqakcS34EqzUML4+X0pWdlUmy8q1k2u3E5pFa88nI6LN+lWDOdMB9OEa)
         port: ENC(NrgfpbV04Cvy6jduJNfEPau7JpDhlwQAKUpt8+R6Ce5VVRfA5GUNKsDoWfKtMUtB)
         password: ENC(8rW94wNhNhM4sX7jdlLHnmdljhyKVof+Ozo7TEs/CvYPt0gNwAT/TWMYeQv9p0QI)    # 密码（默认为空）
         timeout: 5000ms  # 连接超时时长（毫秒）
@@ -16,7 +21,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.cj.jdbc.Driver
-            url: ENC(orh90rQdf9dTKBSExjwhCi56BXpGJSmOV3zzViVYnYqGQ7D9scdhVNfI6BVEly9FE9DfJbRwmz3vFTQuRqDuRke5kevxomRRg0s32c9jntJYbCDBAUyrlqwQVYnExhBZNF1qHviX37I5A0oDMmsSA8lkjiIHOgASwadQpewOcBa0BOFGg+raCO7zdAdoCeru)
+            url: ENC(qo8g+8cmtq3lU+blP50b+YQLTOhYUd5yem1DVjsHRmjlvKz75LlIxSNy2zJpATrC52X3xBSCjwe2AnzIcaPRLcWt3rgf+y9rVeQP/MxHfegMYzvmzoUfjbXRPdbTfTSV+yVRgkIuJmy/tPnlV0BcIj8W95OV4cSAYFYd7guEU9H8dp2Y0bZi5ppFaKNWbBIl)
             username: ENC(9tuul1AulECu58yn5RhB/v4plYTCLrFEnr5vjIRVry0nDbifrZpVDcOtZbHca5XT)
             password: ENC(EcFbavNOvMk8O/PCWA5fFolSq/ZpJR5GefOpP6gKIPyOFHB2QWYZnuVETnRhf/cA)
             initial-size: 10
@@ -45,6 +50,7 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
 
 
 ##多数据源的配置

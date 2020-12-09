@@ -1,18 +1,3 @@
-jasypt:
-  encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD}
-
-custom-config:
-  group: EC_MEMBER
-  server-addr: ENC(xtrTzLo6BCn9c+RVe7sbhOE+hiLTYbeqg6/IVTY72RezzASal7tmVksSsdN6rLoja/P5M8Svgfa3AkNnO+cToQ==)
-  namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
-  file-extension: yaml
-  datasource: datasource.yaml
-  server: server.yaml
-  other: others.yaml
-  ec-group: EC_GROUP
-  log: logging.yaml
-
 spring:
   application:
     name: EC-MEMBER-SERVICE
@@ -21,24 +6,24 @@ spring:
       discovery:
         server-addr: ${custom-config.server-addr}
         namespace: ${custom-config.namespace}
-      config:
-        server-addr: ${custom-config.server-addr}
-        namespace: ${custom-config.namespace}
-        file-extension: ${custom-config.file-extension}
-        group: ${custom-config.group}
-        extension-configs[0]:
-          data-id: ${custom-config.datasource}
-          group: ${custom-config.group}
-          refresh: true
-        extension-configs[1]:
-          data-id: ${custom-config.log}
-          group: ${custom-config.ec-group}
-          refresh: true
-        extension-configs[2]:
-          data-id: ${custom-config.server}
-          group: ${custom-config.group}
-          refresh: true
-        extension-configs[3]:
-          data-id: ${custom-config.other}
-          group: ${custom-config.group}
-          refresh: true
+#      config:
+#        server-addr: ${custom-config.server-addr}
+#        namespace: ${custom-config.namespace}
+#        file-extension: ${custom-config.file-extension}
+#        group: ${custom-config.group}
+#        extension-configs[0]:
+#          data-id: ${custom-config.datasource}
+#          group: ${custom-config.group}
+#          refresh: true
+#        extension-configs[1]:
+#          data-id: ${custom-config.log}
+#          group: ${custom-config.ec-group}
+#          refresh: true
+#        extension-configs[2]:
+#          data-id: ${custom-config.server}
+#          group: ${custom-config.group}
+#          refresh: true
+#        extension-configs[3]:
+#          data-id: ${custom-config.other}
+#          group: ${custom-config.group}
+#          refresh: true

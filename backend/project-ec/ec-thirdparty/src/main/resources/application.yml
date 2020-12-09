@@ -1,25 +1,3 @@
-server:
-  port: 8070
-  tomcat:
-    accept-count: 500
-    max-threads: 100
-    min-spare-threads: 50
-
-swagger2:
-  enable: true
-
-
 spring:
-  devtools:
-    livereload:
-      port: 35731
-  # oss
-  cloud:
-    alicloud:
-      access-key: ENC(Kf42+pHi8/IU/QWZlOm8UpTTLIMxHWRBWkYENv7a1hO93AkB/rb0G9juNLPXSAfpzYVkX4DGFvUKC1qLooR9Yw==)
-      secret-key: ENC(zu07F3mfQ5SeGQR2YG3q7OWoRMoJPE73C5DWwqxV8LWyz8MOGpz0viKcdadOBeS/Gp54+V0LWWC8jjWIoVTbnA==)
-      oss:
-        endpoint: oss-cn-hangzhou.aliyuncs.com
-        bucket-name: ENC(xJHHZLCs0MUV7V9RH7Mc4Cn8foAUYQHk4pQ5tdVuU1EEqRF2sZjk57O61kYYTy04)
-  mvc:
-    throw-exception-if-no-handler-found: true
+  profiles:
+    active: dev
