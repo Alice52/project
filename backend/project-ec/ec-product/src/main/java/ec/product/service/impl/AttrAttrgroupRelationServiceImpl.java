@@ -10,21 +10,37 @@ import ec.product.repository.AttrAttrgroupRelationRepository;
 import ec.product.service.AttrAttrgroupRelationService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+/**
+ * @author zack
+ */
 @Service("attrAttrgroupRelationService")
 public class AttrAttrgroupRelationServiceImpl
-    extends ServiceImpl<AttrAttrgroupRelationRepository, AttrAttrgroupRelationEntity>
-    implements AttrAttrgroupRelationService {
+        extends ServiceImpl<AttrAttrgroupRelationRepository, AttrAttrgroupRelationEntity>
+        implements AttrAttrgroupRelationService {
 
-  @Override
-  public PageUtils queryPage(Map<String, Object> params) {
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
 
-    IPage<AttrAttrgroupRelationEntity> page =
-        this.page(
-            new CommonQuery<AttrAttrgroupRelationEntity>().getPage(params),
-            new QueryWrapper<AttrAttrgroupRelationEntity>());
+        IPage<AttrAttrgroupRelationEntity> page =
+                this.page(
+                        new CommonQuery<AttrAttrgroupRelationEntity>().getPage(params),
+                        new QueryWrapper<AttrAttrgroupRelationEntity>());
 
-    return new PageUtils(page);
-  }
+        return new PageUtils(page);
+    }
+
+    @Override
+    public void deleteByAttrIds(Long[] ids) {
+        baseMapper.delete(new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_id", ids));
+    }
+
+    @Override
+    public void addRelations(Long groupId, List<Long> attrIds) {
+        List<AttrAttrgroupRelationEntity> relationEntities = attrIds.stream().map(x -> new AttrAttrgroupRelationEntity(x, groupId)).collect(Collectors.toList());
+        this.saveBatch(relationEntities);
+    }
 }

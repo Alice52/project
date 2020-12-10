@@ -21,6 +21,7 @@ module.exports = {
     semi: 0,
     quotes: [0, 'single'],
     eqeqeq: 0,
+    'comma-dangle': 0,
     'spaced-comment': 0,
     'space-before-function-paren': 0,
     'space-before-blocks': 0,
