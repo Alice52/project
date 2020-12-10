@@ -17,25 +17,34 @@ import java.util.Map;
  */
 public interface AttrService extends IService<AttrEntity> {
 
-  PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage(Map<String, Object> params);
 
-  boolean saveAttr(AttrVO vo);
+    boolean saveAttr(AttrVO vo);
 
-  PageUtils queryPage(Map<String, Object> params, boolean attrtype, long catId);
+    PageUtils queryPage(Map<String, Object> params, boolean attrtype, long catId);
 
-  AttrVO getAttrInfo(Long attrId);
+    AttrVO getAttrInfo(Long attrId);
 
-  boolean updateAttr(AttrVO vo);
+    boolean updateAttr(AttrVO vo);
 
-  boolean removeAttrByIds(List<Long> attrIds);
+    boolean removeAttrByIds(List<Long> attrIds);
 
-  boolean removeAttrById(Long attrId);
+    boolean removeAttrById(Long attrId);
 
-  /**
-   * Get all attrs according to the groupId.
-   *
-   * @param groupId
-   * @return
-   */
-  List<AttrVO> getByGroupId(Long groupId);
+    /**
+     * Get all attrs according to the groupId.
+     *
+     * @param groupId
+     * @return
+     */
+    List<AttrVO> getByGroupId(Long groupId);
+
+    /**
+     * Get all attrs, which is contained by cateId, and donot to linked to specific group.
+     *
+     * @param params
+     * @param groupId
+     * @return
+     */
+    PageUtils queryNoRelationAttrsByGroupIdPage(Map<String, Object> params, Long groupId);
 }

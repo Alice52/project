@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
  * @date 2020-10-05 22:36:26
  */
 @Data
+@NoArgsConstructor
 @TableName("pms_attr_attrgroup_relation")
 public class AttrAttrgroupRelationEntity implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -35,6 +37,11 @@ public class AttrAttrgroupRelationEntity implements Serializable {
   private LocalDateTime updatedDate;
 
   @TableLogic private Integer isDeleted;
+
+  public AttrAttrgroupRelationEntity(Long attrId, Long attrGroupId) {
+    this.attrId = attrId;
+    this.attrGroupId = attrGroupId;
+  }
 
   @JsonProperty
   public LocalDateTime getCreatedDate() {

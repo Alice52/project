@@ -47,6 +47,16 @@ public class AttrController {
     return R.ok().put("attr", attr);
   }
 
+
+  @GetMapping(value = "/{groupId}/no-relation/attrs")
+  public R listNoRelationAttrsByGroupId(@PathVariable("groupId") Long groupId,  @RequestParam Map<String, Object> params) {
+
+    PageUtils page = attrService.queryNoRelationAttrsByGroupIdPage(params, groupId);
+
+    return R.ok().put("page", page);
+  }
+
+
   @PostMapping(value = {"/attr", "/attrs"})
   public R save(@RequestBody @Validated({AddGroup.class, Default.class}) AttrVO vo) {
 
