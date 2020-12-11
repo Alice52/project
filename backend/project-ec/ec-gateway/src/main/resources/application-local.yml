@@ -1,0 +1,6 @@
+custom-config:
+    namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
+
+spring:
+    profiles:
+        include: common
