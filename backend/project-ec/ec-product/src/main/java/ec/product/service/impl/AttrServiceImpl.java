@@ -114,18 +114,19 @@ public class AttrServiceImpl extends ServiceImpl<AttrRepository, AttrEntity>
         // 1. update entity
         AttrEntity entity = AttrConverter.INSTANCE.vo2po(vo);
         validateExistence(entity.getAttrName(), entity.getCatelogId(), vo.getAttrId());
-        if (vo.getAttrType() == ProductionConstants.AttrEnum.ATTR_TYPE_SALE.getCode()) {
-            return this.updateById(entity);
+        if (vo.getAttrType() == ProductionConstants.AttrEnum.ATTR_TYPE_BASE.getCode()) {
+            // 2. update relation ship
+            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+            relationEntity.setAttrGroupId(vo.getAttrGroupId());
+            relationEntity.setAttrId(entity.getAttrId());
+
+            UpdateWrapper<AttrAttrgroupRelationEntity> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("attr_id", vo.getAttrId()).set("attr_group_id", vo.getAttrGroupId());
+
+            attrAttrgroupRelationService.update(relationEntity, updateWrapper);
         }
-        // 2. update relation ship
-        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
-        relationEntity.setAttrGroupId(vo.getAttrGroupId());
-        relationEntity.setAttrId(entity.getAttrId());
 
-        UpdateWrapper<AttrAttrgroupRelationEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("attr_id", vo.getAttrId()).set("attr_group_id", vo.getAttrGroupId());
-
-        return attrAttrgroupRelationService.update(updateWrapper);
+        return this.updateById(entity);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -26,61 +26,62 @@ import java.util.Map;
 @RestController
 @RequestMapping("/product")
 public class AttrController {
-  @Resource private AttrService attrService;
+    @Resource
+    private AttrService attrService;
 
-  @GetMapping(value = "/attrs/{attrtype}/{catId}")
-  public R list(
-      @PathVariable("attrtype") boolean attrtype,
-      @PathVariable("catId") long catId,
-      @RequestParam Map<String, Object> params) {
+    @GetMapping(value = "/attrs/{attrtype}/{catId}")
+    public R list(
+            @PathVariable("attrtype") boolean attrtype,
+            @PathVariable("catId") long catId,
+            @RequestParam Map<String, Object> params) {
 
-    PageUtils page = attrService.queryPage(params, attrtype, catId);
+        PageUtils page = attrService.queryPage(params, attrtype, catId);
 
-    return R.ok().put("page", page);
-  }
+        return R.ok().put("page", page);
+    }
 
-  @GetMapping("/attr/{attrId}")
-  public R info(@PathVariable("attrId") Long attrId) {
+    @GetMapping("/attr/{attrId}")
+    public R info(@PathVariable("attrId") Long attrId) {
 
-    AttrVO attr = attrService.getAttrInfo(attrId);
+        AttrVO attr = attrService.getAttrInfo(attrId);
 
-    return R.ok().put("attr", attr);
-  }
-
-
-  @GetMapping(value = "/{groupId}/no-relation/attrs")
-  public R listNoRelationAttrsByGroupId(@PathVariable("groupId") Long groupId,  @RequestParam Map<String, Object> params) {
-
-    PageUtils page = attrService.queryNoRelationAttrsByGroupIdPage(params, groupId);
-
-    return R.ok().put("page", page);
-  }
+        return R.ok().put("attr", attr);
+    }
 
 
-  @PostMapping(value = {"/attr", "/attrs"})
-  public R save(@RequestBody @Validated({AddGroup.class, Default.class}) AttrVO vo) {
+    @GetMapping(value = "/{groupId}/no-relation/attrs")
+    public R listNoRelationAttrsByGroupId(@PathVariable("groupId") Long groupId, @RequestParam Map<String, Object> params) {
 
-    return R.ok().put("success", attrService.saveAttr(vo));
-  }
+        PageUtils page = attrService.queryNoRelationAttrsByGroupIdPage(params, groupId);
 
-  @PutMapping("/attr/{attrId}")
-  public R update(
-      @PathVariable("attrId") Long attrId,
-      @RequestBody @Validated({UpdateGroup.class, Default.class}) AttrVO vo) {
-    vo.setAttrId(attrId);
+        return R.ok().put("page", page);
+    }
 
-    return R.ok().put("success", attrService.updateAttr(vo));
-  }
 
-  @DeleteMapping("/attrs")
-  public R delete(@RequestBody Long[] attrIds) {
+    @PostMapping(value = {"/attr", "/attrs"})
+    public R save(@RequestBody @Validated({AddGroup.class, Default.class}) AttrVO vo) {
 
-    return R.ok().put("success", attrService.removeAttrByIds(Arrays.asList(attrIds)));
-  }
+        return R.ok().put("success", attrService.saveAttr(vo));
+    }
 
-  @DeleteMapping("/attr/{attrId}")
-  public R deleteById(@PathVariable("attrId") Long attrId) {
+    @PutMapping("/attr/{attrId}")
+    public R update(
+            @PathVariable("attrId") Long attrId,
+            @RequestBody @Validated({UpdateGroup.class, Default.class}) AttrVO vo) {
+        vo.setAttrId(attrId);
 
-    return R.ok().put("success", attrService.removeAttrById(attrId));
-  }
+        return R.ok().put("success", attrService.updateAttr(vo));
+    }
+
+    @DeleteMapping("/attrs")
+    public R delete(@RequestBody Long[] attrIds) {
+
+        return R.ok().put("success", attrService.removeAttrByIds(Arrays.asList(attrIds)));
+    }
+
+    @DeleteMapping("/attr/{attrId}")
+    public R deleteById(@PathVariable("attrId") Long attrId) {
+
+        return R.ok().put("success", attrService.removeAttrById(attrId));
+    }
 }

@@ -35,6 +35,8 @@ spring:
         bucket-name: ENC(xJHHZLCs0MUV7V9RH7Mc4Cn8foAUYQHk4pQ5tdVuU1EEqRF2sZjk57O61kYYTy04)
   mvc:
     throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
 
 logging:
   level:

@@ -37,8 +37,9 @@ spring:
       enabled: true
   mvc:
     throw-exception-if-no-handler-found: true
-#  resources:
-#    add-mappings: false
+  resources:
+    add-mappings: false
+    
   mail:
     protocol: smtp
     host: ENC(KwgyFVRJzE76uUF+B2EOyjJgijQDrxhRWzrUBa6eUfmduClTbtpaCVxXRWWctYSi)
