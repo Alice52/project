@@ -131,7 +131,9 @@ public class AttrVO {
     this.catelogPath = catelogPath;
   }
 
-  public interface SaleAttrType {};
+  public interface SaleAttrType {}
+  ;
 
-  public interface BaseAttrType {};
+  public interface BaseAttrType {}
+  ;
 }

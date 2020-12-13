@@ -15,4 +15,5 @@ import java.util.List;
  * @date 2020-10-06 12:14:35
  */
 @Mapper
-public interface IntegrationChangeHistoryRepository extends BaseMapper<IntegrationChangeHistoryEntity> {}
+public interface IntegrationChangeHistoryRepository
+    extends BaseMapper<IntegrationChangeHistoryEntity> {}

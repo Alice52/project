@@ -4,6 +4,7 @@ import ec.common.annotation.AddGroup;
 import ec.common.annotation.UpdateGroup;
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
+import ec.product.model.vo.AdvicedAttrGroupVO;
 import ec.product.model.vo.AttrGroupVO;
 import ec.product.service.AttrGroupService;
 import ec.product.service.CategoryService;
@@ -12,11 +13,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static ec.product.converter.AttrGroupConverter.INSTANCE;
+
 /**
  * 属性分组
  *
@@ -31,6 +35,14 @@ public class AttrGroupController {
 
   @Resource private CategoryService categoryService;
   @Resource private AttrGroupService attrGroupService;
+
+  @GetMapping("/{catId}/adviced-attrgroups")
+  public R getAdvicedGroups(@PathVariable(value = "catId", required = true) @NotNull Long catId) {
+
+    List<AdvicedAttrGroupVO> attrGroupVOs = attrGroupService.getAdvicedGroupsByCatId(catId);
+
+    return R.ok().put("data", attrGroupVOs);
+  }
 
   @GetMapping("/attr-groups/{catId}")
   public R list(@RequestParam Map<String, Object> params, @PathVariable("catId") Long catId) {

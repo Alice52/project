@@ -86,8 +86,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryRepository, Categor
 
     paths.add(catelogId);
     Long parentCid =
-        entityList
-            .parallelStream()
+        entityList.parallelStream()
             .filter(x -> x.getCatId().equals(catelogId))
             .map(x -> x.getParentCid())
             .findFirst()

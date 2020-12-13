@@ -32,6 +32,13 @@ public class SkuSaleAttrValueEntity implements Serializable {
   private LocalDateTime updatedDate;
   @TableLogic private Integer isDeleted;
 
+  public SkuSaleAttrValueEntity(Long attrId, String attrName, String attrValue, Long skuId) {
+    this.skuId = skuId;
+    this.attrId = attrId;
+    this.attrName = attrName;
+    this.attrValue = attrValue;
+  }
+
   @JsonProperty
   public LocalDateTime getCreatedDate() {
     return createdDate;

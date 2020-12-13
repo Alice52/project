@@ -32,6 +32,11 @@ public class SpuImagesEntity implements Serializable {
   private LocalDateTime updatedDate;
   @TableLogic private Integer isDeleted;
 
+  public SpuImagesEntity(Long spuId, String imgUrl) {
+    this.spuId = spuId;
+    this.imgUrl = imgUrl;
+  }
+
   @JsonProperty
   public LocalDateTime getCreatedDate() {
     return createdDate;

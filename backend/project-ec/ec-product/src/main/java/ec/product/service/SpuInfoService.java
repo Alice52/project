@@ -3,6 +3,7 @@ package ec.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ec.common.utils.PageUtils;
 import ec.product.entity.SpuInfoEntity;
+import ec.product.model.vo.SpuSaveVO;
 
 import java.util.Map;
 
@@ -15,6 +16,41 @@ import java.util.Map;
  */
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
-}
+  PageUtils queryPage(Map<String, Object> params);
 
+  /**
+   * Save Spu info, including spu, images, sku, price, etc
+   *
+   * @param vo
+   */
+  void saveSpuInfo(SpuSaveVO vo);
+
+  /**
+   * Save base spu info.
+   *
+   * @param entity
+   */
+  void saveSpuBaseInfo(SpuInfoEntity entity);
+
+  /**
+   * Get all spu info, which is satisfied.
+   *
+   * @param params
+   * @return
+   */
+  PageUtils queryPageByCondition(Map<String, Object> params);
+
+  /**
+   * Spu up.
+   *
+   * @param spuId
+   */
+  void spuUp(Long spuId);
+
+  /**
+   * Spu down.
+   *
+   * @param spuId
+   */
+  void spuDown(Long spuId);
+}

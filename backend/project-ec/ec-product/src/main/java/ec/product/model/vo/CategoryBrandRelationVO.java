@@ -1,6 +1,7 @@
 package ec.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ec.common.annotation.AddGroup;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
  * @date 2020-10-05 22:36:26
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryBrandRelationVO {
 
   @ApiModelProperty(hidden = true)

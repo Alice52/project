@@ -31,6 +31,12 @@ public class SkuImagesEntity implements Serializable {
   private LocalDateTime updatedDate;
   @TableLogic private Integer isDeleted;
 
+  public SkuImagesEntity(Long skuId, String imgUrl, Integer defaultImg) {
+    this.skuId = skuId;
+    this.imgUrl = imgUrl;
+    this.defaultImg = defaultImg;
+  }
+
   @JsonProperty
   public LocalDateTime getCreatedDate() {
     return createdDate;

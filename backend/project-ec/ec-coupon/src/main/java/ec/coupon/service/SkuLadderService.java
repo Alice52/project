@@ -16,4 +16,11 @@ import java.util.Map;
 public interface SkuLadderService extends IService<SkuLadderEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
+
+  /**
+   * Create sku ladder info.
+   *
+   * @param entity
+   */
+  void saveSkuLadder(SkuLadderEntity entity);
 }

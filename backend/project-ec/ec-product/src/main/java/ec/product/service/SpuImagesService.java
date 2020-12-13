@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import ec.common.utils.PageUtils;
 import ec.product.entity.SpuImagesEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +16,13 @@ import java.util.Map;
  */
 public interface SpuImagesService extends IService<SpuImagesEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
-}
+  PageUtils queryPage(Map<String, Object> params);
 
+  /**
+   * Save spu info images.
+   *
+   * @param spuId
+   * @param images
+   */
+  void saveImages(Long spuId, List<String> images);
+}

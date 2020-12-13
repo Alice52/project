@@ -28,6 +28,11 @@ public class SpuInfoDescEntity implements Serializable {
   private LocalDateTime updatedDate;
   @TableLogic private Integer isDeleted;
 
+  public SpuInfoDescEntity(Long spuId, String decript) {
+    this.spuId = spuId;
+    this.decript = decript;
+  }
+
   @JsonProperty
   public LocalDateTime getCreatedDate() {
     return createdDate;

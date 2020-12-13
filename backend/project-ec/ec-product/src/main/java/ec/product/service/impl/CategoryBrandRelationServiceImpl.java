@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ec.common.utils.CommonQuery;
 import ec.common.utils.PageUtils;
+import ec.product.converter.CategoryBrandRelationConverter;
 import ec.product.entity.BrandEntity;
 import ec.product.entity.CategoryBrandRelationEntity;
 import ec.product.entity.CategoryEntity;
@@ -41,6 +42,20 @@ public class CategoryBrandRelationServiceImpl
     final int insert = baseMapper.insert(entity);
 
     return insert > 0;
+  }
+
+  @Override
+  public List<CategoryBrandRelationVO> getBrandsByCatId(Long catId) {
+
+    List<CategoryBrandRelationEntity> entities =
+        this.baseMapper.selectList(
+            new QueryWrapper<CategoryBrandRelationEntity>()
+                .eq("catelog_id", catId)
+                .select("brand_id", "brand_name"));
+
+    List<CategoryBrandRelationVO> vos = INSTANCE.pos2vos(entities);
+
+    return vos;
   }
 
   @Override

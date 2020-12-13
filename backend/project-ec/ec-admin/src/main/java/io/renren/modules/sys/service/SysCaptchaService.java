@@ -22,7 +22,7 @@ import java.io.IOException;
 public interface SysCaptchaService extends IService<SysCaptchaEntity> {
 
   /** 获取邮箱验证码 */
-  void sendCaptcha(String uuid, String username)  throws Exception;
+  void sendCaptcha(String uuid, String username) throws Exception;
 
   /**
    * 验证码效验

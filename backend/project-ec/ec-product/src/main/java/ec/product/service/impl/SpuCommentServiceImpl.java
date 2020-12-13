@@ -15,15 +15,17 @@ import ec.product.repository.SpuCommentRepository;
 import ec.product.entity.SpuCommentEntity;
 import ec.product.service.SpuCommentService;
 
-
 @Service("spuCommentService")
-public class SpuCommentServiceImpl extends ServiceImpl<SpuCommentRepository, SpuCommentEntity> implements SpuCommentService {
+public class SpuCommentServiceImpl extends ServiceImpl<SpuCommentRepository, SpuCommentEntity>
+    implements SpuCommentService {
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SpuCommentEntity> page = this.page(new CommonQuery<SpuCommentEntity>().getPage(params), new QueryWrapper<SpuCommentEntity>());
+  @Override
+  public PageUtils queryPage(Map<String, Object> params) {
+    IPage<SpuCommentEntity> page =
+        this.page(
+            new CommonQuery<SpuCommentEntity>().getPage(params),
+            new QueryWrapper<SpuCommentEntity>());
 
-        return new PageUtils(page);
-    }
-
+    return new PageUtils(page);
+  }
 }

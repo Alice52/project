@@ -1,5 +1,6 @@
 package ec.common.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import ec.common.error.ErrorMessageEnum;
 
 import java.util.HashMap;
@@ -60,5 +61,14 @@ public class R extends HashMap<String, Object> {
   public R put(String key, Object value) {
     super.put(key, value);
     return this;
+  }
+
+  public Integer getCode() {
+    Object code = this.get("code");
+    if (ObjectUtil.isNotNull(code) && code instanceof Integer) {
+      return (Integer) code;
+    }
+
+    return null;
   }
 }

@@ -15,15 +15,22 @@ import ec.product.repository.SpuInfoDescRepository;
 import ec.product.entity.SpuInfoDescEntity;
 import ec.product.service.SpuInfoDescService;
 
-
 @Service("spuInfoDescService")
-public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescRepository, SpuInfoDescEntity> implements SpuInfoDescService {
+public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescRepository, SpuInfoDescEntity>
+    implements SpuInfoDescService {
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SpuInfoDescEntity> page = this.page(new CommonQuery<SpuInfoDescEntity>().getPage(params), new QueryWrapper<SpuInfoDescEntity>());
+  @Override
+  public PageUtils queryPage(Map<String, Object> params) {
+    IPage<SpuInfoDescEntity> page =
+        this.page(
+            new CommonQuery<SpuInfoDescEntity>().getPage(params),
+            new QueryWrapper<SpuInfoDescEntity>());
 
-        return new PageUtils(page);
-    }
+    return new PageUtils(page);
+  }
 
+  @Override
+  public void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDescEntity) {
+    this.baseMapper.insert(spuInfoDescEntity);
+  }
 }
