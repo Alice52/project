@@ -20,36 +20,32 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("product/skuinfo")
+@RequestMapping("/product")
 public class SkuInfoController {
   @Resource private SkuInfoService skuInfoService;
 
-  @GetMapping("/list")
-  // @RequiresPermissions("product:skuinfo:list")
+  @GetMapping("/sku-info")
   public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = skuInfoService.queryPage(params);
+    PageUtils page = skuInfoService.queryPageByCondition(params);
 
     return R.ok().put("page", page);
   }
 
-  @GetMapping("/info/{skuId}")
-  // @RequiresPermissions("product:skuinfo:info")
+  @GetMapping("/sku-info/{skuId}")
   public R info(@PathVariable("skuId") Long skuId) {
     SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
 
     return R.ok().put("skuInfo", skuInfo);
   }
 
-  @PostMapping("/save")
-  // @RequiresPermissions("product:skuinfo:save")
+  @PostMapping("/sku-info")
   public R save(@RequestBody SkuInfoEntity skuInfo) {
     skuInfoService.save(skuInfo);
 
     return R.ok();
   }
 
-  @PutMapping("/update/{skuId}")
-  // @RequiresPermissions("product:skuinfo:update")
+  @PutMapping("/sku-info/{skuId}")
   public R update(@PathVariable("skuId") Long skuId, @RequestBody SkuInfoEntity skuInfo) {
     skuInfo.setSkuId(skuId);
     skuInfoService.updateById(skuInfo);
@@ -57,16 +53,14 @@ public class SkuInfoController {
     return R.ok();
   }
 
-  @DeleteMapping("/delete")
-  // @RequiresPermissions("product:skuinfo:delete")
+  @DeleteMapping("/sku-info")
   public R delete(@RequestBody Long[] skuIds) {
     skuInfoService.removeByIds(Arrays.asList(skuIds));
 
     return R.ok();
   }
 
-  @DeleteMapping("/delete/{skuId}")
-  // @RequiresPermissions("product:skuinfo:delete")
+  @DeleteMapping("/sku-info/{skuId}")
   public R deleteById(@PathVariable("skuId") Long skuId) {
     skuInfoService.removeById(skuId);
 

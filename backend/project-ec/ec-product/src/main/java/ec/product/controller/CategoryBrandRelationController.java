@@ -12,12 +12,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static ec.product.converter.CategoryBrandRelationConverter.INSTANCE;
+
 /**
  * 品牌分类关联
  *
@@ -76,7 +78,6 @@ public class CategoryBrandRelationController {
   }
 
   @DeleteMapping("/category-brand-relations")
-  // @RequiresPermissions("product:categorybrandrelation:delete")
   public R delete(@RequestBody Long[] ids) {
     categoryBrandRelationService.removeByIds(Arrays.asList(ids));
 
@@ -84,10 +85,15 @@ public class CategoryBrandRelationController {
   }
 
   @DeleteMapping("/category-brand-relation/{id}")
-  // @RequiresPermissions("product:categorybrandrelation:delete")
   public R deleteById(@PathVariable("id") Long id) {
     categoryBrandRelationService.removeById(id);
 
     return R.ok();
+  }
+
+  @GetMapping("/category-brand-relation/brands")
+  public R brands(@RequestParam(value = "catId", required = true) @NotNull Long catId) {
+
+    return R.ok().put("data", categoryBrandRelationService.getBrandsByCatId(catId));
   }
 }

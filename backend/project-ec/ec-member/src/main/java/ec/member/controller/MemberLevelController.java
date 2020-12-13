@@ -1,8 +1,8 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberLevelEntity;
+import ec.member.model.vo.MemberLevelVO;
 import ec.member.service.MemberLevelService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Map;
+
+import static ec.member.converter.MemberLevelConverter.INSTANCE;
 
 /**
  * 会员等级
@@ -20,56 +22,42 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("member/memberlevel")
+@RequestMapping("member")
 public class MemberLevelController {
   @Resource private MemberLevelService memberLevelService;
 
-  @GetMapping("/list")
-  // @RequiresPermissions("member:memberlevel:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberLevelService.queryPage(params);
+  @GetMapping("/member-levels")
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return memberLevelService.queryPage(params);
   }
 
-  @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:memberlevel:info")
-  public R info(@PathVariable("id") Long id) {
+  @GetMapping("/member-level/{id}")
+  public MemberLevelVO info(@PathVariable("id") Long id) {
     MemberLevelEntity memberLevel = memberLevelService.getById(id);
 
-    return R.ok().put("memberLevel", memberLevel);
+    return INSTANCE.po2vo(memberLevel);
   }
 
-  @PostMapping("/save")
-  // @RequiresPermissions("member:memberlevel:save")
-  public R save(@RequestBody MemberLevelEntity memberLevel) {
-    memberLevelService.save(memberLevel);
-
-    return R.ok();
+  @PostMapping("/member-level")
+  public void save(@RequestBody MemberLevelVO memberLevelVO) {
+    MemberLevelEntity entity = INSTANCE.vo2po(memberLevelVO);
+    memberLevelService.save(entity);
   }
 
-  @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:memberlevel:update")
-  public R update(@PathVariable("id") Long id, @RequestBody MemberLevelEntity memberLevel) {
-    memberLevel.setId(id);
-    memberLevelService.updateById(memberLevel);
-
-    return R.ok();
+  @PutMapping("/member-level/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody MemberLevelVO vo) {
+    vo.setId(id);
+    memberLevelService.updateById(INSTANCE.vo2po(vo));
   }
 
-  @DeleteMapping("/delete")
-  // @RequiresPermissions("member:memberlevel:delete")
-  public R delete(@RequestBody Long[] ids) {
+  @DeleteMapping("/member-level")
+  public void delete(@RequestBody Long[] ids) {
     memberLevelService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:memberlevel:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  @DeleteMapping("/member-level/{id}")
+  public void deleteById(@PathVariable("id") Long id) {
     memberLevelService.removeById(id);
-
-    return R.ok();
   }
 }

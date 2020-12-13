@@ -15,15 +15,18 @@ import ec.product.repository.CommentReplayRepository;
 import ec.product.entity.CommentReplayEntity;
 import ec.product.service.CommentReplayService;
 
-
 @Service("commentReplayService")
-public class CommentReplayServiceImpl extends ServiceImpl<CommentReplayRepository, CommentReplayEntity> implements CommentReplayService {
+public class CommentReplayServiceImpl
+    extends ServiceImpl<CommentReplayRepository, CommentReplayEntity>
+    implements CommentReplayService {
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CommentReplayEntity> page = this.page(new CommonQuery<CommentReplayEntity>().getPage(params), new QueryWrapper<CommentReplayEntity>());
+  @Override
+  public PageUtils queryPage(Map<String, Object> params) {
+    IPage<CommentReplayEntity> page =
+        this.page(
+            new CommonQuery<CommentReplayEntity>().getPage(params),
+            new QueryWrapper<CommentReplayEntity>());
 
-        return new PageUtils(page);
-    }
-
+    return new PageUtils(page);
+  }
 }

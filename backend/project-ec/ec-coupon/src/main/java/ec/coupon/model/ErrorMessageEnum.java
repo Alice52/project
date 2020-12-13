@@ -16,8 +16,6 @@ public enum ErrorMessageEnum {
 
   SYSTEM_ERROR(999999, "Internal Server Error"),
   BEAN_VALIDATION_ERROR(400400, "Validate bean property error"),
-
-
   ;
 
   private Integer errorCode;
@@ -89,7 +87,7 @@ public enum ErrorMessageEnum {
    * @return Optional<Enum> or Optional.empty()
    */
   private static Optional<ErrorMessageEnum> getValueOf(
-          Class<ErrorMessageEnum> enumType, String name) {
+      Class<ErrorMessageEnum> enumType, String name) {
     ErrorMessageEnum enumValue;
     try {
       enumValue = Enum.valueOf(enumType, name);

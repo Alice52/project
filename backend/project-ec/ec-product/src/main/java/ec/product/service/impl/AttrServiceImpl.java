@@ -36,123 +36,118 @@ import java.util.stream.Collectors;
  */
 @Service("attrService")
 public class AttrServiceImpl extends ServiceImpl<AttrRepository, AttrEntity>
-        implements AttrService {
+    implements AttrService {
 
-    @Resource
-    private CategoryService categoryService;
-    @Resource
-    private AttrAttrgroupRelationService attrAttrgroupRelationService;
-    @Resource
-    private AttrConverterUtils attrConverterUtils;
-    @Resource
-    private AttrGroupService attrGroupService;
-    @Resource
-    private AttrService attrService;
+  @Resource private CategoryService categoryService;
+  @Resource private AttrAttrgroupRelationService attrAttrgroupRelationService;
+  @Resource private AttrConverterUtils attrConverterUtils;
+  @Resource private AttrGroupService attrGroupService;
+  @Resource private AttrService attrService;
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<AttrEntity> page =
-                this.page(new CommonQuery<AttrEntity>().getPage(params), new QueryWrapper<>());
+  @Override
+  public PageUtils queryPage(Map<String, Object> params) {
+    IPage<AttrEntity> page =
+        this.page(new CommonQuery<AttrEntity>().getPage(params), new QueryWrapper<>());
 
-        return new PageUtils(page);
+    return new PageUtils(page);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public boolean saveAttr(AttrVO vo) {
+    validateGroupInfo(vo.getAttrGroupId());
+
+    // 1. create record og attr
+    AttrEntity entity = AttrConverter.INSTANCE.vo2po(vo);
+    validateExistence(entity.getAttrName(), entity.getCatelogId());
+    this.save(entity);
+
+    if (vo.getAttrType() == ProductionConstants.AttrEnum.ATTR_TYPE_SALE.getCode()) {
+      return true;
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean saveAttr(AttrVO vo) {
-        validateGroupInfo(vo.getAttrGroupId());
+    // 2. create relation ship
+    AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+    relationEntity.setAttrGroupId(vo.getAttrGroupId());
+    relationEntity.setAttrId(entity.getAttrId());
 
-        // 1. create record og attr
-        AttrEntity entity = AttrConverter.INSTANCE.vo2po(vo);
-        validateExistence(entity.getAttrName(), entity.getCatelogId());
-        this.save(entity);
+    final boolean success = attrAttrgroupRelationService.save(relationEntity);
 
-        if (vo.getAttrType() == ProductionConstants.AttrEnum.ATTR_TYPE_SALE.getCode()) {
-            return true;
-        }
+    return success;
+  }
 
-        // 2. create relation ship
-        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
-        relationEntity.setAttrGroupId(vo.getAttrGroupId());
-        relationEntity.setAttrId(entity.getAttrId());
+  @Override
+  public PageUtils queryPage(Map<String, Object> params, boolean attrType, long catId) {
+    QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
 
-        final boolean success = attrAttrgroupRelationService.save(relationEntity);
+    final Object key = params.get("key");
+    if (ObjectUtil.isNotEmpty(key)) {
+      wrapper.and(obj -> obj.like("attr_name", key).or().like("value_select", key));
+    }
+    if (catId != 0) {
+      wrapper.eq("catelog_id", catId);
+    }
+    wrapper.eq("attr_type", attrType);
 
-        return success;
+    return getPageUtils(params, wrapper);
+  }
+
+  @Override
+  public AttrVO getAttrInfo(Long attrId) {
+    AttrVO vo = attrConverterUtils.convertToVO(this.getById(attrId));
+    vo.setCatelogPath(categoryService.findCatelogPath(vo.getCatelogId()));
+
+    return vo;
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public boolean updateAttr(AttrVO vo) {
+
+    validateGroupInfo(vo.getAttrGroupId());
+
+    // 1. update entity
+    AttrEntity entity = AttrConverter.INSTANCE.vo2po(vo);
+    validateExistence(entity.getAttrName(), entity.getCatelogId(), vo.getAttrId());
+    if (vo.getAttrType() == ProductionConstants.AttrEnum.ATTR_TYPE_BASE.getCode()) {
+      // 2. update relation ship
+      AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+      relationEntity.setAttrGroupId(vo.getAttrGroupId());
+      relationEntity.setAttrId(entity.getAttrId());
+
+      UpdateWrapper<AttrAttrgroupRelationEntity> updateWrapper = new UpdateWrapper<>();
+      updateWrapper.eq("attr_id", vo.getAttrId()).set("attr_group_id", vo.getAttrGroupId());
+
+      attrAttrgroupRelationService.update(relationEntity, updateWrapper);
     }
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params, boolean attrType, long catId) {
-        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+    return this.updateById(entity);
+  }
 
-        final Object key = params.get("key");
-        if (ObjectUtil.isNotEmpty(key)) {
-            wrapper.and(obj -> obj.like("attr_name", key).or().like("value_select", key));
-        }
-        if (catId != 0) {
-            wrapper.eq("catelog_id", catId);
-        }
-        wrapper.eq("attr_type", attrType);
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public boolean removeAttrByIds(List<Long> attrIds) {
 
-        return getPageUtils(params, wrapper);
-    }
+    final boolean remove = this.removeByIds(attrIds);
+    attrAttrgroupRelationService.remove(
+        new UpdateWrapper<AttrAttrgroupRelationEntity>().in("attr_id", attrIds));
 
-    @Override
-    public AttrVO getAttrInfo(Long attrId) {
-        AttrVO vo = attrConverterUtils.convertToVO(this.getById(attrId));
-        vo.setCatelogPath(categoryService.findCatelogPath(vo.getCatelogId()));
+    return remove;
+  }
 
-        return vo;
-    }
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public boolean removeAttrById(Long attrId) {
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean updateAttr(AttrVO vo) {
+    final boolean remove = this.removeById(attrId);
+    attrAttrgroupRelationService.remove(
+        new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
 
-        validateGroupInfo(vo.getAttrGroupId());
+    return remove;
+  }
 
-        // 1. update entity
-        AttrEntity entity = AttrConverter.INSTANCE.vo2po(vo);
-        validateExistence(entity.getAttrName(), entity.getCatelogId(), vo.getAttrId());
-        if (vo.getAttrType() == ProductionConstants.AttrEnum.ATTR_TYPE_BASE.getCode()) {
-            // 2. update relation ship
-            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
-            relationEntity.setAttrGroupId(vo.getAttrGroupId());
-            relationEntity.setAttrId(entity.getAttrId());
-
-            UpdateWrapper<AttrAttrgroupRelationEntity> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.eq("attr_id", vo.getAttrId()).set("attr_group_id", vo.getAttrGroupId());
-
-            attrAttrgroupRelationService.update(relationEntity, updateWrapper);
-        }
-
-        return this.updateById(entity);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean removeAttrByIds(List<Long> attrIds) {
-
-        final boolean remove = this.removeByIds(attrIds);
-        attrAttrgroupRelationService.remove(
-                new UpdateWrapper<AttrAttrgroupRelationEntity>().in("attr_id", attrIds));
-
-        return remove;
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean removeAttrById(Long attrId) {
-
-        final boolean remove = this.removeById(attrId);
-        attrAttrgroupRelationService.remove(
-                new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
-
-        return remove;
-    }
-
-    @Override
-    public List<AttrVO> getByGroupId(Long groupId) {
+  @Override
+  public List<AttrVO> getByGroupId(Long groupId) {
 
     /*
     List<AttrAttrgroupRelationEntity> list =
@@ -172,107 +167,117 @@ public class AttrServiceImpl extends ServiceImpl<AttrRepository, AttrEntity>
      List<Object> list = attrAttrgroupRelationService.getBaseMapper().selectObjs(wrapper);
      List<Integer> collect = list.stream().map(o -> (Integer) o).collect(Collectors.toList());
     */
-        LambdaQueryWrapper<AttrAttrgroupRelationEntity> wrapper =
-                Wrappers.lambdaQuery(AttrAttrgroupRelationEntity.class)
-                        .eq(AttrAttrgroupRelationEntity::getAttrGroupId, groupId)
-                        .select(AttrAttrgroupRelationEntity::getAttrId);
+    LambdaQueryWrapper<AttrAttrgroupRelationEntity> wrapper =
+        Wrappers.lambdaQuery(AttrAttrgroupRelationEntity.class)
+            .eq(AttrAttrgroupRelationEntity::getAttrGroupId, groupId)
+            .select(AttrAttrgroupRelationEntity::getAttrId);
 
-        List<Long> attrIds =
-                attrAttrgroupRelationService.getBaseMapper().selectObjs(wrapper).stream()
-                        .map(o -> (Long) o)
-                        .collect(Collectors.toList());
+    List<Long> attrIds =
+        attrAttrgroupRelationService.getBaseMapper().selectObjs(wrapper).stream()
+            .map(o -> (Long) o)
+            .collect(Collectors.toList());
 
-        List<AttrEntity> attrEntities = attrService.listByIds(attrIds);
-
-        return AttrConverter.INSTANCE.pos2vos(attrEntities);
+    if (ObjectUtil.isNotNull(attrIds) && attrIds.size() > 0) {
+      List<AttrEntity> attrEntities = attrService.listByIds(attrIds);
+      return AttrConverter.INSTANCE.pos2vos(attrEntities);
     }
 
-    @Override
-    public PageUtils queryNoRelationAttrsByGroupIdPage(Map<String, Object> params, Long groupId) {
+    return null;
+  }
 
-        /**
-         * select * from AttrGroupEntity where catelog_id =
-         *      (select catelog_id from AttrGroupEntity where groupId = ?)
-         */
+  @Override
+  public PageUtils queryNoRelationAttrsByGroupIdPage(Map<String, Object> params, Long groupId) {
 
-        // 1. get catId by groupId
-        AttrGroupEntity groupEntity = attrGroupService.getById(groupId);
-        Long catelogId = groupEntity.getCatelogId();
-        // 2. get all linked attrs according to catId
-        List<Long> groupIds = attrGroupService.list(new QueryWrapper<AttrGroupEntity>()
-                .eq("catelog_id", catelogId))
-                //.ne("group_id", groupId)
-                .stream().map(x -> x.getAttrGroupId()).collect(Collectors.toList());
+    /**
+     * select * from AttrGroupEntity where catelog_id = (select catelog_id from AttrGroupEntity
+     * where groupId = ?)
+     */
 
-        List<Long> attrIds = attrAttrgroupRelationService.list(new QueryWrapper<AttrAttrgroupRelationEntity>()
-                .in("attr_group_id", groupIds))
-                .stream()
-                .map(x -> x.getAttrId())
-                .collect(Collectors.toList());
+    // 1. get catId by groupId
+    AttrGroupEntity groupEntity = attrGroupService.getById(groupId);
+    Long catelogId = groupEntity.getCatelogId();
+    // 2. get all linked attrs according to catId
+    List<Long> groupIds =
+        attrGroupService
+            .list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId))
+            // .ne("group_id", groupId)
+            .stream()
+            .map(x -> x.getAttrGroupId())
+            .collect(Collectors.toList());
 
-        // 3. exclude this groupId attrs and linked attrs
-        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotNull(attrIds) && attrIds.size() > 0) {
-            wrapper.notIn("attr_id", attrIds);
-        }
-        wrapper.eq("catelog_id", catelogId);
+    List<Long> attrIds =
+        attrAttrgroupRelationService
+            .list(
+                new QueryWrapper<AttrAttrgroupRelationEntity>()
+                    .eq("attr_type", ProductionConstants.AttrEnum.ATTR_TYPE_BASE.getCode())
+                    .in("attr_group_id", groupIds))
+            .stream()
+            .map(x -> x.getAttrId())
+            .collect(Collectors.toList());
 
-        final Object key = params.get("key");
-        if (ObjectUtil.isNotEmpty(key)) {
-            wrapper.and(obj -> obj.eq("attr_id", key).or().like("attr_name", key));
-        }
-        return getPageUtils(params, wrapper);
+    // 3. exclude this groupId attrs and linked attrs
+    QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+    if (ObjectUtil.isNotNull(attrIds) && attrIds.size() > 0) {
+      wrapper.notIn("attr_id", attrIds);
     }
+    wrapper.eq("catelog_id", catelogId);
 
-    private PageUtils getPageUtils(Map<String, Object> params, QueryWrapper<AttrEntity> wrapper) {
-        IPage<AttrEntity> page = this.page(new CommonQuery<AttrEntity>().getPage(params), wrapper);
-        PageUtils pageUtils = new PageUtils(page);
-        List<AttrEntity> records = page.getRecords();
-        List<AttrVO> entityVOS =
-                records.stream().map(x -> attrConverterUtils.convertToVO(x)).collect(Collectors.toList());
-        pageUtils.setList(entityVOS);
-
-        return pageUtils;
+    final Object key = params.get("key");
+    if (ObjectUtil.isNotEmpty(key)) {
+      wrapper.and(obj -> obj.eq("attr_id", key).or().like("attr_name", key));
     }
+    return getPageUtils(params, wrapper);
+  }
 
-    private void validateGroupInfo(Long attrGroupId) {
-        if (ObjectUtil.isNull(attrGroupId)) {
-            return;
-        }
-        QueryWrapper<AttrGroupEntity> wrapper =
-                new QueryWrapper<AttrGroupEntity>().eq("attr_group_id", attrGroupId);
-        validateGroupInfo(wrapper, attrGroupId);
+  private PageUtils getPageUtils(Map<String, Object> params, QueryWrapper<AttrEntity> wrapper) {
+    IPage<AttrEntity> page = this.page(new CommonQuery<AttrEntity>().getPage(params), wrapper);
+    PageUtils pageUtils = new PageUtils(page);
+    List<AttrEntity> records = page.getRecords();
+    List<AttrVO> entityVOS =
+        records.stream().map(x -> attrConverterUtils.convertToVO(x)).collect(Collectors.toList());
+    pageUtils.setList(entityVOS);
+
+    return pageUtils;
+  }
+
+  private void validateGroupInfo(Long attrGroupId) {
+    if (ObjectUtil.isNull(attrGroupId)) {
+      return;
     }
+    QueryWrapper<AttrGroupEntity> wrapper =
+        new QueryWrapper<AttrGroupEntity>().eq("attr_group_id", attrGroupId);
+    validateGroupInfo(wrapper, attrGroupId);
+  }
 
-    private void validateGroupInfo(QueryWrapper<AttrGroupEntity> wrapper, long attrGroupId) {
-        Assert.notNull(attrGroupId, "attr must belong to specific group");
+  private void validateGroupInfo(QueryWrapper<AttrGroupEntity> wrapper, long attrGroupId) {
+    Assert.notNull(attrGroupId, "attr must belong to specific group");
 
-        int count = attrGroupService.count(wrapper);
-        Assert.isTrue(
-                count > 0, "Has no attr group which id is {}, please check and try again", attrGroupId);
-    }
+    int count = attrGroupService.count(wrapper);
+    Assert.isTrue(
+        count > 0, "Has no attr group which id is {}, please check and try again", attrGroupId);
+  }
 
-    private void validateExistence(String attrName, Long catelogId) {
-        QueryWrapper wrapper =
-                new QueryWrapper<AttrEntity>().eq("attr_name", attrName).eq("catelog_id", catelogId);
+  private void validateExistence(String attrName, Long catelogId) {
+    QueryWrapper wrapper =
+        new QueryWrapper<AttrEntity>().eq("attr_name", attrName).eq("catelog_id", catelogId);
 
-        validateAttrExistence(wrapper);
-    }
+    validateAttrExistence(wrapper);
+  }
 
-    private void validateExistence(String attrName, Long catelogId, Long attrId) {
+  private void validateExistence(String attrName, Long catelogId, Long attrId) {
 
-        QueryWrapper wrapper =
-                new QueryWrapper<AttrEntity>()
-                        .eq("attr_name", attrName)
-                        .eq("catelog_id", catelogId)
-                        .ne("attr_id", attrId);
+    QueryWrapper wrapper =
+        new QueryWrapper<AttrEntity>()
+            .eq("attr_name", attrName)
+            .eq("catelog_id", catelogId)
+            .ne("attr_id", attrId);
 
-        validateAttrExistence(wrapper);
-    }
+    validateAttrExistence(wrapper);
+  }
 
-    private void validateAttrExistence(QueryWrapper<AttrEntity> wrapper) {
+  private void validateAttrExistence(QueryWrapper<AttrEntity> wrapper) {
 
-        final int count = this.count(wrapper);
-        Assert.isTrue(count == 0, "attr name is exist, please check and try again");
-    }
+    final int count = this.count(wrapper);
+    Assert.isTrue(count == 0, "attr name is exist, please check and try again");
+  }
 }

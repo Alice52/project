@@ -1,55 +1,55 @@
 custom-config:
-    namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
+  namespace: 582f8a8e-70fd-4ccd-b350-13bdfb429d49
 
 spring:
-    profiles:
-        include: common
-    redis:
-        open: true  # 是否开启redis缓存  true开启   false关闭
-        database: 1
-        host: ENC(Sxr93kmRNqakcS34EqzUML4+X0pWdlUmy8q1k2u3E5pFa88nI6LN+lWDOdMB9OEa)
-        port: ENC(NrgfpbV04Cvy6jduJNfEPau7JpDhlwQAKUpt8+R6Ce5VVRfA5GUNKsDoWfKtMUtB)
-        password: ENC(8rW94wNhNhM4sX7jdlLHnmdljhyKVof+Ozo7TEs/CvYPt0gNwAT/TWMYeQv9p0QI)    # 密码（默认为空）
-        timeout: 5000ms  # 连接超时时长（毫秒）
-        jedis:
-            pool:
-                max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
-                max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
-                max-idle: 10      # 连接池中的最大空闲连接
-                min-idle: 5       # 连接池中的最小空闲连接
-    datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
-        druid:
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: ENC(cp3KMgNpVlHCJ+EnAsfpdkN6IMYhsp8DTDteBXS3cRlFPZynj6tUf5CF5i456+UZtjEr8F9cmrHHfahos5e7gcW0SSZbXhVO/3j8RCABCnCza1URPXZCiMoMOxv8jmDn2KvY5zEoouK798Qin4UAZIlsXbaUvJjW3A37SbDXSa9VcVg5vqw2U2ZrhcOoiC4t)
-            username: ENC(9tuul1AulECu58yn5RhB/v4plYTCLrFEnr5vjIRVry0nDbifrZpVDcOtZbHca5XT)
-            password: ENC(EcFbavNOvMk8O/PCWA5fFolSq/ZpJR5GefOpP6gKIPyOFHB2QWYZnuVETnRhf/cA)
-            initial-size: 10
-            max-active: 100
-            min-idle: 10
-            max-wait: 60000
-            pool-prepared-statements: true
-            max-pool-prepared-statement-per-connection-size: 20
-            time-between-eviction-runs-millis: 60000
-            min-evictable-idle-time-millis: 300000
-            #Oracle需要打开注释
-            #validation-query: SELECT 1 FROM DUAL
-            test-while-idle: true
-            test-on-borrow: false
-            test-on-return: false
-            stat-view-servlet:
-                enabled: true
-                url-pattern: /druid/*
-                #login-username: admin
-                #login-password: admin
-            filter:
-                stat:
-                    log-slow-sql: true
-                    slow-sql-millis: 1000
-                    merge-sql: false
-                wall:
-                    config:
-                        multi-statement-allow: true
+  profiles:
+    include: common
+  redis:
+    open: true  # 是否开启redis缓存  true开启   false关闭
+    database: 1
+    host: ENC(Sxr93kmRNqakcS34EqzUML4+X0pWdlUmy8q1k2u3E5pFa88nI6LN+lWDOdMB9OEa)
+    port: ENC(NrgfpbV04Cvy6jduJNfEPau7JpDhlwQAKUpt8+R6Ce5VVRfA5GUNKsDoWfKtMUtB)
+    password: ENC(8rW94wNhNhM4sX7jdlLHnmdljhyKVof+Ozo7TEs/CvYPt0gNwAT/TWMYeQv9p0QI)    # 密码（默认为空）
+    timeout: 5000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: ENC(cp3KMgNpVlHCJ+EnAsfpdkN6IMYhsp8DTDteBXS3cRlFPZynj6tUf5CF5i456+UZtjEr8F9cmrHHfahos5e7gcW0SSZbXhVO/3j8RCABCnCza1URPXZCiMoMOxv8jmDn2KvY5zEoouK798Qin4UAZIlsXbaUvJjW3A37SbDXSa9VcVg5vqw2U2ZrhcOoiC4t)
+      username: ENC(9tuul1AulECu58yn5RhB/v4plYTCLrFEnr5vjIRVry0nDbifrZpVDcOtZbHca5XT)
+      password: ENC(EcFbavNOvMk8O/PCWA5fFolSq/ZpJR5GefOpP6gKIPyOFHB2QWYZnuVETnRhf/cA)
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      #Oracle需要打开注释
+      #validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
 
 
 

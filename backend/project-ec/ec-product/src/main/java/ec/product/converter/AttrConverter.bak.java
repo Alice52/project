@@ -1,21 +1,21 @@
-//package ec.product.converter;
+// package ec.product.converter;
 //
-//import ec.product.converter.utils.AttrConverterUtils;
-//import ec.product.entity.AttrEntity;
-//import ec.product.model.vo.AttrEntityVO;
-//import org.mapstruct.Mapper;
-//import org.mapstruct.Mapping;
-//import org.mapstruct.Mappings;
-//import org.mapstruct.factory.Mappers;
+// import ec.product.converter.utils.AttrConverterUtils;
+// import ec.product.entity.AttrEntity;
+// import ec.product.model.vo.AttrEntityVO;
+// import org.mapstruct.Mapper;
+// import org.mapstruct.Mapping;
+// import org.mapstruct.Mappings;
+// import org.mapstruct.factory.Mappers;
 //
-///**
+/// **
 // * @author zack <br>
 // * @create 2020-11-08 19:39 <br>
 // * @project project-ec <br>
 // */
-//@Mapper(
+// @Mapper(
 //    uses = {AttrConverterUtils.class})
-//public interface AttrConverter {
+// public interface AttrConverter {
 //
 //  AttrConverter INSTANCE = Mappers.getMapper(AttrConverter.class);
 //
@@ -42,4 +42,4 @@
 //        expression = "java(attrConverterUtils.getAttrGroupName(po.getAttrId()))")
 //  })
 //  AttrEntityVO po2vo(AttrEntity po);
-//}
+// }

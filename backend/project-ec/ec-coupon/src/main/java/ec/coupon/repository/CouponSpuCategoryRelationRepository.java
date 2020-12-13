@@ -15,4 +15,5 @@ import java.util.List;
  * @date 2020-10-06 11:06:03
  */
 @Mapper
-public interface CouponSpuCategoryRelationRepository extends BaseMapper<CouponSpuCategoryRelationEntity> {}
+public interface CouponSpuCategoryRelationRepository
+    extends BaseMapper<CouponSpuCategoryRelationEntity> {}

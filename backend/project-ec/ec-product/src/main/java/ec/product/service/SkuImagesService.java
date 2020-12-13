@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import ec.common.utils.PageUtils;
 import ec.product.entity.SkuImagesEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +16,12 @@ import java.util.Map;
  */
 public interface SkuImagesService extends IService<SkuImagesEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
-}
+  PageUtils queryPage(Map<String, Object> params);
 
+  /**
+   * Save sku images.
+   *
+   * @param skuImagesEntities
+   */
+  void saveSkuImages(List<SkuImagesEntity> skuImagesEntities);
+}

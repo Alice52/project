@@ -1,14 +1,19 @@
 package ec.coupon.controller;
 
 import ec.common.utils.PageUtils;
+import ec.coupon.converter.SkuFullReductionConverter;
 import ec.coupon.entity.SkuFullReductionEntity;
+import ec.coupon.model.to.SkuReductionTO;
 import ec.coupon.service.SkuFullReductionService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Map;
+
+import static ec.coupon.converter.SkuFullReductionConverter.INSTANCE;
 
 /**
  * 商品满减信息
@@ -19,48 +24,43 @@ import java.util.Map;
  */
 @Api
 @RestController
-@RequestMapping("coupon/skufullreduction")
+@RequestMapping("/coupon")
 public class SkuFullReductionController extends BaseController {
   @Resource private SkuFullReductionService skuFullReductionService;
 
-  @GetMapping("/list")
-  // @RequiresPermissions("coupon:skufullreduction:list")
+  @GetMapping("/sku-reductions")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = skuFullReductionService.queryPage(params);
 
     return page;
   }
 
-  @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:skufullreduction:info")
+  @GetMapping("/sku-reduction/{id}")
   public SkuFullReductionEntity info(@PathVariable("id") Long id) {
     SkuFullReductionEntity skuFullReduction = skuFullReductionService.getById(id);
 
     return skuFullReduction;
   }
 
-  @PostMapping("/save")
-  // @RequiresPermissions("coupon:skufullreduction:save")
-  public void save(@RequestBody SkuFullReductionEntity skuFullReduction) {
-    skuFullReductionService.save(skuFullReduction);
+  @PostMapping("/sku-reduction")
+  public void save(@RequestBody @NotNull SkuReductionTO to) {
+
+    skuFullReductionService.saveSkuReduction(to);
   }
 
-  @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:skufullreduction:update")
+  @PutMapping("/sku-reduction/{id}")
   public void update(
       @PathVariable("id") Long id, @RequestBody SkuFullReductionEntity skuFullReduction) {
     skuFullReduction.setId(id);
     skuFullReductionService.updateById(skuFullReduction);
   }
 
-  @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:skufullreduction:delete")
+  @DeleteMapping("/sku-reduction")
   public void delete(@RequestBody Long[] ids) {
     skuFullReductionService.removeByIds(Arrays.asList(ids));
   }
 
-  @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:skufullreduction:delete")
+  @DeleteMapping("/sku-reduction/{id}")
   public void deleteById(@PathVariable("id") Long id) {
     skuFullReductionService.removeById(id);
   }

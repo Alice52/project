@@ -1,3 +1,6 @@
+service:
+  COUPON-SERVICE: http://EC-COUPON-SERVICE
+
 spring:
   application:
     name: EC-PRODUCT-SERVICE

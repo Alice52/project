@@ -23,4 +23,6 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
 
   @Override
   boolean save(CategoryBrandRelationEntity entity);
+
+  List<CategoryBrandRelationVO> getBrandsByCatId(Long catId);
 }

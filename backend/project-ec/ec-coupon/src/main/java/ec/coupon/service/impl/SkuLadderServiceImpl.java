@@ -12,17 +12,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/** @author zack */
 @Service("skuLadderService")
 public class SkuLadderServiceImpl extends ServiceImpl<SkuLadderRepository, SkuLadderEntity>
     implements SkuLadderService {
 
   @Override
   public PageUtils queryPage(Map<String, Object> params) {
+
     IPage<SkuLadderEntity> page =
         this.page(
             new CommonQuery<SkuLadderEntity>().getPage(params),
             new QueryWrapper<SkuLadderEntity>());
 
     return new PageUtils(page);
+  }
+
+  @Override
+  public void saveSkuLadder(SkuLadderEntity entity) {
+    this.baseMapper.insert(entity);
   }
 }

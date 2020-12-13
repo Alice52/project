@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author zack <br>
@@ -11,6 +12,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  * @project project-ec <br>
  */
 @RefreshScope
+@EnableFeignClients(basePackages = "ec.product.feign")
 @EnableDiscoveryClient
 @SpringBootApplication
 public class ProductApplication {

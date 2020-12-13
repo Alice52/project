@@ -45,30 +45,30 @@ public class OssService implements IOssService {
     return "https://" + bucketName + StrUtil.SLASH + endpoint + StrUtil.SLASH + name;
   }
 
-    @Override
-    public Map<String, String> signature() throws UnsupportedEncodingException {
-        String host = "https://" + bucketName + "." + endpoint;
-        String dir = new SimpleDateFormat("YYYY-MM-dd").format(new Date());
+  @Override
+  public Map<String, String> signature() throws UnsupportedEncodingException {
+    String host = "https://" + bucketName + "." + endpoint;
+    String dir = new SimpleDateFormat("YYYY-MM-dd").format(new Date());
 
-        long expireEndTime = System.currentTimeMillis() + 30 * 1000;
-        Date expiration = new Date(expireEndTime);
-        PolicyConditions policyConds = new PolicyConditions();
-        policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
-        policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
+    long expireEndTime = System.currentTimeMillis() + 30 * 1000;
+    Date expiration = new Date(expireEndTime);
+    PolicyConditions policyConds = new PolicyConditions();
+    policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
+    policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
 
-        String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
-        byte[] binaryData = postPolicy.getBytes("utf-8");
-        String encodedPolicy = BinaryUtil.toBase64String(binaryData);
-        String postSignature = ossClient.calculatePostSignature(postPolicy);
+    String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
+    byte[] binaryData = postPolicy.getBytes("utf-8");
+    String encodedPolicy = BinaryUtil.toBase64String(binaryData);
+    String postSignature = ossClient.calculatePostSignature(postPolicy);
 
-        Map<String, String> respMap = new LinkedHashMap<String, String>();
-        respMap.put("accessid", accessId);
-        respMap.put("policy", encodedPolicy);
-        respMap.put("signature", postSignature);
-        respMap.put("dir", dir);
-        respMap.put("host", host);
-        respMap.put("expire", String.valueOf(expireEndTime / 1000));
+    Map<String, String> respMap = new LinkedHashMap<String, String>();
+    respMap.put("accessid", accessId);
+    respMap.put("policy", encodedPolicy);
+    respMap.put("signature", postSignature);
+    respMap.put("dir", dir);
+    respMap.put("host", host);
+    respMap.put("expire", String.valueOf(expireEndTime / 1000));
 
-        return respMap;
-    }
+    return respMap;
+  }
 }

@@ -16,37 +16,36 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * @author zack <br/>
- * @create 2020-10-03 21:55 <br/>
- * @project project-ec <br/>
+ * @author zack <br>
+ * @create 2020-10-03 21:55 <br>
+ * @project project-ec <br>
  */
 @Slf4j
 @Service
 public class MailSenderServiceImpl implements IMailSenderService {
-    @Resource
-    private EmailUtils emailUtil;
+  @Resource private EmailUtils emailUtil;
 
-    @Override
-    public boolean sendSimpleMailMessage(String to, String subject, String content) {
-        return emailUtil.send(
-                new EmailStruct(to, subject, content),
-                () -> {
-                    SimpleMailMessage message = new SimpleMailMessage();
-                    message.setTo(to);
-                    message.setSubject(subject);
-                    message.setText(content);
-                    return message;
-                });
-    }
+  @Override
+  public boolean sendSimpleMailMessage(String to, String subject, String content) {
+    return emailUtil.send(
+        new EmailStruct(to, subject, content),
+        () -> {
+          SimpleMailMessage message = new SimpleMailMessage();
+          message.setTo(to);
+          message.setSubject(subject);
+          message.setText(content);
+          return message;
+        });
+  }
 
-    @Override
-    public boolean sendMimeMessage(String to, String subject, String content) {
+  @Override
+  public boolean sendMimeMessage(String to, String subject, String content) {
 
-        return this.sendMimeMessage(to, subject, content, StrUtil.EMPTY);
-    }
+    return this.sendMimeMessage(to, subject, content, StrUtil.EMPTY);
+  }
 
-    @Override
-    public boolean sendMimeMessage(String to, String subject, String content, String filePath) {
+  @Override
+  public boolean sendMimeMessage(String to, String subject, String content, String filePath) {
 
     return emailUtil.send(
         new EmailStruct(to, subject, content, filePath),
@@ -71,37 +70,37 @@ public class MailSenderServiceImpl implements IMailSenderService {
 
           return message;
         });
-    }
+  }
 
-    @Override
-    public boolean sendMimeMessage(
-            String to, String subject, String content, Map<String, String> rscIdMap) {
+  @Override
+  public boolean sendMimeMessage(
+      String to, String subject, String content, Map<String, String> rscIdMap) {
 
-        return emailUtil.send(
-                new EmailStruct(to, subject, content, rscIdMap),
-                () -> {
-                    MimeMessage message = null;
-                    try {
-                        message = emailUtil.getMailSender().createMimeMessage();
-                        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-                        helper.setTo(to);
-                        helper.setSubject(subject);
-                        helper.setText(content, true);
+    return emailUtil.send(
+        new EmailStruct(to, subject, content, rscIdMap),
+        () -> {
+          MimeMessage message = null;
+          try {
+            message = emailUtil.getMailSender().createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(content, true);
 
-                        for (Map.Entry<String, String> entry : rscIdMap.entrySet()) {
-                            FileSystemResource file = new FileSystemResource(new File(entry.getValue()));
-                            helper.addInline(entry.getKey(), file);
-                        }
-                    } catch (MessagingException ex) {
-                        log.error(
-                                "build message error with parameters: to[{}] subject[{}] content[{}] rscIdMap[{}]",
-                                to,
-                                subject,
-                                content,
-                                rscIdMap);
-                    }
+            for (Map.Entry<String, String> entry : rscIdMap.entrySet()) {
+              FileSystemResource file = new FileSystemResource(new File(entry.getValue()));
+              helper.addInline(entry.getKey(), file);
+            }
+          } catch (MessagingException ex) {
+            log.error(
+                "build message error with parameters: to[{}] subject[{}] content[{}] rscIdMap[{}]",
+                to,
+                subject,
+                content,
+                rscIdMap);
+          }
 
-                    return message;
-                });
-    }
+          return message;
+        });
+  }
 }
