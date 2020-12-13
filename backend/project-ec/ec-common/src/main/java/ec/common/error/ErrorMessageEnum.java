@@ -7,37 +7,36 @@ import java.util.Optional;
 
 /**
  * @author zack <br>
- * @create 2020-10-11 11:55 <br>
+ * @create 2020-10-06 11:34 <br>
  * @project project-ec <br>
  */
 @Slf4j
 public enum ErrorMessageEnum {
   // common errors
   SYSTEM_ERROR(999999, "Internal Server Error"),
-  BEAN_VALIDATION_ERROR(400400, "Validate bean property error");
+  BEAN_VALIDATION_ERROR(400400, "Validate bean property error"),
+  ;
 
-  private Integer code;
-  private String msg;
+  private Integer errorCode;
+  private String errorMsg;
 
-  ErrorMessageEnum(Integer code, String msg) {
-    this.code = code;
-    this.msg = msg;
+  ErrorMessageEnum(Integer errorCode, String errorMsg) {
+    this.errorCode = errorCode;
+    this.errorMsg = errorMsg;
   }
 
-  public Integer getCode() {
-    return code;
+
+  public Integer getErrorCode() {
+    return errorCode;
   }
 
-  public void setCode(Integer code) {
-    this.code = code;
+  public String getErrorMsg() {
+    return errorMsg;
   }
 
-  public String getMsg() {
-    return msg;
-  }
-
-  public void setMsg(String msg) {
-    this.msg = msg;
+  @Override
+  public String toString() {
+    return "ErrorMessages{" + "code=" + errorCode + ", errorMsg='" + errorMsg + '\'' + '}';
   }
 
   /**
@@ -48,7 +47,7 @@ public enum ErrorMessageEnum {
    */
   public static ErrorMessageEnum getByErrorCode(final Integer errorCode) {
     return Arrays.stream(values())
-        .filter(enumErrorCode -> enumErrorCode.getCode().equals(errorCode))
+        .filter(enumErrorCode -> enumErrorCode.getErrorCode().equals(errorCode))
         .findFirst()
         .orElse(null);
   }
@@ -67,17 +66,17 @@ public enum ErrorMessageEnum {
   public static String getMessageByCode(final String errorCode) {
     Optional<ErrorMessageEnum> errorMessage =
         Arrays.stream(values())
-            .filter(enumErrorCode -> enumErrorCode.getCode().equals(errorCode))
+            .filter(enumErrorCode -> enumErrorCode.getErrorCode().equals(errorCode))
             .findFirst();
-    return errorMessage.isPresent() ? errorMessage.get().getMsg() : null;
+    return errorMessage.isPresent() ? errorMessage.get().getErrorMsg() : null;
   }
 
   public static Integer getCodeByMessage(final String errorMessage) {
     Optional<ErrorMessageEnum> errorCode =
         Arrays.stream(ErrorMessageEnum.class.getEnumConstants())
-            .filter(enumErrorCode -> enumErrorCode.getMsg().equals(errorMessage))
+            .filter(enumErrorCode -> enumErrorCode.getErrorMsg().equals(errorMessage))
             .findFirst();
-    return errorCode.isPresent() ? errorCode.get().getCode() : null;
+    return errorCode.isPresent() ? errorCode.get().getErrorCode() : null;
   }
 
   /**

@@ -16,6 +16,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 public interface ICustomResponseAdvice extends ResponseBodyAdvice {
 
+  String[] ignores = new String[] {"/", "/swagger-resources", "/v2/api-docs"};
+
+  default boolean ignoring(String uri) {
+    for (String string : ignores) {
+      if (uri.contains(string)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Whether need handle[override] response.
    *
@@ -36,6 +47,10 @@ public interface ICustomResponseAdvice extends ResponseBodyAdvice {
       Class selectedConverterType,
       ServerHttpRequest request,
       ServerHttpResponse response) {
+
+    if (this.ignoring(request.getURI().toString())) {
+      return body;
+    }
 
     if (body instanceof PageUtils) {
       return R.ok().put("page", body);

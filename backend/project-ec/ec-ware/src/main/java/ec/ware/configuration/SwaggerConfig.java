@@ -48,11 +48,13 @@ public class SwaggerConfig implements WebMvcConfigurer {
   @Bean
   public Docket createRestAppApi() {
     return getDocket()
-        .groupName("ec-product")
+        .groupName("ec-ware")
+        .pathMapping("/")
         .select()
         .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
         .paths(PathSelectors.any())
-        .build();
+        .build()
+        .pathMapping("/");
   }
 
   private Docket getDocket() {

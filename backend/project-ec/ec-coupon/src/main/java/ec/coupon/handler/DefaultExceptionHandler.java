@@ -1,8 +1,8 @@
 package ec.coupon.handler;
 
 import cn.hutool.core.map.MapUtil;
-import ec.coupon.model.ErrorMessageEnum;
-import ec.coupon.model.ErrorResponse;
+import ec.common.error.ErrorMessageEnum;
+import ec.common.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

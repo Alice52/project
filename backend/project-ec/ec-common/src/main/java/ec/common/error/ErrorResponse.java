@@ -1,4 +1,4 @@
-package ec.coupon.model;
+package ec.common.error;
 
 import lombok.Data;
 

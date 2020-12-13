@@ -26,7 +26,6 @@ public class PurchaseDetailController {
   @Resource private PurchaseDetailService purchaseDetailService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("ware:purchasedetail:list")
   public R list(@RequestParam Map<String, Object> params) {
     PageUtils page = purchaseDetailService.queryPage(params);
 
@@ -34,7 +33,6 @@ public class PurchaseDetailController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("ware:purchasedetail:info")
   public R info(@PathVariable("id") Long id) {
     PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
 
@@ -42,7 +40,6 @@ public class PurchaseDetailController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("ware:purchasedetail:save")
   public R save(@RequestBody PurchaseDetailEntity purchaseDetail) {
     purchaseDetailService.save(purchaseDetail);
 
@@ -50,7 +47,6 @@ public class PurchaseDetailController {
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("ware:purchasedetail:update")
   public R update(@PathVariable("id") Long id, @RequestBody PurchaseDetailEntity purchaseDetail) {
     purchaseDetail.setId(id);
     purchaseDetailService.updateById(purchaseDetail);
@@ -59,7 +55,6 @@ public class PurchaseDetailController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("ware:purchasedetail:delete")
   public R delete(@RequestBody Long[] ids) {
     purchaseDetailService.removeByIds(Arrays.asList(ids));
 
@@ -67,7 +62,6 @@ public class PurchaseDetailController {
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("ware:purchasedetail:delete")
   public R deleteById(@PathVariable("id") Long id) {
     purchaseDetailService.removeById(id);
 

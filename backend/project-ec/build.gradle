@@ -133,6 +133,7 @@ subprojects {
                 dependency "javax.servlet:javax.servlet-api:${servlet_version}"
                 dependency "org.mapstruct:mapstruct:${mapstruct_version}"
                 dependency "junit:junit:${junit_version}"
+                dependency "io.springfox:springfox-boot-starter:${swagger_starter_version}"
             }
         }
     }

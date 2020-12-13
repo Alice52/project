@@ -21,8 +21,8 @@ public class R extends HashMap<String, Object> {
 
   public static R error(ErrorMessageEnum errorMessageEnum) {
     R r = new R();
-    r.put("code", errorMessageEnum.getCode());
-    r.put("msg", errorMessageEnum.getMsg());
+    r.put("code", errorMessageEnum.getErrorCode());
+    r.put("msg", errorMessageEnum.getErrorMsg());
     return r;
   }
 

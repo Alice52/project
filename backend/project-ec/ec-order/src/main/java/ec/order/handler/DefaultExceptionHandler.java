@@ -1,4 +1,4 @@
-package ec.product.handler;
+package ec.order.handler;
 
 import ec.common.error.handler.BaseDefaultExceptionHandler;
 import lombok.extern.slf4j.Slf4j;

@@ -1,18 +1,15 @@
 package ec.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import ec.common.utils.PageUtils;
+import ec.common.utils.R;
+import ec.ware.entity.WareOrderTaskEntity;
+import ec.ware.service.WareOrderTaskService;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-
-import ec.ware.entity.WareOrderTaskEntity;
-import ec.ware.service.WareOrderTaskService;
-import ec.common.utils.PageUtils;
-import ec.common.utils.R;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 库存工作单
@@ -28,7 +25,6 @@ public class WareOrderTaskController {
   @Resource private WareOrderTaskService wareOrderTaskService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("ware:wareordertask:list")
   public R list(@RequestParam Map<String, Object> params) {
     PageUtils page = wareOrderTaskService.queryPage(params);
 
@@ -36,7 +32,6 @@ public class WareOrderTaskController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("ware:wareordertask:info")
   public R info(@PathVariable("id") Long id) {
     WareOrderTaskEntity wareOrderTask = wareOrderTaskService.getById(id);
 
@@ -44,7 +39,6 @@ public class WareOrderTaskController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("ware:wareordertask:save")
   public R save(@RequestBody WareOrderTaskEntity wareOrderTask) {
     wareOrderTaskService.save(wareOrderTask);
 
@@ -52,7 +46,6 @@ public class WareOrderTaskController {
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("ware:wareordertask:update")
   public R update(@PathVariable("id") Long id, @RequestBody WareOrderTaskEntity wareOrderTask) {
     wareOrderTask.setId(id);
     wareOrderTaskService.updateById(wareOrderTask);
@@ -61,7 +54,6 @@ public class WareOrderTaskController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("ware:wareordertask:delete")
   public R delete(@RequestBody Long[] ids) {
     wareOrderTaskService.removeByIds(Arrays.asList(ids));
 
@@ -69,7 +61,6 @@ public class WareOrderTaskController {
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("ware:wareordertask:delete")
   public R deleteById(@PathVariable("id") Long id) {
     wareOrderTaskService.removeById(id);
 
