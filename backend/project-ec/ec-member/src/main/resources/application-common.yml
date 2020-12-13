@@ -1,3 +1,11 @@
+server:
+  port: 8030
+  tomcat:
+    accept-count: 500
+    max-threads: 100
+    min-spare-threads: 50
+    max-connections: 5000
+
 custom-config:
   server-addr: ENC(xtrTzLo6BCn9c+RVe7sbhOE+hiLTYbeqg6/IVTY72RezzASal7tmVksSsdN6rLoja/P5M8Svgfa3AkNnO+cToQ==)
   group: EC_MEMBER
@@ -11,6 +19,9 @@ custom-config:
 jasypt:
   encryptor:
     password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+swagger2:
+  enable: true
 
 spring:
   # jackson时间格式化

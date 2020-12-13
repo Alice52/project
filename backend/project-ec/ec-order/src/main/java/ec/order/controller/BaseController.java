@@ -1,4 +1,4 @@
-package ec.coupon.controller;
+package ec.order.controller;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;

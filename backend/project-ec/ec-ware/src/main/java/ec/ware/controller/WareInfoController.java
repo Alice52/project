@@ -28,7 +28,6 @@ public class WareInfoController {
   @Resource private WareInfoService wareInfoService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("ware:wareinfo:list")
   public R list(@RequestParam Map<String, Object> params) {
     PageUtils page = wareInfoService.queryPage(params);
 
@@ -36,7 +35,6 @@ public class WareInfoController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("ware:wareinfo:info")
   public R info(@PathVariable("id") Long id) {
     WareInfoEntity wareInfo = wareInfoService.getById(id);
 
@@ -44,7 +42,6 @@ public class WareInfoController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("ware:wareinfo:save")
   public R save(@RequestBody WareInfoEntity wareInfo) {
     wareInfoService.save(wareInfo);
 
@@ -52,7 +49,6 @@ public class WareInfoController {
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("ware:wareinfo:update")
   public R update(@PathVariable("id") Long id, @RequestBody WareInfoEntity wareInfo) {
     wareInfo.setId(id);
     wareInfoService.updateById(wareInfo);
@@ -61,7 +57,6 @@ public class WareInfoController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("ware:wareinfo:delete")
   public R delete(@RequestBody Long[] ids) {
     wareInfoService.removeByIds(Arrays.asList(ids));
 
@@ -69,7 +64,6 @@ public class WareInfoController {
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("ware:wareinfo:delete")
   public R deleteById(@PathVariable("id") Long id) {
     wareInfoService.removeById(id);
 
