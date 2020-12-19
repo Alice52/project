@@ -24,7 +24,8 @@ import static ${package}.${moduleName}.converter.${className}Converter.INSTANCE;
 @RestController
 @RequestMapping("/${moduleName}")
 public class ${className}Controller {
-    @Resource private ${className}Service ${classname}Service;
+    @Resource
+    private ${className}Service ${classname}Service;
 
     @GetMapping("/${pathName}s")
     public PageUtils list(@RequestParam Map<String, Object> params) {
@@ -34,7 +35,7 @@ public class ${className}Controller {
 
     @GetMapping("/${pathName}/{${pk.attrname}}")
     public ${className}VO detail(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
-        ${className}Entity po = ${classname}Service.getById(${pk.attrname});
+            ${className}Entity po = ${classname}Service.getById(${pk.attrname});
 
         return INSTANCE.po2vo(po);
     }
@@ -42,25 +43,25 @@ public class ${className}Controller {
     @PostMapping("/${pathName}")
     public void save(@RequestBody ${className}VO ${classname}VO) {
 
-        ${classname}Service.save(INSTANCE.vo2po(${classname}VO));
+            ${classname}Service.save(INSTANCE.vo2po(${classname}VO));
     }
 
     @PutMapping("/${pathName}/{${pk.attrname}}")
     public void update(@PathVariable("${pk.attrname}")  ${pk.attrType} ${pk.attrname}, @RequestBody ${className}VO ${classname}VO) {
 
-        ${classname}VO.set${pk.attrName}(${pk.attrname});
-        ${classname}Service.updateById(INSTANCE.vo2po(${classname}VO));
+            ${classname}VO.set${pk.attrName}(${pk.attrname});
+            ${classname}Service.updateById(INSTANCE.vo2po(${classname}VO));
     }
 
     @DeleteMapping("/${pathName}s")
     public void delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s) {
 
-        ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+            ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
     }
 
     @DeleteMapping("/${pathName}/{${pk.attrname}}")
     public void deleteById(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
 
-        ${classname}Service.removeById(${pk.attrname});
+            ${classname}Service.removeById(${pk.attrname});
     }
 }

@@ -1,6 +1,5 @@
 /**
- *
- * <p>https://www.renren.io
+ * https://www.renren.io
  *
  * <p>版权所有，侵权必究！
  */

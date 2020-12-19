@@ -27,11 +27,11 @@ public class ${className}Entity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     #foreach ($column in $columns)
-    #if($column.columnName == $pk.columnName)
-    @TableId
-    #elseif ($column.columnName =="is_deleted")
-    @TableLogic
-    #end
+        #if($column.columnName == $pk.columnName)
+        @TableId
+        #elseif ($column.columnName =="is_deleted")
+        @TableLogic
+        #end
     private $column.attrType $column.attrname;
     #end
 }

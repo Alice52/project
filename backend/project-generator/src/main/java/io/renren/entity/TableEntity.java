@@ -69,6 +69,6 @@ public class TableEntity {
   }
 
   public void setClassname(String classname) {
-		this.classname = classname;
-	}
+    this.classname = classname;
+  }
 }
