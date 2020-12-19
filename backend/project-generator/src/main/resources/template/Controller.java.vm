@@ -3,77 +3,64 @@ package ${package}.${moduleName}.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.model.entity.${className}Entity;
+import ${package}.${moduleName}.model.vo.${className}VO;
 import ${package}.${moduleName}.service.${className}Service;
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
+
+import static ${package}.${moduleName}.converter.${className}Converter.INSTANCE;
 
 /**
  * ${comments}
  *
- * @author ${author}
- * @email ${email}
- * @date ${datetime}
+ * @author ${author} <br>
+ * @create ${datetime} <br>
+ * @project ${moduleName} <br>
  */
-@Api
 @RestController
-@RequestMapping("${moduleName}/${pathName}")
+@RequestMapping("/${moduleName}")
 public class ${className}Controller {
-    @Resource
-    private ${className}Service ${classname}Service;
+    @Resource private ${className}Service ${classname}Service;
 
-    @GetMapping("/list")
-    // @RequiresPermissions("${moduleName}:${pathName}:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = ${classname}Service.queryPage(params);
+    @GetMapping("/${pathName}s")
+    public PageUtils list(@RequestParam Map<String, Object> params) {
 
-        return R.ok().put("page", page);
+        return ${classname}Service.queryPage(params);
     }
 
-    @GetMapping("/info/{${pk.attrname}}")
-    // @RequiresPermissions("${moduleName}:${pathName}:info")
-    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
-            ${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
+    @GetMapping("/${pathName}/{${pk.attrname}}")
+    public ${className}VO detail(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+        ${className}Entity po = ${classname}Service.getById(${pk.attrname});
 
-        return R.ok().put("${classname}", ${classname});
+        return INSTANCE.po2vo(po);
     }
 
-    @PostMapping("/save")
-    // @RequiresPermissions("${moduleName}:${pathName}:save")
-    public R save(@RequestBody ${className}Entity ${classname}) {
-            ${classname}Service.save(${classname});
+    @PostMapping("/${pathName}")
+    public void save(@RequestBody ${className}VO ${classname}VO) {
 
-        return R.ok();
+        ${classname}Service.save(INSTANCE.vo2po(${classname}VO));
     }
 
-    @PutMapping("/update/{${pk.attrname}}")
-    // @RequiresPermissions("${moduleName}:${pathName}:update")
-    public R update(@PathVariable("${pk.attrname}")  ${pk.attrType} ${pk.attrname}, @RequestBody ${className}Entity ${classname}) {
-        ${classname}.set${pk.attrName}(${pk.attrname});
-            ${classname}Service.updateById(${classname});
+    @PutMapping("/${pathName}/{${pk.attrname}}")
+    public void update(@PathVariable("${pk.attrname}")  ${pk.attrType} ${pk.attrname}, @RequestBody ${className}VO ${classname}VO) {
 
-        return R.ok();
+        ${classname}VO.set${pk.attrName}(${pk.attrname});
+        ${classname}Service.updateById(INSTANCE.vo2po(${classname}VO));
     }
 
-    @DeleteMapping("/delete")
-    // @RequiresPermissions("${moduleName}:${pathName}:delete")
-    public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s) {
-            ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+    @DeleteMapping("/${pathName}s")
+    public void delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s) {
 
-        return R.ok();
+        ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
     }
 
-    @DeleteMapping("/delete/{${pk.attrname}}")
-    // @RequiresPermissions("${moduleName}:${pathName}:delete")
-    public R deleteById(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
-            ${classname}Service.removeById(${pk.attrname});
+    @DeleteMapping("/${pathName}/{${pk.attrname}}")
+    public void deleteById(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
 
-        return R.ok();
+        ${classname}Service.removeById(${pk.attrname});
     }
 }

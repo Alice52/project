@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.entity;
+package ${package}.${moduleName}.model.entity;
 
 
 #if(${hasList})
@@ -13,10 +13,10 @@ import org.springframework.data.annotation.Id;
 
 /**
  * ${comments}
- * 
- * @author ${author}
- * @email ${email}
- * @date ${datetime}
+ *
+ * @author ${author} <br>
+ * @create ${datetime} <br>
+ * @project ${moduleName} <br>
  */
 @Data
 public class ${className}InnerEntity  {

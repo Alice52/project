@@ -34,12 +34,14 @@ public class GenUtils {
   private static String currentTableName;
 
   public static List<String> getTemplates() {
-    List<String> templates = new ArrayList<String>();
+    List<String> templates = new ArrayList<>();
     templates.add("template/Entity.java.vm");
     templates.add("template/Repository.xml.vm");
 
     templates.add("template/menu.sql.vm");
 
+    templates.add("template/Converter.java.vm");
+    templates.add("template/VO.java.vm");
     templates.add("template/Service.java.vm");
     templates.add("template/ServiceImpl.java.vm");
     templates.add("template/Controller.java.vm");
@@ -321,7 +323,21 @@ public class GenUtils {
           + "InnerEntity.java";
     }
     if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
-      return packagePath + "entity" + File.separator + className + "Entity.java";
+      return packagePath
+          + "model"
+          + File.separator
+          + "entity"
+          + File.separator
+          + className
+          + "Entity.java";
+    }
+
+    if (template.contains("VO.java.vm")) {
+      return packagePath + "model" + File.separator + "vo" + File.separator + className + "VO.java";
+    }
+
+    if (template.contains("Converter.java.vm")) {
+      return packagePath + "converter" + File.separator + className + "Converter.java";
     }
 
     if (template.contains("Repository.java.vm")) {

@@ -1,6 +1,6 @@
 **项目说明**
 
-- renren-generator 是人人开源项目的代码生成器，可在线生成 entity、xml、repository、service、html、js、sql 代码，减少 70%以上的开发任务
+- renren-generator 是开源项目的代码生成器，可在线生成 entity、xml、repository、service、html、js、sql 代码，减少 70%以上的开发任务
   <br>
 - 使用 druid 处理 LocalDateTime 时版本必须大于 22
 
