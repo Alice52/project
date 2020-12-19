@@ -3,70 +3,64 @@ package ec.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import ec.ware.entity.WareSkuEntity;
+import ec.ware.model.entity.WareSkuEntity;
+import ec.ware.model.vo.WareSkuVO;
 import ec.ware.service.WareSkuService;
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
+
+import static ec.ware.converter.WareSkuConverter.INSTANCE;
 
 /**
  * 商品库存
  *
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-06 12:43:08
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
  */
-@Api
 @RestController
-@RequestMapping("ware/waresku")
+@RequestMapping("/ware")
 public class WareSkuController {
   @Resource private WareSkuService wareSkuService;
 
-  @GetMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = wareSkuService.queryPage(params);
+  @GetMapping("/wareskus")
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return wareSkuService.queryPage(params);
   }
 
-  @GetMapping("/info/{id}")
-  public R info(@PathVariable("id") Long id) {
-    WareSkuEntity wareSku = wareSkuService.getById(id);
+  @GetMapping("/waresku/{id}")
+  public WareSkuVO detail(@PathVariable("id") Long id) {
+    WareSkuEntity po = wareSkuService.getById(id);
 
-    return R.ok().put("wareSku", wareSku);
+    return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/save")
-  public R save(@RequestBody WareSkuEntity wareSku) {
-    wareSkuService.save(wareSku);
+  @PostMapping("/waresku")
+  public void save(@RequestBody WareSkuVO wareSkuVO) {
 
-    return R.ok();
+    wareSkuService.save(INSTANCE.vo2po(wareSkuVO));
   }
 
-  @PutMapping("/update/{id}")
-  public R update(@PathVariable("id") Long id, @RequestBody WareSkuEntity wareSku) {
-    wareSku.setId(id);
-    wareSkuService.updateById(wareSku);
+  @PutMapping("/waresku/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody WareSkuVO wareSkuVO) {
 
-    return R.ok();
+    wareSkuVO.setId(id);
+    wareSkuService.updateById(INSTANCE.vo2po(wareSkuVO));
   }
 
-  @DeleteMapping("/delete")
-  public R delete(@RequestBody Long[] ids) {
+  @DeleteMapping("/wareskus")
+  public void delete(@RequestBody Long[] ids) {
+
     wareSkuService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  public R deleteById(@PathVariable("id") Long id) {
-    wareSkuService.removeById(id);
+  @DeleteMapping("/waresku/{id}")
+  public void deleteById(@PathVariable("id") Long id) {
 
-    return R.ok();
+    wareSkuService.removeById(id);
   }
 }

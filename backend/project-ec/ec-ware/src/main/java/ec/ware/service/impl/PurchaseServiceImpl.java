@@ -12,9 +12,16 @@ import ec.common.utils.PageUtils;
 import ec.common.utils.R;
 
 import ec.ware.repository.PurchaseRepository;
-import ec.ware.entity.PurchaseEntity;
+import ec.ware.model.entity.PurchaseEntity;
 import ec.ware.service.PurchaseService;
 
+/**
+ * 采购信息
+ *
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
+ */
 @Service("purchaseService")
 public class PurchaseServiceImpl extends ServiceImpl<PurchaseRepository, PurchaseEntity>
     implements PurchaseService {

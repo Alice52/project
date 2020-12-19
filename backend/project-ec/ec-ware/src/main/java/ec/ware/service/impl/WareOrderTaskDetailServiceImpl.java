@@ -12,9 +12,16 @@ import ec.common.utils.PageUtils;
 import ec.common.utils.R;
 
 import ec.ware.repository.WareOrderTaskDetailRepository;
-import ec.ware.entity.WareOrderTaskDetailEntity;
+import ec.ware.model.entity.WareOrderTaskDetailEntity;
 import ec.ware.service.WareOrderTaskDetailService;
 
+/**
+ * 库存工作单
+ *
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
+ */
 @Service("wareOrderTaskDetailService")
 public class WareOrderTaskDetailServiceImpl
     extends ServiceImpl<WareOrderTaskDetailRepository, WareOrderTaskDetailEntity>

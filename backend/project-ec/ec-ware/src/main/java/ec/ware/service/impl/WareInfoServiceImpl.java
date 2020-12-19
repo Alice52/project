@@ -12,9 +12,16 @@ import ec.common.utils.PageUtils;
 import ec.common.utils.R;
 
 import ec.ware.repository.WareInfoRepository;
-import ec.ware.entity.WareInfoEntity;
+import ec.ware.model.entity.WareInfoEntity;
 import ec.ware.service.WareInfoService;
 
+/**
+ * 仓库信息
+ *
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
+ */
 @Service("wareInfoService")
 public class WareInfoServiceImpl extends ServiceImpl<WareInfoRepository, WareInfoEntity>
     implements WareInfoService {

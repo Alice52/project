@@ -25,7 +25,6 @@ public enum ErrorMessageEnum {
     this.errorMsg = errorMsg;
   }
 
-
   public Integer getErrorCode() {
     return errorCode;
   }

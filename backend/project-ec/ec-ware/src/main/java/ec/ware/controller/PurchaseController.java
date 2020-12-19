@@ -1,72 +1,66 @@
 package ec.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import ec.common.utils.PageUtils;
+import ec.ware.model.entity.PurchaseEntity;
+import ec.ware.model.vo.PurchaseVO;
+import ec.ware.service.PurchaseService;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Map;
 
-import ec.ware.entity.PurchaseEntity;
-import ec.ware.service.PurchaseService;
-import ec.common.utils.PageUtils;
-import ec.common.utils.R;
+import static ec.ware.converter.PurchaseConverter.INSTANCE;
 
 /**
  * 采购信息
  *
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-06 12:43:08
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
  */
 @Api
 @RestController
-@RequestMapping("ware/purchase")
+@RequestMapping("/ware")
 public class PurchaseController {
   @Resource private PurchaseService purchaseService;
 
-  @GetMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = purchaseService.queryPage(params);
+  @GetMapping("/purchases")
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return purchaseService.queryPage(params);
   }
 
-  @GetMapping("/info/{id}")
-  public R info(@PathVariable("id") Long id) {
-    PurchaseEntity purchase = purchaseService.getById(id);
+  @GetMapping("/purchase/{id}")
+  public PurchaseVO detail(@PathVariable("id") Long id) {
+    PurchaseEntity po = purchaseService.getById(id);
 
-    return R.ok().put("purchase", purchase);
+    return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/save")
-  public R save(@RequestBody PurchaseEntity purchase) {
-    purchaseService.save(purchase);
+  @PostMapping("/purchase")
+  public void save(@RequestBody PurchaseVO purchaseVO) {
 
-    return R.ok();
+    purchaseService.save(INSTANCE.vo2po(purchaseVO));
   }
 
-  @PutMapping("/update/{id}")
-  public R update(@PathVariable("id") Long id, @RequestBody PurchaseEntity purchase) {
-    purchase.setId(id);
-    purchaseService.updateById(purchase);
+  @PutMapping("/purchase/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody PurchaseVO purchaseVO) {
 
-    return R.ok();
+    purchaseVO.setId(id);
+    purchaseService.updateById(INSTANCE.vo2po(purchaseVO));
   }
 
-  @DeleteMapping("/delete")
-  public R delete(@RequestBody Long[] ids) {
+  @DeleteMapping("/purchases")
+  public void delete(@RequestBody Long[] ids) {
+
     purchaseService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  public R deleteById(@PathVariable("id") Long id) {
-    purchaseService.removeById(id);
+  @DeleteMapping("/purchase/{id}")
+  public void deleteById(@PathVariable("id") Long id) {
 
-    return R.ok();
+    purchaseService.removeById(id);
   }
 }

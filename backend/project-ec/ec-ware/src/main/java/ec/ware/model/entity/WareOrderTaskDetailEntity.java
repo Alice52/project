@@ -1,4 +1,4 @@
-package ec.ware.entity;
+package ec.ware.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -14,9 +14,9 @@ import lombok.Data;
 /**
  * 库存工作单
  *
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-06 12:43:08
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
  */
 @Data
 @TableName("wms_ware_order_task_detail")
@@ -31,34 +31,4 @@ public class WareOrderTaskDetailEntity implements Serializable {
   private LocalDateTime createdDate;
   private LocalDateTime updatedDate;
   @TableLogic private Integer isDeleted;
-
-  @JsonProperty
-  public LocalDateTime getCreatedDate() {
-    return createdDate;
-  }
-
-  @JsonIgnore
-  public void setCreatedDate(LocalDateTime createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  @JsonProperty
-  public LocalDateTime getUpdatedDate() {
-    return updatedDate;
-  }
-
-  @JsonIgnore
-  public void setUpdatedDate(LocalDateTime updatedDate) {
-    this.updatedDate = updatedDate;
-  }
-
-  @JsonProperty
-  public Integer getIsDeleted() {
-    return isDeleted;
-  }
-
-  @JsonIgnore
-  public void setIsDeleted(Integer isDeleted) {
-    this.isDeleted = isDeleted;
-  }
 }

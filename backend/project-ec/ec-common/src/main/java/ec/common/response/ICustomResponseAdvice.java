@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 public interface ICustomResponseAdvice extends ResponseBodyAdvice {
 
-  String[] ignores = new String[] {"/", "/swagger-resources", "/v2/api-docs"};
+  String[] ignores = new String[] {"/swagger-resources", "/v2/api-docs"};
 
   default boolean ignoring(String uri) {
     for (String string : ignores) {
@@ -39,6 +39,19 @@ public interface ICustomResponseAdvice extends ResponseBodyAdvice {
     return true;
   }
 
+  /**
+   * This method will worked when {@link ICustomResponseAdvice#supports(MethodParameter, Class) } is
+   * return true. <br>
+   * It will wrap response by specified logic. <br>
+   *
+   * @param body
+   * @param returnType
+   * @param selectedContentType
+   * @param selectedConverterType
+   * @param request
+   * @param response
+   * @return Object real response
+   */
   @Override
   default Object beforeBodyWrite(
       Object body,
@@ -54,8 +67,6 @@ public interface ICustomResponseAdvice extends ResponseBodyAdvice {
 
     if (body instanceof PageUtils) {
       return R.ok().put("page", body);
-    } else if (ObjectUtil.isNull(body)) {
-      return R.ok();
     } else {
       return R.ok().put("data", body);
     }

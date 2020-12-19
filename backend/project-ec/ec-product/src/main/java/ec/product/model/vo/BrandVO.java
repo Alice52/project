@@ -1,6 +1,7 @@
 package ec.product.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ec.common.annotation.AddGroup;
 import ec.common.annotation.SpecifiedValue;
@@ -20,6 +21,9 @@ import java.time.LocalDateTime;
  * @date 2020-10-05 22:36:26
  */
 @Data
+@JsonIgnoreProperties(
+    value = {"createdDate", "updatedDate", "isDeleted"},
+    allowGetters = true)
 public class BrandVO {
 
   @ApiModelProperty(hidden = true)
@@ -52,34 +56,4 @@ public class BrandVO {
 
   @ApiModelProperty(hidden = true)
   private Integer isDeleted;
-
-  @JsonProperty
-  public LocalDateTime getCreatedDate() {
-    return createdDate;
-  }
-
-  @JsonIgnore
-  public void setCreatedDate(LocalDateTime createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  @JsonProperty
-  public LocalDateTime getUpdatedDate() {
-    return updatedDate;
-  }
-
-  @JsonIgnore
-  public void setUpdatedDate(LocalDateTime updatedDate) {
-    this.updatedDate = updatedDate;
-  }
-
-  @JsonProperty
-  public Integer getIsDeleted() {
-    return isDeleted;
-  }
-
-  @JsonIgnore
-  public void setIsDeleted(Integer isDeleted) {
-    this.isDeleted = isDeleted;
-  }
 }

@@ -3,70 +3,64 @@ package ec.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import ec.ware.entity.WareInfoEntity;
+import ec.ware.model.entity.WareInfoEntity;
+import ec.ware.model.vo.WareInfoVO;
 import ec.ware.service.WareInfoService;
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
+
+import static ec.ware.converter.WareInfoConverter.INSTANCE;
 
 /**
  * 仓库信息
  *
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-06 12:43:08
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
  */
-@Api
 @RestController
-@RequestMapping("ware/wareinfo")
+@RequestMapping("/ware")
 public class WareInfoController {
   @Resource private WareInfoService wareInfoService;
 
-  @GetMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = wareInfoService.queryPage(params);
+  @GetMapping("/wareinfos")
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return wareInfoService.queryPage(params);
   }
 
-  @GetMapping("/info/{id}")
-  public R info(@PathVariable("id") Long id) {
-    WareInfoEntity wareInfo = wareInfoService.getById(id);
+  @GetMapping("/wareinfo/{id}")
+  public WareInfoVO detail(@PathVariable("id") Long id) {
+    WareInfoEntity po = wareInfoService.getById(id);
 
-    return R.ok().put("wareInfo", wareInfo);
+    return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/save")
-  public R save(@RequestBody WareInfoEntity wareInfo) {
-    wareInfoService.save(wareInfo);
+  @PostMapping("/wareinfo")
+  public void save(@RequestBody WareInfoVO wareInfoVO) {
 
-    return R.ok();
+    wareInfoService.save(INSTANCE.vo2po(wareInfoVO));
   }
 
-  @PutMapping("/update/{id}")
-  public R update(@PathVariable("id") Long id, @RequestBody WareInfoEntity wareInfo) {
-    wareInfo.setId(id);
-    wareInfoService.updateById(wareInfo);
+  @PutMapping("/wareinfo/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody WareInfoVO wareInfoVO) {
 
-    return R.ok();
+    wareInfoVO.setId(id);
+    wareInfoService.updateById(INSTANCE.vo2po(wareInfoVO));
   }
 
-  @DeleteMapping("/delete")
-  public R delete(@RequestBody Long[] ids) {
+  @DeleteMapping("/wareinfos")
+  public void delete(@RequestBody Long[] ids) {
+
     wareInfoService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  public R deleteById(@PathVariable("id") Long id) {
-    wareInfoService.removeById(id);
+  @DeleteMapping("/wareinfo/{id}")
+  public void deleteById(@PathVariable("id") Long id) {
 
-    return R.ok();
+    wareInfoService.removeById(id);
   }
 }

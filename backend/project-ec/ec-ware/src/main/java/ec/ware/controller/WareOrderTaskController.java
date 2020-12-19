@@ -1,69 +1,66 @@
 package ec.ware.controller;
 
-import ec.common.utils.PageUtils;
-import ec.common.utils.R;
-import ec.ware.entity.WareOrderTaskEntity;
-import ec.ware.service.WareOrderTaskService;
-import io.swagger.annotations.Api;
+import java.util.Arrays;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Map;
+
+import ec.ware.model.entity.WareOrderTaskEntity;
+import ec.ware.model.vo.WareOrderTaskVO;
+import ec.ware.service.WareOrderTaskService;
+import ec.common.utils.PageUtils;
+
+import static ec.ware.converter.WareOrderTaskConverter.INSTANCE;
 
 /**
  * 库存工作单
  *
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-06 12:43:08
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
  */
-@Api
 @RestController
-@RequestMapping("ware/wareordertask")
+@RequestMapping("/ware")
 public class WareOrderTaskController {
   @Resource private WareOrderTaskService wareOrderTaskService;
 
-  @GetMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = wareOrderTaskService.queryPage(params);
+  @GetMapping("/wareordertasks")
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return wareOrderTaskService.queryPage(params);
   }
 
-  @GetMapping("/info/{id}")
-  public R info(@PathVariable("id") Long id) {
-    WareOrderTaskEntity wareOrderTask = wareOrderTaskService.getById(id);
+  @GetMapping("/wareordertask/{id}")
+  public WareOrderTaskVO detail(@PathVariable("id") Long id) {
+    WareOrderTaskEntity po = wareOrderTaskService.getById(id);
 
-    return R.ok().put("wareOrderTask", wareOrderTask);
+    return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/save")
-  public R save(@RequestBody WareOrderTaskEntity wareOrderTask) {
-    wareOrderTaskService.save(wareOrderTask);
+  @PostMapping("/wareordertask")
+  public void save(@RequestBody WareOrderTaskVO wareOrderTaskVO) {
 
-    return R.ok();
+    wareOrderTaskService.save(INSTANCE.vo2po(wareOrderTaskVO));
   }
 
-  @PutMapping("/update/{id}")
-  public R update(@PathVariable("id") Long id, @RequestBody WareOrderTaskEntity wareOrderTask) {
-    wareOrderTask.setId(id);
-    wareOrderTaskService.updateById(wareOrderTask);
+  @PutMapping("/wareordertask/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody WareOrderTaskVO wareOrderTaskVO) {
 
-    return R.ok();
+    wareOrderTaskVO.setId(id);
+    wareOrderTaskService.updateById(INSTANCE.vo2po(wareOrderTaskVO));
   }
 
-  @DeleteMapping("/delete")
-  public R delete(@RequestBody Long[] ids) {
+  @DeleteMapping("/wareordertasks")
+  public void delete(@RequestBody Long[] ids) {
+
     wareOrderTaskService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  public R deleteById(@PathVariable("id") Long id) {
-    wareOrderTaskService.removeById(id);
+  @DeleteMapping("/wareordertask/{id}")
+  public void deleteById(@PathVariable("id") Long id) {
 
-    return R.ok();
+    wareOrderTaskService.removeById(id);
   }
 }

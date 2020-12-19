@@ -3,68 +3,62 @@ package ec.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import ec.ware.entity.PurchaseDetailEntity;
+import ec.ware.model.entity.PurchaseDetailEntity;
+import ec.ware.model.vo.PurchaseDetailVO;
 import ec.ware.service.PurchaseDetailService;
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
+
+import static ec.ware.converter.PurchaseDetailConverter.INSTANCE;
 
 /**
- * @author zack.zhang
- * @email zzhang_xz@163.com
- * @date 2020-10-06 12:43:08
+ * @author zack.zhang <br>
+ * @create 2020-12-19 22:14:28 <br>
+ * @project ware <br>
  */
-@Api
 @RestController
-@RequestMapping("ware/purchasedetail")
+@RequestMapping("/ware")
 public class PurchaseDetailController {
   @Resource private PurchaseDetailService purchaseDetailService;
 
-  @GetMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = purchaseDetailService.queryPage(params);
+  @GetMapping("/purchasedetails")
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return purchaseDetailService.queryPage(params);
   }
 
-  @GetMapping("/info/{id}")
-  public R info(@PathVariable("id") Long id) {
-    PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
+  @GetMapping("/purchasedetail/{id}")
+  public PurchaseDetailVO detail(@PathVariable("id") Long id) {
+    PurchaseDetailEntity po = purchaseDetailService.getById(id);
 
-    return R.ok().put("purchaseDetail", purchaseDetail);
+    return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/save")
-  public R save(@RequestBody PurchaseDetailEntity purchaseDetail) {
-    purchaseDetailService.save(purchaseDetail);
+  @PostMapping("/purchasedetail")
+  public void save(@RequestBody PurchaseDetailVO purchaseDetailVO) {
 
-    return R.ok();
+    purchaseDetailService.save(INSTANCE.vo2po(purchaseDetailVO));
   }
 
-  @PutMapping("/update/{id}")
-  public R update(@PathVariable("id") Long id, @RequestBody PurchaseDetailEntity purchaseDetail) {
-    purchaseDetail.setId(id);
-    purchaseDetailService.updateById(purchaseDetail);
+  @PutMapping("/purchasedetail/{id}")
+  public void update(@PathVariable("id") Long id, @RequestBody PurchaseDetailVO purchaseDetailVO) {
 
-    return R.ok();
+    purchaseDetailVO.setId(id);
+    purchaseDetailService.updateById(INSTANCE.vo2po(purchaseDetailVO));
   }
 
-  @DeleteMapping("/delete")
-  public R delete(@RequestBody Long[] ids) {
+  @DeleteMapping("/purchasedetails")
+  public void delete(@RequestBody Long[] ids) {
+
     purchaseDetailService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
-  @DeleteMapping("/delete/{id}")
-  public R deleteById(@PathVariable("id") Long id) {
-    purchaseDetailService.removeById(id);
+  @DeleteMapping("/purchasedetail/{id}")
+  public void deleteById(@PathVariable("id") Long id) {
 
-    return R.ok();
+    purchaseDetailService.removeById(id);
   }
 }

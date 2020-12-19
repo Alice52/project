@@ -24,4 +24,12 @@ public interface BrandConverter {
    */
   @Mapping(source = "showStatus", target = "showStatus", defaultValue = "1")
   BrandEntity vo2po(BrandVO brand);
+
+  /**
+   * Convert vo to po.
+   *
+   * @param brand
+   * @return BrandVO
+   */
+  BrandVO po2vo(BrandEntity brand);
 }
