@@ -19,8 +19,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import static java.util.regex.Pattern.compile;
 
 /**
  * 代码生成器 工具类
@@ -136,7 +140,7 @@ public class GenUtils {
     map.put("pk", tableEntity.getPk());
     map.put("className", tableEntity.getClassName());
     map.put("classname", tableEntity.getClassname());
-    map.put("pathName", tableEntity.getClassname().toLowerCase());
+    map.put("pathName", camel4underline(tableEntity.getClassname()));
     map.put("columns", tableEntity.getColumns());
     map.put("hasBigDecimal", hasBigDecimal);
     map.put("hasList", hasList);
@@ -419,5 +423,36 @@ public class GenUtils {
   private static String splitInnerName(String name) {
     name = name.replaceAll("\\.", "_");
     return name;
+  }
+
+  /**
+   * Convert string to middle-line and lower case.<br>
+   *
+   * <pre>
+   *   camel4underline(null)  = ""
+   *   camel4underline("")    = ""
+   *   camel4underline("CatDog") = "cat-dog"
+   * </pre>
+   *
+   * @param param
+   * @return
+   */
+  public static String camel4underline(String param) {
+    Pattern p = compile("[A-Z]");
+    if (param == null || param.equals("")) {
+      return "";
+    }
+    StringBuilder builder = new StringBuilder(param);
+    Matcher mc = p.matcher(param);
+    int i = 0;
+    while (mc.find()) {
+      builder.replace(mc.start() + i, mc.end() + i, "-" + mc.group().toLowerCase());
+      i++;
+    }
+
+    if ('_' == builder.charAt(0)) {
+      builder.deleteCharAt(0);
+    }
+    return builder.toString();
   }
 }
