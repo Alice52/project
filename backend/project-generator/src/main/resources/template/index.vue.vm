@@ -27,12 +27,14 @@
                     width="50">
             </el-table-column>
             #foreach($column in $columns)
+                #if ($column.columnName !="is_deleted" && $column.columnName != $pk.columnName)
                 <el-table-column
                         prop="${column.attrname}"
                         header-align="center"
                         align="center"
                         label="${column.comments}">
                 </el-table-column>
+                #end
             #end
             <el-table-column
                     fixed="right"
@@ -85,11 +87,10 @@
       this.getDataList()
     },
     methods: {
-      // 获取数据列表
       getDataList () {
         this.dataListLoading = true
         #[[this.$http({]]#
-          #[[url: this.$http.adornUrl]]#('/${moduleName}/${pathName}/list'),
+          #[[url: this.$http.adornUrl]]#('/${moduleName}/${pathName}s'),
           method: 'get',
           #[[params: this.$http.adornParams({]]#
             'page': this.pageIndex,
@@ -131,17 +132,15 @@
       },
       // 删除
       deleteHandle (id) {
-        var ids = id ? [id] : this.dataListSelections.map(item => {
-          return item.${pk.attrname}
-        })
+        var ids = id ? [id] : this.dataListSelections.map(item => item.${pk.attrname})
         #[[this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {]]#
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           #[[this.$http({]]#
-            url: #[[this.$http.adornUrl]]#('/${moduleName}/${pathName}/delete'),
-            method: 'post',
+            url: #[[this.$http.adornUrl]]#('/${moduleName}/${pathName}s'),
+            method: 'delete',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
             if (data && data.code === 0) {

@@ -6,7 +6,7 @@
         <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
                  label-width="80px">
             #foreach($column in $columns)
-                #if($column.columnName != $pk.columnName)
+                #if($column.columnName != $pk.columnName && $column.columnName !="is_deleted" && $column.columnName !="created_date" && $column.columnName !="updated_date")
                     <el-form-item label="${column.comments}" prop="${column.attrname}">
                         <el-input v-model="dataForm.${column.attrname}" placeholder="${column.comments}"></el-input>
                     </el-form-item>
@@ -55,14 +55,14 @@
           this.$refs['dataForm'].resetFields()
           if (this.dataForm.${pk.attrname}) {
             this.$http({
-              url: #[[this.$http.adornUrl]]#(`/${moduleName}/${pathName}/info/#[[$]]#{this.dataForm.${pk.attrname}}`),
+              url: #[[this.$http.adornUrl]]#(`/${moduleName}/${pathName}/#[[$]]#{this.dataForm.${pk.attrname}}`),
               method: 'get',
               #[[params: this.$http.adornParams()]]#
             }).then(({data}) => {
               if (data && data.code === 0) {
 #foreach($column in $columns)
 #if($column.columnName != $pk.columnName)
-                this.dataForm.${column.attrname} = data.${classname}.${column.attrname}
+                this.dataForm.${column.attrname} = data.data.${column.attrname}
 #end
 #end
               }
@@ -74,9 +74,11 @@
       dataFormSubmit () {
         #[[this.$refs['dataForm'].validate((valid) => {]]#
           if (valid) {
+            let uri = !this.dataForm.${pk.attrname} ? '/${moduleName}/${pathName}s' : '/${moduleName}/${pathName}/' + this.dataForm.${pk.attrname}
+            let method = !this.dataForm.${pk.attrname} ? 'post' : 'put'
             this.$http({
-              url: #[[this.$http.adornUrl]]#(`/${moduleName}/${pathName}/${!this.dataForm.${pk.attrname} ? 'save' : 'update'}`),
-              method: 'post',
+                url: this.$http.adornUrl(uri),
+                method: method,
               #[[data: this.$http.adornData({]]#
 #foreach($column in $columns)
 #if($column.columnName == $pk.columnName)

@@ -40,7 +40,7 @@ public class ${className}Controller {
         return INSTANCE.po2vo(po);
     }
 
-    @PostMapping("/${pathName}")
+    @PostMapping(value = {"/${pathName}", "/${pathName}s"})
     public void save(@RequestBody ${className}VO ${classname}VO) {
 
             ${classname}Service.save(INSTANCE.vo2po(${classname}VO));

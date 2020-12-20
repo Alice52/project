@@ -396,7 +396,7 @@ public class GenUtils {
           + File.separator
           + moduleName
           + File.separator
-          + className.toLowerCase()
+          + camel4underline(className)
           + ".vue";
     }
 
@@ -413,7 +413,7 @@ public class GenUtils {
           + File.separator
           + moduleName
           + File.separator
-          + className.toLowerCase()
+          + camel4underline(className)
           + "-add-or-update.vue";
     }
 
@@ -442,6 +442,7 @@ public class GenUtils {
     if (param == null || param.equals("")) {
       return "";
     }
+    param = StringUtils.uncapitalize(param);
     StringBuilder builder = new StringBuilder(param);
     Matcher mc = p.matcher(param);
     int i = 0;
