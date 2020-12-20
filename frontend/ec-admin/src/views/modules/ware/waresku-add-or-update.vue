@@ -16,7 +16,12 @@
       </el-form-item>
       <el-form-item label="仓库" prop="wareId">
         <el-select v-model="dataForm.wareId" placeholder="请选择仓库" clearable>
-          <el-option :label="w.name" :value="w.id" v-for="w in wareList" :key="w.id"></el-option>
+          <el-option
+            :label="w.name"
+            :value="w.id"
+            v-for="w in wareList"
+            :key="w.id"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="库存数" prop="stock">
@@ -26,7 +31,10 @@
         <el-input v-model="dataForm.skuName" placeholder="sku_name"></el-input>
       </el-form-item>
       <el-form-item label="锁定库存" prop="stockLocked">
-        <el-input v-model="dataForm.stockLocked" placeholder="锁定库存"></el-input>
+        <el-input
+          v-model="dataForm.stockLocked"
+          placeholder="锁定库存"
+        ></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -48,21 +56,21 @@ export default {
         wareId: "",
         stock: 0,
         skuName: "",
-        stockLocked: 0
+        stockLocked: 0,
       },
       dataRule: {
         skuId: [{ required: true, message: "sku_id不能为空", trigger: "blur" }],
         wareId: [
-          { required: true, message: "仓库id不能为空", trigger: "blur" }
+          { required: true, message: "仓库id不能为空", trigger: "blur" },
         ],
         stock: [{ required: true, message: "库存数不能为空", trigger: "blur" }],
         skuName: [
-          { required: true, message: "sku_name不能为空", trigger: "blur" }
-        ]
-      }
+          { required: true, message: "sku_name不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
-  created(){
+  created() {
     this.getWares();
   },
   methods: {
@@ -72,8 +80,8 @@ export default {
         method: "get",
         params: this.$http.adornParams({
           page: 1,
-          limit: 500
-        })
+          limit: 500,
+        }),
       }).then(({ data }) => {
         this.wareList = data.page.list;
       });
@@ -85,16 +93,16 @@ export default {
         this.$refs["dataForm"].resetFields();
         if (this.dataForm.id) {
           this.$http({
-            url: this.$http.adornUrl(`/ware/waresku/info/${this.dataForm.id}`),
+            url: this.$http.adornUrl(`/ware/ware-sku/${this.dataForm.id}`),
             method: "get",
-            params: this.$http.adornParams()
+            params: this.$http.adornParams(),
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.skuId = data.wareSku.skuId;
-              this.dataForm.wareId = data.wareSku.wareId;
-              this.dataForm.stock = data.wareSku.stock;
-              this.dataForm.skuName = data.wareSku.skuName;
-              this.dataForm.stockLocked = data.wareSku.stockLocked;
+              this.dataForm.skuId = data.data.skuId;
+              this.dataForm.wareId = data.data.wareId;
+              this.dataForm.stock = data.data.stock;
+              this.dataForm.skuName = data.data.skuName;
+              this.dataForm.stockLocked = data.data.stockLocked;
             }
           });
         }
@@ -102,21 +110,23 @@ export default {
     },
     // 表单提交
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs["dataForm"].validate((valid) => {
         if (valid) {
+          let uri = !this.dataForm.brandId
+            ? "/ware/ware-skus"
+            : "/ware/ware-sku/" + this.dataForm.id;
+          let method = !this.dataForm.brandId ? "post" : "put";
           this.$http({
-            url: this.$http.adornUrl(
-              `/ware/waresku/${!this.dataForm.id ? "save" : "update"}`
-            ),
-            method: "post",
+            url: this.$http.adornUrl(uri),
+            method: method,
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
               skuId: this.dataForm.skuId,
               wareId: this.dataForm.wareId,
               stock: this.dataForm.stock,
               skuName: this.dataForm.skuName,
-              stockLocked: this.dataForm.stockLocked
-            })
+              stockLocked: this.dataForm.stockLocked,
+            }),
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
@@ -126,7 +136,7 @@ export default {
                 onClose: () => {
                   this.visible = false;
                   this.$emit("refreshDataList");
-                }
+                },
               });
             } else {
               this.$message.error(data.msg);
@@ -134,7 +144,7 @@ export default {
           });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>

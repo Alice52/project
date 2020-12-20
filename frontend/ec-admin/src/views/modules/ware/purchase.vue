@@ -236,8 +236,8 @@ export default {
       });
       this.caigoudialogVisible = false;
       this.$http({
-        url: this.$http.adornUrl(`/ware/purchase/update`),
-        method: "post",
+        url: this.$http.adornUrl(`/ware/purchase/${this.currentRow.id}`),
+        method: "PUT",
         data: this.$http.adornData({
           id: this.currentRow.id || undefined,
           assigneeId: user.userId,
@@ -276,12 +276,13 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/ware/purchase/list"),
+        url: this.$http.adornUrl("/ware/purchases"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
           limit: this.pageSize,
           key: this.dataForm.key,
+          status: this.dataForm.status,
         }),
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -329,8 +330,8 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/ware/purchase/delete"),
-          method: "post",
+          url: this.$http.adornUrl("/ware/purchases"),
+          method: "delete",
           data: this.$http.adornData(ids, false),
         }).then(({ data }) => {
           if (data && data.code === 0) {

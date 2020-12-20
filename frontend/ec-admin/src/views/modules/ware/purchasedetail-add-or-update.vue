@@ -19,7 +19,12 @@
       </el-form-item>
       <el-form-item label="仓库" prop="wareId">
         <el-select v-model="dataForm.wareId" placeholder="请选择仓库" clearable>
-          <el-option :label="w.name" :value="w.id" v-for="w in wareList" :key="w.id"></el-option>
+          <el-option
+            :label="w.name"
+            :value="w.id"
+            v-for="w in wareList"
+            :key="w.id"
+          ></el-option>
         </el-select>
       </el-form-item>
       <!-- [0新建，1已分配，2正在采购，3已完成，4采购失败] -->
@@ -53,31 +58,33 @@ export default {
         skuNum: "",
         skuPrice: "",
         wareId: "",
-        status: 0
+        status: 0,
       },
       dataRule: {
         skuId: [
-          { required: true, message: "采购商品id不能为空", trigger: "blur" }
+          { required: true, message: "采购商品id不能为空", trigger: "blur" },
         ],
         skuNum: [
-          { required: true, message: "采购数量不能为空", trigger: "blur" }
+          { required: true, message: "采购数量不能为空", trigger: "blur" },
         ],
-        wareId: [{ required: true, message: "仓库id不能为空", trigger: "blur" }]
-      }
+        wareId: [
+          { required: true, message: "仓库id不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
-  created(){
+  created() {
     this.getWares();
   },
   methods: {
     getWares() {
       this.$http({
-        url: this.$http.adornUrl("/ware/wareinfo/list"),
+        url: this.$http.adornUrl("/ware/ware-infos"),
         method: "get",
         params: this.$http.adornParams({
           page: 1,
-          limit: 500
-        })
+          limit: 500,
+        }),
       }).then(({ data }) => {
         this.wareList = data.page.list;
       });
@@ -90,18 +97,18 @@ export default {
         if (this.dataForm.id) {
           this.$http({
             url: this.$http.adornUrl(
-              `/ware/purchasedetail/info/${this.dataForm.id}`
+              `/ware/purchase-detail/${this.dataForm.id}`
             ),
             method: "get",
-            params: this.$http.adornParams()
+            params: this.$http.adornParams(),
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.purchaseId = data.purchaseDetail.purchaseId;
-              this.dataForm.skuId = data.purchaseDetail.skuId;
-              this.dataForm.skuNum = data.purchaseDetail.skuNum;
-              this.dataForm.skuPrice = data.purchaseDetail.skuPrice;
-              this.dataForm.wareId = data.purchaseDetail.wareId;
-              this.dataForm.status = data.purchaseDetail.status;
+              this.dataForm.purchaseId = data.data.purchaseId;
+              this.dataForm.skuId = data.data.skuId;
+              this.dataForm.skuNum = data.data.skuNum;
+              this.dataForm.skuPrice = data.data.skuPrice;
+              this.dataForm.wareId = data.data.wareId;
+              this.dataForm.status = data.data.status;
             }
           });
         }
@@ -109,13 +116,15 @@ export default {
     },
     // 表单提交
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs["dataForm"].validate((valid) => {
         if (valid) {
+          let uri = !this.dataForm.brandId
+            ? "/ware/purchase-details"
+            : "/ware/purchase-detail/" + this.dataForm.id;
+          let method = !this.dataForm.brandId ? "post" : "put";
           this.$http({
-            url: this.$http.adornUrl(
-              `/ware/purchasedetail/${!this.dataForm.id ? "save" : "update"}`
-            ),
-            method: "post",
+            url: this.$http.adornUrl(uri),
+            method: method,
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
               purchaseId: this.dataForm.purchaseId,
@@ -123,8 +132,8 @@ export default {
               skuNum: this.dataForm.skuNum,
               skuPrice: this.dataForm.skuPrice,
               wareId: this.dataForm.wareId,
-              status: this.dataForm.status
-            })
+              status: this.dataForm.status,
+            }),
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
@@ -134,7 +143,7 @@ export default {
                 onClose: () => {
                   this.visible = false;
                   this.$emit("refreshDataList");
-                }
+                },
               });
             } else {
               this.$message.error(data.msg);
@@ -142,7 +151,7 @@ export default {
           });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
