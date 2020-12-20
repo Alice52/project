@@ -26,39 +26,39 @@ import static ec.ware.converter.WareSkuConverter.INSTANCE;
 public class WareSkuController {
   @Resource private WareSkuService wareSkuService;
 
-  @GetMapping("/wareskus")
+  @GetMapping("/ware-skus")
   public PageUtils list(@RequestParam Map<String, Object> params) {
 
     return wareSkuService.queryPage(params);
   }
 
-  @GetMapping("/waresku/{id}")
+  @GetMapping("/ware-sku/{id}")
   public WareSkuVO detail(@PathVariable("id") Long id) {
     WareSkuEntity po = wareSkuService.getById(id);
 
     return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/waresku")
+  @PostMapping(value = {"/ware-sku", "/ware-skus"})
   public void save(@RequestBody WareSkuVO wareSkuVO) {
 
     wareSkuService.save(INSTANCE.vo2po(wareSkuVO));
   }
 
-  @PutMapping("/waresku/{id}")
+  @PutMapping("/ware-sku/{id}")
   public void update(@PathVariable("id") Long id, @RequestBody WareSkuVO wareSkuVO) {
 
     wareSkuVO.setId(id);
     wareSkuService.updateById(INSTANCE.vo2po(wareSkuVO));
   }
 
-  @DeleteMapping("/wareskus")
+  @DeleteMapping("/ware-skus")
   public void delete(@RequestBody Long[] ids) {
 
     wareSkuService.removeByIds(Arrays.asList(ids));
   }
 
-  @DeleteMapping("/waresku/{id}")
+  @DeleteMapping("/ware-sku/{id}")
   public void deleteById(@PathVariable("id") Long id) {
 
     wareSkuService.removeById(id);

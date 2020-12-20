@@ -1,7 +1,6 @@
 package ec.ware.handler;
 
 import ec.common.error.handler.BaseValidationExceptionHandler;
-import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ResponseBody;

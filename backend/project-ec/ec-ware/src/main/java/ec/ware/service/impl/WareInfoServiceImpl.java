@@ -1,5 +1,6 @@
 package ec.ware.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -28,6 +29,20 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoRepository, WareInf
 
   @Override
   public PageUtils queryPage(Map<String, Object> params) {
+
+    QueryWrapper<WareInfoEntity> wrapper = new QueryWrapper<>();
+    String key = (String) params.get("key");
+    if (StrUtil.isNotBlank(key)) {
+      wrapper
+          .eq("id", key)
+          .or()
+          .like("address", key)
+          .or()
+          .like("areacode", key)
+          .or()
+          .like("name", key);
+    }
+
     IPage<WareInfoEntity> page =
         this.page(
             new CommonQuery<WareInfoEntity>().getPage(params), new QueryWrapper<WareInfoEntity>());

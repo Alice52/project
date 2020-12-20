@@ -1,9 +1,9 @@
 package ec.ware.configuration;
 
-import io.swagger.annotations.Api;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -51,7 +51,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
         .groupName("ec-ware")
         .pathMapping("/")
         .select()
-        .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+        .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
         .paths(PathSelectors.any())
         .build()
         .pathMapping("/");

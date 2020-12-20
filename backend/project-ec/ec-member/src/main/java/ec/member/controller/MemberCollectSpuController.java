@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberCollectSpuEntity;
 import ec.member.service.MemberCollectSpuService;
 import io.swagger.annotations.Api;
@@ -25,52 +24,36 @@ public class MemberCollectSpuController {
   @Resource private MemberCollectSpuService memberCollectSpuService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:membercollectspu:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberCollectSpuService.queryPage(params);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return memberCollectSpuService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:membercollectspu:info")
-  public R info(@PathVariable("id") Long id) {
-    MemberCollectSpuEntity memberCollectSpu = memberCollectSpuService.getById(id);
+  public MemberCollectSpuEntity info(@PathVariable("id") Long id) {
 
-    return R.ok().put("memberCollectSpu", memberCollectSpu);
+    return memberCollectSpuService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:membercollectspu:save")
-  public R save(@RequestBody MemberCollectSpuEntity memberCollectSpu) {
+  public void save(@RequestBody MemberCollectSpuEntity memberCollectSpu) {
     memberCollectSpuService.save(memberCollectSpu);
-
-    return R.ok();
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:membercollectspu:update")
-  public R update(
+  public void update(
       @PathVariable("id") Long id, @RequestBody MemberCollectSpuEntity memberCollectSpu) {
     memberCollectSpu.setId(id);
     memberCollectSpuService.updateById(memberCollectSpu);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:membercollectspu:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     memberCollectSpuService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:membercollectspu:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  public void deleteById(@PathVariable("id") Long id) {
     memberCollectSpuService.removeById(id);
-
-    return R.ok();
   }
 }

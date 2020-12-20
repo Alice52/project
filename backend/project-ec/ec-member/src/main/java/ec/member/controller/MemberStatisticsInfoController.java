@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberStatisticsInfoEntity;
 import ec.member.service.MemberStatisticsInfoService;
 import io.swagger.annotations.Api;
@@ -25,52 +24,34 @@ public class MemberStatisticsInfoController {
   @Resource private MemberStatisticsInfoService memberStatisticsInfoService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:memberstatisticsinfo:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberStatisticsInfoService.queryPage(params);
-
-    return R.ok().put("page", page);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
+    return memberStatisticsInfoService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:memberstatisticsinfo:info")
-  public R info(@PathVariable("id") Long id) {
-    MemberStatisticsInfoEntity memberStatisticsInfo = memberStatisticsInfoService.getById(id);
-
-    return R.ok().put("memberStatisticsInfo", memberStatisticsInfo);
+  public MemberStatisticsInfoEntity info(@PathVariable("id") Long id) {
+    return memberStatisticsInfoService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:memberstatisticsinfo:save")
-  public R save(@RequestBody MemberStatisticsInfoEntity memberStatisticsInfo) {
+  public void save(@RequestBody MemberStatisticsInfoEntity memberStatisticsInfo) {
     memberStatisticsInfoService.save(memberStatisticsInfo);
-
-    return R.ok();
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:memberstatisticsinfo:update")
-  public R update(
+  public void update(
       @PathVariable("id") Long id, @RequestBody MemberStatisticsInfoEntity memberStatisticsInfo) {
     memberStatisticsInfo.setId(id);
     memberStatisticsInfoService.updateById(memberStatisticsInfo);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:memberstatisticsinfo:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     memberStatisticsInfoService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:memberstatisticsinfo:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  public void deleteById(@PathVariable("id") Long id) {
     memberStatisticsInfoService.removeById(id);
-
-    return R.ok();
   }
 }

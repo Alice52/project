@@ -24,7 +24,6 @@ public class MemberPriceController extends BaseController {
   @Resource private MemberPriceService memberPriceService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:memberprice:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = memberPriceService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class MemberPriceController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:memberprice:info")
   public MemberPriceEntity info(@PathVariable("id") Long id) {
     MemberPriceEntity memberPrice = memberPriceService.getById(id);
 
@@ -40,26 +38,22 @@ public class MemberPriceController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:memberprice:save")
   public void save(@RequestBody MemberPriceEntity memberPrice) {
     memberPriceService.save(memberPrice);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:memberprice:update")
   public void update(@PathVariable("id") Long id, @RequestBody MemberPriceEntity memberPrice) {
     memberPrice.setId(id);
     memberPriceService.updateById(memberPrice);
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:memberprice:delete")
   public void delete(@RequestBody Long[] ids) {
     memberPriceService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:memberprice:delete")
   public void deleteById(@PathVariable("id") Long id) {
     memberPriceService.removeById(id);
   }

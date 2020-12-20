@@ -24,7 +24,6 @@ public class SeckillSkuNoticeController extends BaseController {
   @Resource private SeckillSkuNoticeService seckillSkuNoticeService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:seckillskunotice:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = seckillSkuNoticeService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class SeckillSkuNoticeController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:seckillskunotice:info")
   public SeckillSkuNoticeEntity info(@PathVariable("id") Long id) {
     SeckillSkuNoticeEntity seckillSkuNotice = seckillSkuNoticeService.getById(id);
 
@@ -40,13 +38,11 @@ public class SeckillSkuNoticeController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:seckillskunotice:save")
   public void save(@RequestBody SeckillSkuNoticeEntity seckillSkuNotice) {
     seckillSkuNoticeService.save(seckillSkuNotice);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:seckillskunotice:update")
   public void update(
       @PathVariable("id") Long id, @RequestBody SeckillSkuNoticeEntity seckillSkuNotice) {
     seckillSkuNotice.setId(id);
@@ -54,13 +50,11 @@ public class SeckillSkuNoticeController extends BaseController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:seckillskunotice:delete")
   public void delete(@RequestBody Long[] ids) {
     seckillSkuNoticeService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:seckillskunotice:delete")
   public void deleteById(@PathVariable("id") Long id) {
     seckillSkuNoticeService.removeById(id);
   }

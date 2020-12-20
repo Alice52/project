@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.GrowthChangeHistoryEntity;
 import ec.member.service.GrowthChangeHistoryService;
 import io.swagger.annotations.Api;
@@ -25,52 +24,40 @@ public class GrowthChangeHistoryController {
   @Resource private GrowthChangeHistoryService growthChangeHistoryService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:growthchangehistory:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = growthChangeHistoryService.queryPage(params);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return growthChangeHistoryService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:growthchangehistory:info")
-  public R info(@PathVariable("id") Long id) {
-    GrowthChangeHistoryEntity growthChangeHistory = growthChangeHistoryService.getById(id);
+  public GrowthChangeHistoryEntity info(@PathVariable("id") Long id) {
 
-    return R.ok().put("growthChangeHistory", growthChangeHistory);
+    return growthChangeHistoryService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:growthchangehistory:save")
-  public R save(@RequestBody GrowthChangeHistoryEntity growthChangeHistory) {
-    growthChangeHistoryService.save(growthChangeHistory);
+  public void save(@RequestBody GrowthChangeHistoryEntity growthChangeHistory) {
 
-    return R.ok();
+    growthChangeHistoryService.save(growthChangeHistory);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:growthchangehistory:update")
-  public R update(
+  public void update(
       @PathVariable("id") Long id, @RequestBody GrowthChangeHistoryEntity growthChangeHistory) {
+
     growthChangeHistory.setId(id);
     growthChangeHistoryService.updateById(growthChangeHistory);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:growthchangehistory:delete")
-  public R delete(@RequestBody Long[] ids) {
-    growthChangeHistoryService.removeByIds(Arrays.asList(ids));
+  public void delete(@RequestBody Long[] ids) {
 
-    return R.ok();
+    growthChangeHistoryService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:growthchangehistory:delete")
-  public R deleteById(@PathVariable("id") Long id) {
-    growthChangeHistoryService.removeById(id);
+  public void deleteById(@PathVariable("id") Long id) {
 
-    return R.ok();
+    growthChangeHistoryService.removeById(id);
   }
 }

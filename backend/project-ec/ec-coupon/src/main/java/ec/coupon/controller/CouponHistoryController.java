@@ -24,7 +24,6 @@ public class CouponHistoryController extends BaseController {
   @Resource private CouponHistoryService couponHistoryService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:couponhistory:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = couponHistoryService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class CouponHistoryController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:couponhistory:info")
   public CouponHistoryEntity info(@PathVariable("id") Long id) {
     CouponHistoryEntity couponHistory = couponHistoryService.getById(id);
 
@@ -40,26 +38,22 @@ public class CouponHistoryController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:couponhistory:save")
   public void save(@RequestBody CouponHistoryEntity couponHistory) {
     couponHistoryService.save(couponHistory);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:couponhistory:update")
   public void update(@PathVariable("id") Long id, @RequestBody CouponHistoryEntity couponHistory) {
     couponHistory.setId(id);
     couponHistoryService.updateById(couponHistory);
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:couponhistory:delete")
   public void delete(@RequestBody Long[] ids) {
     couponHistoryService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:couponhistory:delete")
   public void deleteById(@PathVariable("id") Long id) {
     couponHistoryService.removeById(id);
   }

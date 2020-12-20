@@ -24,7 +24,6 @@ public class CouponSpuCategoryRelationController extends BaseController {
   @Resource private CouponSpuCategoryRelationService couponSpuCategoryRelationService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:couponspucategoryrelation:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = couponSpuCategoryRelationService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class CouponSpuCategoryRelationController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:couponspucategoryrelation:info")
   public CouponSpuCategoryRelationEntity info(@PathVariable("id") Long id) {
     CouponSpuCategoryRelationEntity couponSpuCategoryRelation =
         couponSpuCategoryRelationService.getById(id);
@@ -41,13 +39,11 @@ public class CouponSpuCategoryRelationController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:couponspucategoryrelation:save")
   public void save(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation) {
     couponSpuCategoryRelationService.save(couponSpuCategoryRelation);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:couponspucategoryrelation:update")
   public void update(
       @PathVariable("id") Long id,
       @RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation) {
@@ -56,13 +52,11 @@ public class CouponSpuCategoryRelationController extends BaseController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:couponspucategoryrelation:delete")
   public void delete(@RequestBody Long[] ids) {
     couponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:couponspucategoryrelation:delete")
   public void deleteById(@PathVariable("id") Long id) {
     couponSpuCategoryRelationService.removeById(id);
   }

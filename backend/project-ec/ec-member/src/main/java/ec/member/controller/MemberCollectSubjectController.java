@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberCollectSubjectEntity;
 import ec.member.service.MemberCollectSubjectService;
 import io.swagger.annotations.Api;
@@ -25,52 +24,35 @@ public class MemberCollectSubjectController {
   @Resource private MemberCollectSubjectService memberCollectSubjectService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:membercollectsubject:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberCollectSubjectService.queryPage(params);
-
-    return R.ok().put("page", page);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
+    return memberCollectSubjectService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:membercollectsubject:info")
-  public R info(@PathVariable("id") Long id) {
-    MemberCollectSubjectEntity memberCollectSubject = memberCollectSubjectService.getById(id);
+  public MemberCollectSubjectEntity info(@PathVariable("id") Long id) {
 
-    return R.ok().put("memberCollectSubject", memberCollectSubject);
+    return memberCollectSubjectService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:membercollectsubject:save")
-  public R save(@RequestBody MemberCollectSubjectEntity memberCollectSubject) {
+  public void save(@RequestBody MemberCollectSubjectEntity memberCollectSubject) {
     memberCollectSubjectService.save(memberCollectSubject);
-
-    return R.ok();
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:membercollectsubject:update")
-  public R update(
+  public void update(
       @PathVariable("id") Long id, @RequestBody MemberCollectSubjectEntity memberCollectSubject) {
     memberCollectSubject.setId(id);
     memberCollectSubjectService.updateById(memberCollectSubject);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:membercollectsubject:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     memberCollectSubjectService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:membercollectsubject:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  public void deleteById(@PathVariable("id") Long id) {
     memberCollectSubjectService.removeById(id);
-
-    return R.ok();
   }
 }

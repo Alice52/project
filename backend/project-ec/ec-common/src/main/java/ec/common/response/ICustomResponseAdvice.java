@@ -1,6 +1,5 @@
 package ec.common.response;
 
-import cn.hutool.core.util.ObjectUtil;
 import ec.common.utils.PageUtils;
 import ec.common.utils.R;
 import org.springframework.core.MethodParameter;
@@ -61,7 +60,7 @@ public interface ICustomResponseAdvice extends ResponseBodyAdvice {
       ServerHttpRequest request,
       ServerHttpResponse response) {
 
-    if (this.ignoring(request.getURI().toString())) {
+    if (this.ignoring(request.getURI().toString()) || body instanceof R) {
       return body;
     }
 

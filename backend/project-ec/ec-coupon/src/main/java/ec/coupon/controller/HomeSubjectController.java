@@ -24,7 +24,6 @@ public class HomeSubjectController extends BaseController {
   @Resource private HomeSubjectService homeSubjectService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:homesubject:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = homeSubjectService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class HomeSubjectController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:homesubject:info")
   public HomeSubjectEntity info(@PathVariable("id") Long id) {
     HomeSubjectEntity homeSubject = homeSubjectService.getById(id);
 
@@ -40,26 +38,22 @@ public class HomeSubjectController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:homesubject:save")
   public void save(@RequestBody HomeSubjectEntity homeSubject) {
     homeSubjectService.save(homeSubject);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:homesubject:update")
   public void update(@PathVariable("id") Long id, @RequestBody HomeSubjectEntity homeSubject) {
     homeSubject.setId(id);
     homeSubjectService.updateById(homeSubject);
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:homesubject:delete")
   public void delete(@RequestBody Long[] ids) {
     homeSubjectService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:homesubject:delete")
   public void deleteById(@PathVariable("id") Long id) {
     homeSubjectService.removeById(id);
   }

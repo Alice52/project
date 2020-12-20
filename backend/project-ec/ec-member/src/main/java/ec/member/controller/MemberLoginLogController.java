@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberLoginLogEntity;
 import ec.member.service.MemberLoginLogService;
 import io.swagger.annotations.Api;
@@ -25,51 +24,34 @@ public class MemberLoginLogController {
   @Resource private MemberLoginLogService memberLoginLogService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:memberloginlog:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberLoginLogService.queryPage(params);
-
-    return R.ok().put("page", page);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
+    return memberLoginLogService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:memberloginlog:info")
-  public R info(@PathVariable("id") Long id) {
-    MemberLoginLogEntity memberLoginLog = memberLoginLogService.getById(id);
-
-    return R.ok().put("memberLoginLog", memberLoginLog);
+  public MemberLoginLogEntity info(@PathVariable("id") Long id) {
+    return memberLoginLogService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:memberloginlog:save")
-  public R save(@RequestBody MemberLoginLogEntity memberLoginLog) {
+  public void save(@RequestBody MemberLoginLogEntity memberLoginLog) {
     memberLoginLogService.save(memberLoginLog);
-
-    return R.ok();
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:memberloginlog:update")
-  public R update(@PathVariable("id") Long id, @RequestBody MemberLoginLogEntity memberLoginLog) {
+  public void update(
+      @PathVariable("id") Long id, @RequestBody MemberLoginLogEntity memberLoginLog) {
     memberLoginLog.setId(id);
     memberLoginLogService.updateById(memberLoginLog);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:memberloginlog:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     memberLoginLogService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:memberloginlog:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  public void deleteById(@PathVariable("id") Long id) {
     memberLoginLogService.removeById(id);
-
-    return R.ok();
   }
 }

@@ -24,39 +24,39 @@ import static ec.ware.converter.PurchaseDetailConverter.INSTANCE;
 public class PurchaseDetailController {
   @Resource private PurchaseDetailService purchaseDetailService;
 
-  @GetMapping("/purchasedetails")
+  @GetMapping("/purchase-details")
   public PageUtils list(@RequestParam Map<String, Object> params) {
 
     return purchaseDetailService.queryPage(params);
   }
 
-  @GetMapping("/purchasedetail/{id}")
+  @GetMapping("/purchase-detail/{id}")
   public PurchaseDetailVO detail(@PathVariable("id") Long id) {
     PurchaseDetailEntity po = purchaseDetailService.getById(id);
 
     return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/purchasedetail")
+  @PostMapping(value = {"/purchase-detail", "/purchase-details"})
   public void save(@RequestBody PurchaseDetailVO purchaseDetailVO) {
 
     purchaseDetailService.save(INSTANCE.vo2po(purchaseDetailVO));
   }
 
-  @PutMapping("/purchasedetail/{id}")
+  @PutMapping("/purchase-detail/{id}")
   public void update(@PathVariable("id") Long id, @RequestBody PurchaseDetailVO purchaseDetailVO) {
 
     purchaseDetailVO.setId(id);
     purchaseDetailService.updateById(INSTANCE.vo2po(purchaseDetailVO));
   }
 
-  @DeleteMapping("/purchasedetails")
+  @DeleteMapping("/purchase-details")
   public void delete(@RequestBody Long[] ids) {
 
     purchaseDetailService.removeByIds(Arrays.asList(ids));
   }
 
-  @DeleteMapping("/purchasedetail/{id}")
+  @DeleteMapping("/purchase-detail/{id}")
   public void deleteById(@PathVariable("id") Long id) {
 
     purchaseDetailService.removeById(id);

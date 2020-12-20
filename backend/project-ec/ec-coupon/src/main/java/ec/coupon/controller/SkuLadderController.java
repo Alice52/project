@@ -24,7 +24,6 @@ public class SkuLadderController extends BaseController {
   @Resource private SkuLadderService skuLadderService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:skuladder:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = skuLadderService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class SkuLadderController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:skuladder:info")
   public SkuLadderEntity info(@PathVariable("id") Long id) {
     SkuLadderEntity skuLadder = skuLadderService.getById(id);
 
@@ -40,26 +38,22 @@ public class SkuLadderController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:skuladder:save")
   public void save(@RequestBody SkuLadderEntity skuLadder) {
     skuLadderService.save(skuLadder);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:skuladder:update")
   public void update(@PathVariable("id") Long id, @RequestBody SkuLadderEntity skuLadder) {
     skuLadder.setId(id);
     skuLadderService.updateById(skuLadder);
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:skuladder:delete")
   public void delete(@RequestBody Long[] ids) {
     skuLadderService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:skuladder:delete")
   public void deleteById(@PathVariable("id") Long id) {
     skuLadderService.removeById(id);
   }

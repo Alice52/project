@@ -24,7 +24,6 @@ public class SeckillSkuRelationController extends BaseController {
   @Resource private SeckillSkuRelationService seckillSkuRelationService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:seckillskurelation:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = seckillSkuRelationService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class SeckillSkuRelationController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:seckillskurelation:info")
   public SeckillSkuRelationEntity info(@PathVariable("id") Long id) {
     SeckillSkuRelationEntity seckillSkuRelation = seckillSkuRelationService.getById(id);
 
@@ -40,13 +38,11 @@ public class SeckillSkuRelationController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:seckillskurelation:save")
   public void save(@RequestBody SeckillSkuRelationEntity seckillSkuRelation) {
     seckillSkuRelationService.save(seckillSkuRelation);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:seckillskurelation:update")
   public void update(
       @PathVariable("id") Long id, @RequestBody SeckillSkuRelationEntity seckillSkuRelation) {
     seckillSkuRelation.setId(id);
@@ -54,13 +50,11 @@ public class SeckillSkuRelationController extends BaseController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:seckillskurelation:delete")
   public void delete(@RequestBody Long[] ids) {
     seckillSkuRelationService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:seckillskurelation:delete")
   public void deleteById(@PathVariable("id") Long id) {
     seckillSkuRelationService.removeById(id);
   }

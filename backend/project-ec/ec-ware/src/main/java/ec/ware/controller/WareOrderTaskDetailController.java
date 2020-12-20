@@ -26,26 +26,26 @@ import static ec.ware.converter.WareOrderTaskDetailConverter.INSTANCE;
 public class WareOrderTaskDetailController {
   @Resource private WareOrderTaskDetailService wareOrderTaskDetailService;
 
-  @GetMapping("/wareordertaskdetails")
+  @GetMapping("/ware-order-task-details")
   public PageUtils list(@RequestParam Map<String, Object> params) {
 
     return wareOrderTaskDetailService.queryPage(params);
   }
 
-  @GetMapping("/wareordertaskdetail/{id}")
+  @GetMapping("/ware-order-task-detail/{id}")
   public WareOrderTaskDetailVO detail(@PathVariable("id") Long id) {
     WareOrderTaskDetailEntity po = wareOrderTaskDetailService.getById(id);
 
     return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/wareordertaskdetail")
+  @PostMapping(value = {"/ware-order-task-detail", "/ware-order-task-details"})
   public void save(@RequestBody WareOrderTaskDetailVO wareOrderTaskDetailVO) {
 
     wareOrderTaskDetailService.save(INSTANCE.vo2po(wareOrderTaskDetailVO));
   }
 
-  @PutMapping("/wareordertaskdetail/{id}")
+  @PutMapping("/ware-order-task-detail/{id}")
   public void update(
       @PathVariable("id") Long id, @RequestBody WareOrderTaskDetailVO wareOrderTaskDetailVO) {
 
@@ -53,13 +53,13 @@ public class WareOrderTaskDetailController {
     wareOrderTaskDetailService.updateById(INSTANCE.vo2po(wareOrderTaskDetailVO));
   }
 
-  @DeleteMapping("/wareordertaskdetails")
+  @DeleteMapping("/ware-order-task-details")
   public void delete(@RequestBody Long[] ids) {
 
     wareOrderTaskDetailService.removeByIds(Arrays.asList(ids));
   }
 
-  @DeleteMapping("/wareordertaskdetail/{id}")
+  @DeleteMapping("/ware-order-task-detail/{id}")
   public void deleteById(@PathVariable("id") Long id) {
 
     wareOrderTaskDetailService.removeById(id);

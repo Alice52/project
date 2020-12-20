@@ -31,6 +31,13 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
 
+        - id: ware_route
+          uri: lb://EC-WARE-SERVICE
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
         - id: member_route
           uri: lb://EC-MEMBER-SERVICE
           predicates:

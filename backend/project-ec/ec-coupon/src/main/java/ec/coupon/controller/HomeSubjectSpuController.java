@@ -24,7 +24,6 @@ public class HomeSubjectSpuController extends BaseController {
   @Resource private HomeSubjectSpuService homeSubjectSpuService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("coupon:homesubjectspu:list")
   public PageUtils list(@RequestParam Map<String, Object> params) {
     PageUtils page = homeSubjectSpuService.queryPage(params);
 
@@ -32,7 +31,6 @@ public class HomeSubjectSpuController extends BaseController {
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("coupon:homesubjectspu:info")
   public HomeSubjectSpuEntity info(@PathVariable("id") Long id) {
     HomeSubjectSpuEntity homeSubjectSpu = homeSubjectSpuService.getById(id);
 
@@ -40,13 +38,11 @@ public class HomeSubjectSpuController extends BaseController {
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("coupon:homesubjectspu:save")
   public void save(@RequestBody HomeSubjectSpuEntity homeSubjectSpu) {
     homeSubjectSpuService.save(homeSubjectSpu);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("coupon:homesubjectspu:update")
   public void update(
       @PathVariable("id") Long id, @RequestBody HomeSubjectSpuEntity homeSubjectSpu) {
     homeSubjectSpu.setId(id);
@@ -54,13 +50,11 @@ public class HomeSubjectSpuController extends BaseController {
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("coupon:homesubjectspu:delete")
   public void delete(@RequestBody Long[] ids) {
     homeSubjectSpuService.removeByIds(Arrays.asList(ids));
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("coupon:homesubjectspu:delete")
   public void deleteById(@PathVariable("id") Long id) {
     homeSubjectSpuService.removeById(id);
   }

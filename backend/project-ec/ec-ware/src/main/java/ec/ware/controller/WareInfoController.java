@@ -26,39 +26,39 @@ import static ec.ware.converter.WareInfoConverter.INSTANCE;
 public class WareInfoController {
   @Resource private WareInfoService wareInfoService;
 
-  @GetMapping("/wareinfos")
+  @GetMapping("/ware-infos")
   public PageUtils list(@RequestParam Map<String, Object> params) {
 
     return wareInfoService.queryPage(params);
   }
 
-  @GetMapping("/wareinfo/{id}")
+  @GetMapping("/ware-info/{id}")
   public WareInfoVO detail(@PathVariable("id") Long id) {
     WareInfoEntity po = wareInfoService.getById(id);
 
     return INSTANCE.po2vo(po);
   }
 
-  @PostMapping("/wareinfo")
+  @PostMapping(value = {"/ware-info", "/ware-infos"})
   public void save(@RequestBody WareInfoVO wareInfoVO) {
 
     wareInfoService.save(INSTANCE.vo2po(wareInfoVO));
   }
 
-  @PutMapping("/wareinfo/{id}")
+  @PutMapping("/ware-info/{id}")
   public void update(@PathVariable("id") Long id, @RequestBody WareInfoVO wareInfoVO) {
 
     wareInfoVO.setId(id);
     wareInfoService.updateById(INSTANCE.vo2po(wareInfoVO));
   }
 
-  @DeleteMapping("/wareinfos")
+  @DeleteMapping("/ware-infos")
   public void delete(@RequestBody Long[] ids) {
 
     wareInfoService.removeByIds(Arrays.asList(ids));
   }
 
-  @DeleteMapping("/wareinfo/{id}")
+  @DeleteMapping("/ware-info/{id}")
   public void deleteById(@PathVariable("id") Long id) {
 
     wareInfoService.removeById(id);

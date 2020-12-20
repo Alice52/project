@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberReceiveAddressEntity;
 import ec.member.service.MemberReceiveAddressService;
 import io.swagger.annotations.Api;
@@ -25,52 +24,34 @@ public class MemberReceiveAddressController {
   @Resource private MemberReceiveAddressService memberReceiveAddressService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:memberreceiveaddress:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberReceiveAddressService.queryPage(params);
-
-    return R.ok().put("page", page);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
+    return memberReceiveAddressService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:memberreceiveaddress:info")
-  public R info(@PathVariable("id") Long id) {
-    MemberReceiveAddressEntity memberReceiveAddress = memberReceiveAddressService.getById(id);
-
-    return R.ok().put("memberReceiveAddress", memberReceiveAddress);
+  public MemberReceiveAddressEntity info(@PathVariable("id") Long id) {
+    return memberReceiveAddressService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:memberreceiveaddress:save")
-  public R save(@RequestBody MemberReceiveAddressEntity memberReceiveAddress) {
+  public void save(@RequestBody MemberReceiveAddressEntity memberReceiveAddress) {
     memberReceiveAddressService.save(memberReceiveAddress);
-
-    return R.ok();
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:memberreceiveaddress:update")
-  public R update(
+  public void update(
       @PathVariable("id") Long id, @RequestBody MemberReceiveAddressEntity memberReceiveAddress) {
     memberReceiveAddress.setId(id);
     memberReceiveAddressService.updateById(memberReceiveAddress);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:memberreceiveaddress:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     memberReceiveAddressService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:memberreceiveaddress:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  public void deleteById(@PathVariable("id") Long id) {
     memberReceiveAddressService.removeById(id);
-
-    return R.ok();
   }
 }

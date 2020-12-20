@@ -25,51 +25,37 @@ public class IntegrationChangeHistoryController {
   @Resource private IntegrationChangeHistoryService integrationChangeHistoryService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:integrationchangehistory:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = integrationChangeHistoryService.queryPage(params);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
 
-    return R.ok().put("page", page);
+    return integrationChangeHistoryService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:integrationchangehistory:info")
-  public R info(@PathVariable("id") Long id) {
-    IntegrationChangeHistoryEntity integrationChangeHistory =
-        integrationChangeHistoryService.getById(id);
+  public IntegrationChangeHistoryEntity info(@PathVariable("id") Long id) {
 
-    return R.ok().put("integrationChangeHistory", integrationChangeHistory);
+    return integrationChangeHistoryService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:integrationchangehistory:save")
-  public R save(@RequestBody IntegrationChangeHistoryEntity integrationChangeHistory) {
-    integrationChangeHistoryService.save(integrationChangeHistory);
+  public void save(@RequestBody IntegrationChangeHistoryEntity integrationChangeHistory) {
 
-    return R.ok();
+    integrationChangeHistoryService.save(integrationChangeHistory);
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:integrationchangehistory:update")
-  public R update(
+  public void update(
       @PathVariable("id") Long id,
       @RequestBody IntegrationChangeHistoryEntity integrationChangeHistory) {
     integrationChangeHistory.setId(id);
     integrationChangeHistoryService.updateById(integrationChangeHistory);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:integrationchangehistory:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     integrationChangeHistoryService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:integrationchangehistory:delete")
   public R deleteById(@PathVariable("id") Long id) {
     integrationChangeHistoryService.removeById(id);
 

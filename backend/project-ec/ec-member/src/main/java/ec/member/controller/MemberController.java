@@ -1,7 +1,6 @@
 package ec.member.controller;
 
 import ec.common.utils.PageUtils;
-import ec.common.utils.R;
 import ec.member.entity.MemberEntity;
 import ec.member.service.MemberService;
 import io.swagger.annotations.Api;
@@ -25,51 +24,33 @@ public class MemberController {
   @Resource private MemberService memberService;
 
   @GetMapping("/list")
-  // @RequiresPermissions("member:member:list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = memberService.queryPage(params);
-
-    return R.ok().put("page", page);
+  public PageUtils list(@RequestParam Map<String, Object> params) {
+    return memberService.queryPage(params);
   }
 
   @GetMapping("/info/{id}")
-  // @RequiresPermissions("member:member:info")
-  public R info(@PathVariable("id") Long id) {
-    MemberEntity member = memberService.getById(id);
-
-    return R.ok().put("member", member);
+  public MemberEntity info(@PathVariable("id") Long id) {
+    return memberService.getById(id);
   }
 
   @PostMapping("/save")
-  // @RequiresPermissions("member:member:save")
-  public R save(@RequestBody MemberEntity member) {
+  public void save(@RequestBody MemberEntity member) {
     memberService.save(member);
-
-    return R.ok();
   }
 
   @PutMapping("/update/{id}")
-  // @RequiresPermissions("member:member:update")
-  public R update(@PathVariable("id") Long id, @RequestBody MemberEntity member) {
+  public void update(@PathVariable("id") Long id, @RequestBody MemberEntity member) {
     member.setId(id);
     memberService.updateById(member);
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete")
-  // @RequiresPermissions("member:member:delete")
-  public R delete(@RequestBody Long[] ids) {
+  public void delete(@RequestBody Long[] ids) {
     memberService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
   }
 
   @DeleteMapping("/delete/{id}")
-  // @RequiresPermissions("member:member:delete")
-  public R deleteById(@PathVariable("id") Long id) {
+  public void deleteById(@PathVariable("id") Long id) {
     memberService.removeById(id);
-
-    return R.ok();
   }
 }
