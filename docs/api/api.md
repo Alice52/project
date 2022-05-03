@@ -8,7 +8,7 @@
 
 - Endpoint
 
-  **POST** /api/${模块名}/${资源名复数}
+  **POST** /api/${version}/${模块名}/${资源名复数}
 
 - 请求参数
 
@@ -28,6 +28,10 @@
 
 ---
 
+---
+
+---
+
 ## 举例 - 开放 API 文档
 
 1. host
@@ -42,10 +46,20 @@
 
 4. response explain
 
-   | code |       explain        |
-   | :--: | :------------------: |
-   |  0   |       请求成功       |
-   |  1   | 请求错误, 详情见 msg |
+   - struct
+     ```json
+     {
+       "code": 0,
+       "msg": "success",
+       "data": object
+     }
+     ```
+   - code explain
+
+     | code |       explain        |
+     | :--: | :------------------: |
+     |  0   |       请求成功       |
+     |  1   | 请求错误, 详情见 msg |
 
 ### 签名: 只是方便测试，代码中不要调用【debug api】
 
