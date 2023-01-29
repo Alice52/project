@@ -11,7 +11,7 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    if: "contains(github.event.head_commit.message, '[image]')"
     env: # define constant
       PROJECT_NAME: project-ec
       IMAGE_PREFIX: project-front
@@ -53,4 +53,3 @@ jobs:
           docker tag $image $ALI_DOCKER_REGISTRY/alice52/$image
           docker push $ALI_DOCKER_REGISTRY/alice52/$image
           echo "image:" ${image}
-

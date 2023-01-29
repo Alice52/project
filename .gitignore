@@ -331,3 +331,4 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+.husky/commit-msg
